@@ -10,6 +10,7 @@ pub mod epic_sec_004;
 pub mod epic_sec_005;
 pub mod epic_sec_009;
 pub mod epic_sec_010;
+pub mod epic_sec_pda;
 pub mod epic_sec_token;
 pub mod resolver;
 
@@ -21,6 +22,7 @@ pub use epic_sec_004::PdaSeedCollisionRule;
 pub use epic_sec_005::ArbitraryCpiTargetRule;
 pub use epic_sec_009::TokenMintRule;
 pub use epic_sec_010::VaultAuthorityRule;
+pub use epic_sec_pda::PdaDerivationRule;
 pub use epic_sec_token::TokenAccountRule;
 pub use resolver::SymbolResolver;
 
@@ -139,6 +141,7 @@ pub fn register_standard_rules(engine: &mut RuleEngine) {
     engine.register_rule(Box::new(SignerValidationRule));
     engine.register_rule(Box::new(MissingPostCpiReloadRule));
     engine.register_rule(Box::new(PdaSeedCollisionRule));
+    engine.register_rule(Box::new(PdaDerivationRule));
     engine.register_rule(Box::new(ArbitraryCpiTargetRule));
     // engine.register_rule(Box::new(TokenMintRule));
     // engine.register_rule(Box::new(VaultAuthorityRule));
