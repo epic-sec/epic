@@ -112,6 +112,11 @@ impl Rule for SignerValidationRule {
             }
         }
 
+        // Sort by name for deterministic diagnostic ordering.
+        // symbol_table is a HashMap so its iteration order is random; we must
+        // sort before processing to guarantee stable finding numbers across runs.
+        authority_like_symbols.sort_by(|(a, _), (b, _)| a.cmp(b));
+
         // If there are no authority-like accounts, nothing needs to be checked
         if authority_like_symbols.is_empty() {
             return diagnostics;

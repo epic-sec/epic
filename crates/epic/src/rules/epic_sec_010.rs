@@ -1,6 +1,5 @@
 use crate::cfg::guards::{FactConfidence, GuardFact};
 use crate::rules::{AnalysisContext, FindingLocation, Rule, RuleDiagnostic, RuleSeverity};
-use crate::types::TypeDef;
 
 pub struct VaultAuthorityRule;
 
@@ -16,25 +15,17 @@ impl Rule for VaultAuthorityRule {
     fn check(&self, context: &AnalysisContext) -> Vec<RuleDiagnostic> {
         let mut diagnostics = Vec::new();
         let instruction_context = &context.instruction_context;
-        let struct_name = instruction_context.context_struct_name.clone();
+        let struct_name = &instruction_context.context_struct_name;
 
-        let struct_match = context
-            .ast_graph
-            .registry
-            .definitions
-            .iter()
-            .find(|(_, def)| {
-                if let TypeDef::Struct(s) = def {
-                    if s.name == struct_name {
-                        return true;
-                    }
-                }
-                false
-            });
-        if struct_match.is_none() {
-            return diagnostics;
-        }
-        let (struct_path, struct_def) = struct_match.unwrap();
+        let struct_match = crate::audit::find_struct_for_context(
+            &context.ast_graph.registry,
+            struct_name,
+            &instruction_context.file_path,
+        );
+        let (struct_path, s_def) = match struct_match {
+            Some(pair) => pair,
+            None => return diagnostics,
+        };
 
         let file_path = context
             .ast_graph
@@ -42,10 +33,11 @@ impl Rule for VaultAuthorityRule {
             .file_paths
             .get(struct_path)
             .cloned()
-            .unwrap_or(instruction_context.file_path.clone());
-        if let TypeDef::Struct(s_def) = struct_def {
+            .unwrap_or_else(|| instruction_context.file_path.clone());
+        {
             // Find all vault fields
             for field in &s_def.fields {
+
                 let ty_str = format!("{:?}", field.type_ref);
                 if (ty_str.contains("TokenAccount")
                     || ty_str.contains("Account<'info, TokenAccount>")

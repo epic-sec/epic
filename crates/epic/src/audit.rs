@@ -143,35 +143,129 @@ impl RawFunctionVisitor {
     }
 }
 
+/// Look up an Anchor Accounts struct by name with the caller's full module context.
+///
+/// Returns `(&abs_path, &StructDef)` so callers can use `abs_path` as a cache key.
+///
+/// Search strategy (deterministic):
+/// 1. Exact absolute-path lookup: `program_name::module_path[0]::...::name`
+/// 2. Sorted suffix scan: collect all `(abs_path, StructDef)` entries whose key ends
+///    with `::name` or equals `name`, sort them, then return the first.
+///    Sorting makes the fallback fully deterministic regardless of HashMap order.
 pub fn find_struct_by_name<'a>(
     registry: &'a TypeRegistry,
     program_name: &str,
     module_path: &[String],
     name: &str,
-) -> Option<&'a StructDef> {
+) -> Option<(&'a String, &'a StructDef)> {
     // 1. Try exact match using full module path
     let mut full_path_parts = vec![program_name.to_string()];
     full_path_parts.extend(module_path.iter().cloned());
     full_path_parts.push(name.to_string());
     let full_path = full_path_parts.join("::");
 
-    if let Some(def) = registry.get(&full_path) {
-        if let TypeDef::Struct(struct_def) = def {
-            return Some(struct_def);
+    if let Some(TypeDef::Struct(struct_def)) = registry.get(&full_path) {
+        // Exact hit — retrieve the interned key reference from the HashMap.
+        if let Some((k, _)) = registry.definitions.get_key_value(&full_path) {
+            return Some((k, struct_def));
         }
     }
 
-    // 2. Fallback to suffix search
+    // 2. Sorted suffix scan — collect, sort, pick first match.
+    //    Sorting on the abs_path key makes this fully deterministic.
     let suffix = format!("::{}", name);
-    for (path, def) in &registry.definitions {
-        if path == name || path.ends_with(&suffix) {
-            if let TypeDef::Struct(struct_def) = def {
-                return Some(struct_def);
+    let mut candidates: Vec<(&String, &StructDef)> = registry
+        .definitions
+        .iter()
+        .filter_map(|(path, def)| {
+            if path == name || path.ends_with(&suffix) {
+                if let TypeDef::Struct(s) = def {
+                    return Some((path, s));
+                }
             }
+            None
+        })
+        .collect();
+
+    candidates.sort_by_key(|(k, _)| k.as_str());
+    candidates.into_iter().next()
+}
+
+/// Find an Anchor Accounts struct for the current instruction context.
+///
+/// This is the **correct** version to call from rules. It takes the instruction's
+/// source file path and uses it to disambiguate when multiple structs share the same
+/// bare name (e.g. two modules both define `Initialize`).
+///
+/// Disambiguation order (all deterministic):
+/// 1. Exact same file → strongest signal (struct and instruction colocated).
+/// 2. Same directory → common in larger Anchor programs.
+/// 3. Sorted abs_path alphabetically → deterministic tiebreaker.
+///
+/// Returns `(&abs_path, &StructDef)` so callers have the key for cache / file lookup.
+pub fn find_struct_for_context<'a>(
+    registry: &'a TypeRegistry,
+    struct_name: &str,
+    instruction_file: &str,
+) -> Option<(&'a String, &'a StructDef)> {
+    // Collect all structs whose bare name matches.
+    let mut candidates: Vec<(&String, &StructDef)> = registry
+        .definitions
+        .iter()
+        .filter_map(|(key, def)| {
+            if let TypeDef::Struct(s) = def {
+                if s.name == struct_name {
+                    return Some((key, s));
+                }
+            }
+            None
+        })
+        .collect();
+
+    if candidates.is_empty() {
+        return None;
+    }
+
+    // Sort for determinism before any early return.
+    candidates.sort_by_key(|(k, _)| k.as_str());
+
+    if candidates.len() == 1 {
+        return candidates.into_iter().next();
+    }
+
+    // Prefer: same source file as the instruction.
+    if let Some(hit) = candidates.iter().find(|(abs_path, _)| {
+        registry
+            .file_paths
+            .get(*abs_path)
+            .map_or(false, |fp| fp == instruction_file)
+    }) {
+        return Some(*hit);
+    }
+
+    // Prefer: same directory as the instruction.
+    let instr_dir = std::path::Path::new(instruction_file)
+        .parent()
+        .map(|p| p.to_string_lossy().into_owned())
+        .unwrap_or_default();
+
+    if !instr_dir.is_empty() {
+        if let Some(hit) = candidates.iter().find(|(abs_path, _)| {
+            registry.file_paths.get(*abs_path).map_or(false, |fp| {
+                std::path::Path::new(fp.as_str())
+                    .parent()
+                    .map_or(false, |p| p.to_string_lossy() == instr_dir.as_str())
+            })
+        }) {
+            return Some(*hit);
         }
     }
-    None
+
+    // Deterministic tiebreaker: already sorted, return first.
+    candidates.into_iter().next()
 }
+
+
 
 /// Recursively discovers all programs, compiles CFG & SSA, extracts GuardFacts, and executes rules.
 pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
@@ -288,13 +382,17 @@ pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
 
     // 2. Perform semantic analysis and run rule engine on each extracted raw function
     for raw_fn in raw_functions {
-        // Find structural accounts definition matching generic Context argument
-        if let Some(struct_def) = find_struct_by_name(
+        // Find structural accounts definition matching generic Context argument.
+        // find_struct_by_name returns the (abs_path, StructDef) tuple — use abs_path
+        // as the struct_facts_cache key so two structs with the same bare name in
+        // different modules never share the wrong cached facts.
+        if let Some((struct_abs_path, struct_def)) = find_struct_by_name(
             &workspace.registry,
             &raw_fn.program_name,
             &raw_fn.module_path,
             &raw_fn.context_struct_name,
         ) {
+
             let mut symbol_table = HashMap::new();
             let mut next_symbol_id = 1;
 
@@ -316,9 +414,13 @@ pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
                 }
             }
 
-            // Cache account struct guard facts by struct name so they are extracted once per struct
+            // Cache account struct guard facts keyed by the struct's ABSOLUTE registry path
+            // (e.g. "marginfi::instructions::deposit::Deposit"), NOT its bare name.
+            // Using the bare name caused a cross-module collision bug: two Anchor Accounts
+            // structs with the same bare name but in different modules (e.g. two files each
+            // defining `Initialize`) would share the wrong cached facts.
             let struct_facts = struct_facts_cache
-                .entry(raw_fn.context_struct_name.clone())
+                .entry(struct_abs_path.clone())
                 .or_insert_with(|| {
                     let mut dummy_symbol_table = HashMap::new();
                     let mut dummy_next_id = 1;

@@ -1,6 +1,5 @@
 use crate::cfg::guards::{FactConfidence, FactExpression, GuardFact, GuardTarget, SymbolId};
 use crate::rules::{AnalysisContext, FindingLocation, Rule, RuleDiagnostic, RuleSeverity};
-use crate::types::TypeDef;
 use std::collections::HashMap;
 
 /// EPIC-SEC-PDA — Consolidated PDA Derivation and Bump Canonicality Rule.
@@ -139,24 +138,19 @@ impl Rule for PdaDerivationRule {
         let instruction_context = &context.instruction_context;
         let struct_name = &instruction_context.context_struct_name;
 
-        // Locate the context struct definition by name.
-        let struct_match = context
-            .ast_graph
-            .registry
-            .definitions
-            .iter()
-            .find(|(_, def)| {
-                if let TypeDef::Struct(s) = def {
-                    s.name == *struct_name
-                } else {
-                    false
-                }
-            });
+        // Locate the context struct definition using the file-aware, deterministic helper.
+        // This correctly handles same-named structs in different modules by preferring
+        // the struct in the same file or directory as the instruction.
+        let struct_match = crate::audit::find_struct_for_context(
+            &context.ast_graph.registry,
+            struct_name,
+            &instruction_context.file_path,
+        );
 
         // ─────────────────────────────────────────────────────────────────────
         // Sub-check 1: Missing PDA derivation gate
         // ─────────────────────────────────────────────────────────────────────
-        if let Some((struct_path, TypeDef::Struct(struct_def))) = struct_match {
+        if let Some((struct_path, struct_def)) = struct_match {
             let file_path = context
                 .ast_graph
                 .registry

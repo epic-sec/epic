@@ -181,7 +181,14 @@ impl Rule for MissingPostCpiReloadRule {
             return diagnostics;
         }
 
-        for (acc_sym, accesses) in access_locations {
+        // Sort by SymbolId for deterministic diagnostic ordering.
+        // access_locations is a HashMap so its iteration order is random; sorting
+        // by SymbolId produces the same sequence of findings across every run.
+        let mut sorted_accesses: Vec<(SymbolId, Vec<(usize, usize, usize)>)> =
+            access_locations.into_iter().collect();
+        sorted_accesses.sort_by_key(|(sym, _)| sym.0);
+
+        for (acc_sym, accesses) in sorted_accesses {
             let empty_reloads = Vec::new();
             let reloads = reload_locations.get(&acc_sym).unwrap_or(&empty_reloads);
 

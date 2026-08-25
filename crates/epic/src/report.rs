@@ -30,7 +30,11 @@ pub fn generate_report(registry: &TypeRegistry) -> anyhow::Result<EpicReport> {
     let mut enums_found = 0;
     let mut aliases_found = 0;
 
-    for (abs_path, def) in &registry.definitions {
+    // Sort definitions by key for deterministic report ordering.
+    let mut sorted_defs: Vec<(&String, &TypeDef)> = registry.definitions.iter().collect();
+    sorted_defs.sort_by_key(|(k, _)| k.as_str());
+
+    for (abs_path, def) in sorted_defs {
         match def {
             TypeDef::Struct(s) => {
                 structs_found += 1;

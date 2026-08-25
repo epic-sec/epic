@@ -111,6 +111,8 @@ impl TypeRegistry {
                 matches.push(key.clone());
             }
         }
+        // Sort for deterministic error messages and single-match selection.
+        matches.sort();
 
         if matches.is_empty() {
             bail!("Unknown type: {}", ident);

@@ -579,7 +579,7 @@ impl PdaSeedCollisionRule {
         }
 
         for name in search_names {
-            if let Some(s) = crate::audit::find_struct_by_name(
+            if let Some((_abs_path, s)) = crate::audit::find_struct_by_name(
                 &context.ast_graph.registry,
                 &context.program_metadata.name,
                 &[],
@@ -589,7 +589,17 @@ impl PdaSeedCollisionRule {
             }
         }
 
-        for def in context.ast_graph.registry.definitions.values() {
+        // Sorted fallback: iterate definitions in deterministic key order so the
+        // field-count match produces the same result across runs.
+        let mut sorted_defs: Vec<(&String, &TypeDef)> = context
+            .ast_graph
+            .registry
+            .definitions
+            .iter()
+            .collect();
+        sorted_defs.sort_by_key(|(k, _)| k.as_str());
+
+        for (_, def) in sorted_defs {
             if let TypeDef::Struct(s) = def {
                 let mut match_count = 0;
                 for field in &s.fields {
