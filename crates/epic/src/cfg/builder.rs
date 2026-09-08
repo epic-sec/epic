@@ -1,5 +1,6 @@
 use crate::ast::{ExpressionKind, ExpressionNode, StatementKind, StatementNode};
 use crate::cfg::nodes::{CFGBoundaryWarning, CFGEdge, CFGNode, ControlFlowGraph};
+use syn::parse::Parser;
 
 pub struct CFGBuilder {
     pub graph: ControlFlowGraph,
@@ -221,6 +222,52 @@ impl CFGBuilder {
                     node.statements.push(converted);
                     node.ir_instructions.extend(ir_instrs);
                 }
+                syn::Stmt::Macro(stmt_macro) => {
+                    // Record the macro call itself first, same as the flat
+                    // fallback below, so anything that scans node.statements
+                    // for require!/assert! by name/text (e.g. EPIC-SEC-005's
+                    // validated-symbol detection) keeps seeing it exactly as
+                    // before.
+                    let converted = convert_stmt(stmt);
+                    let ir_instrs = crate::ir_converter::convert_statement_node_to_ir(&converted);
+                    {
+                        let node = self.graph.nodes.get_mut(&current_node).unwrap();
+                        node.statements.push(converted);
+                        node.ir_instructions.extend(ir_instrs);
+                    }
+
+                    // require!(cond, err) / assert!(cond) / etc. are
+                    // semantically `if !cond { return Err(err.into()); }` —
+                    // model the identical branch shape a hand-written
+                    // conditional early return would produce (mirroring the
+                    // ?-operator handling above), so the guard extractor in
+                    // guards.rs picks up the condition off the branch edge
+                    // exactly as it does for a real `if`, and dominance
+                    // analysis works for the macro form too.
+                    if let Some(cond_node) = guard_macro_condition_node(&stmt_macro.mac) {
+                        let negated_cond = ExpressionNode {
+                            kind: ExpressionKind::BinaryOp {
+                                op: "!".to_string(),
+                                lhs: Box::new(cond_node),
+                                rhs: Box::new(ExpressionNode {
+                                    kind: ExpressionKind::Unresolved,
+                                }),
+                            },
+                        };
+
+                        let early_return_node = self.new_node_id();
+                        let sequential_node = self.new_node_id();
+
+                        self.add_node(early_return_node);
+                        self.add_node(sequential_node);
+
+                        self.add_edge(current_node, early_return_node, Some(negated_cond), true);
+                        self.add_edge(current_node, sequential_node, None, false);
+
+                        self.graph.exit_nodes.push(early_return_node);
+                        current_node = sequential_node;
+                    }
+                }
                 _ => {
                     let converted = convert_stmt(stmt);
                     let ir_instrs = crate::ir_converter::convert_statement_node_to_ir(&converted);
@@ -298,11 +345,13 @@ pub fn is_terminating_stmt(stmt: &syn::Stmt) -> bool {
                 .unwrap()
                 .ident
                 .to_string();
-            name == "panic"
-                || name == "assert"
-                || name == "assert_eq"
-                || name == "assert_ne"
-                || name == "unreachable"
+            // Note: assert!/assert_eq!/assert_ne! are deliberately NOT listed
+            // here. They only terminate when the assertion fails — they are
+            // conditional, exactly like require!() — so they're modeled as a
+            // branch (see guard_macro_condition_node / the syn::Stmt::Macro
+            // arm in compile_statements_inner), not as an unconditional
+            // terminator that would make everything after them unreachable.
+            name == "panic" || name == "unreachable"
         }
         _ => false,
     }
@@ -320,13 +369,51 @@ pub fn is_terminating_expr(expr: &syn::Expr) -> bool {
                 .unwrap()
                 .ident
                 .to_string();
-            name == "panic"
-                || name == "assert"
-                || name == "assert_eq"
-                || name == "assert_ne"
-                || name == "unreachable"
+            // See the matching note in is_terminating_stmt.
+            name == "panic" || name == "unreachable"
         }
         _ => false,
+    }
+}
+
+/// Parses a guard-macro invocation's arguments into the `ExpressionNode`
+/// representing the condition that must hold for execution to continue —
+/// e.g. `require!(cond, err)` -> `cond`; `require_eq!(a, b, err)` -> `a == b`.
+///
+/// Anchor's `require!` family and Rust's `assert!` family both accept an
+/// optional trailing error/message argument, so only a minimum arity is
+/// checked, not an exact count. Returns `None` for any macro name this
+/// doesn't recognize, or if the arguments fail to parse as expressions, so
+/// callers can fall back to treating the statement as an ordinary flat
+/// (non-branching) call — this function can only ever add a branch that
+/// wasn't there before, never remove information.
+fn guard_macro_condition_node(mac: &syn::Macro) -> Option<ExpressionNode> {
+    let name = mac.path.segments.last()?.ident.to_string();
+
+    let args = syn::punctuated::Punctuated::<syn::Expr, syn::Token![,]>::parse_terminated
+        .parse2(mac.tokens.clone())
+        .ok()?;
+    let args: Vec<&syn::Expr> = args.iter().collect();
+
+    let binary = |op: &str, lhs: &syn::Expr, rhs: &syn::Expr| ExpressionNode {
+        kind: ExpressionKind::BinaryOp {
+            op: op.to_string(),
+            lhs: Box::new(convert_expr(lhs)),
+            rhs: Box::new(convert_expr(rhs)),
+        },
+    };
+
+    match name.as_str() {
+        "require" | "assert" => args.first().map(|a| convert_expr(a)),
+        "require_eq" | "require_keys_eq" | "assert_eq" if args.len() >= 2 => {
+            Some(binary("==", args[0], args[1]))
+        }
+        "require_neq" | "require_keys_neq" | "assert_ne" if args.len() >= 2 => {
+            Some(binary("!=", args[0], args[1]))
+        }
+        "require_gt" if args.len() >= 2 => Some(binary(">", args[0], args[1])),
+        "require_gte" if args.len() >= 2 => Some(binary(">=", args[0], args[1])),
+        _ => None,
     }
 }
 
