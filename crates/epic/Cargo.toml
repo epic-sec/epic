@@ -1,11 +1,12 @@
 [package]
 name = "epic"
-version = "0.2.0"
-edition = "2021"
-description = "Semantic static analysis engine for Solana Anchor protocols."
-license = "MIT"
-repository = "https://github.com/solana-epic/epic"
-readme = "../../README.md"
+version.workspace = true
+edition.workspace = true
+description.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+readme.workspace = true
 
 [dependencies]
 syn = { version = "2.0", features = ["full", "extra-traits", "visit"] }
