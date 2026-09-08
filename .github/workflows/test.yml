@@ -15,17 +15,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
         with:
-          node-version: 20
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm ci
+          components: rustfmt, clippy
 
       - name: Build Workspace
-        run: npm run build
+        run: cargo build --release --workspace
 
       - name: Run Workspace Tests
-        run: npm test
+        run: cargo test --workspace
+
+      - name: Clippy
+        run: cargo clippy --workspace -- -D warnings
+
+      - name: Check Formatting
+        run: cargo fmt --check
