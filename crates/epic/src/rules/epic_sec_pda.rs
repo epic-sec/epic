@@ -1,5 +1,5 @@
 use crate::ast::{ExpressionKind, ExpressionNode, StatementKind, StatementNode};
-use crate::cfg::guards::{FactConfidence, FactExpression, GuardFact, GuardTarget, InstructionAnalysisContext, SymbolId};
+use crate::cfg::guards::{FactConfidence, FactExpression, GuardFact, GuardTarget, InstructionAnalysisContext, SolanaProperty, SymbolId};
 use crate::rules::{AnalysisContext, FindingLocation, Rule, RuleDiagnostic, RuleSeverity};
 use std::collections::{HashMap, HashSet};
 use syn::visit::Visit;
@@ -50,12 +50,30 @@ fn object_is_instruction_data(object_name: &str) -> bool {
 /// Canonical rule:
 /// - `bump` alone (the identifier) → stored-canonical, safe.
 /// - `<account_field>.bump` where `<account_field>` is a known Anchor account → stored, safe.
+///   This is parsed as `FactExpression::PropertyOf { property: SolanaProperty::Bump, .. }`.
 /// - `<instruction_data_container>.bump` → caller-supplied, unsafe.
+/// - A bare instruction argument (e.g. `bump = user_supplied_arg`) → caller-supplied, unsafe.
 /// - Anything else → treat conservatively as caller-supplied.
 fn is_stored_bump_expr(expr: &FactExpression, symbol_table: &HashMap<String, SymbolId>) -> bool {
     match expr {
-        // SolanaProperty enum has no Bump variant; treat as unsafe.
-        FactExpression::PropertyOf { .. } => false,
+        // `<account>.bump` field access, e.g. `bump = multisig.bump` — the
+        // canonical stored-bump pattern. Safe only when the target is a real
+        // account field and not an instruction-data container; any other
+        // property accessed off a bump expression (unusual) stays unsafe.
+        FactExpression::PropertyOf { target, property } => match property {
+            SolanaProperty::Bump => match target {
+                GuardTarget::Literal(name) => {
+                    let is_account = symbol_table.contains_key(name);
+                    let is_ix_data = object_is_instruction_data(name);
+                    is_account && !is_ix_data
+                }
+                // Variable/Account targets are already-resolved real account
+                // symbols (symbol_table only ever contains Accounts-struct
+                // fields), so they can't be instruction-data containers.
+                GuardTarget::Variable(_) | GuardTarget::Account(_) => true,
+            },
+            _ => false,
+        },
 
         FactExpression::Literal(val) => {
             let v = val.trim();
@@ -700,6 +718,37 @@ impl Rule for PdaDerivationRule {
                     let account_name = symbol_name(account, &instruction_context.symbol_table)
                         .unwrap_or_else(|| "<unknown>".to_string());
 
+                    // Macro-declared facts carry a placeholder provenance
+                    // (FactProvenance::default_declared() — file "lib.rs",
+                    // line/column 0) rather than a real source span. Fall back
+                    // to the offending account field's own location in the
+                    // Accounts struct, which we already have from `struct_match`
+                    // and is a genuine `syn`-parsed span.
+                    let (file, line, column) = struct_match
+                        .and_then(|(struct_path, struct_def)| {
+                            struct_def
+                                .fields
+                                .iter()
+                                .find(|f| f.name == account_name)
+                                .map(|f| {
+                                    let file = context
+                                        .ast_graph
+                                        .registry
+                                        .file_paths
+                                        .get(struct_path)
+                                        .cloned()
+                                        .unwrap_or_else(|| instruction_context.file_path.clone());
+                                    (file, f.line_number, f.column_number)
+                                })
+                        })
+                        .unwrap_or_else(|| {
+                            (
+                                provenance.source_file.clone(),
+                                provenance.line_number,
+                                provenance.column_number,
+                            )
+                        });
+
                     diagnostics.push(RuleDiagnostic {
                         rule_id: self.id().to_string(),
                         severity: RuleSeverity::Critical,
@@ -709,12 +758,12 @@ impl Rule for PdaDerivationRule {
                              with bare `bump` (or store the canonical bump and load it from \
                              the account's own field).",
                             account_name,
-                            fact_expr_to_string(bump_expr),
+                            fact_expr_to_string(bump_expr, &instruction_context.symbol_table),
                         ),
                         location: FindingLocation {
-                            file: provenance.source_file.clone(),
-                            line: provenance.line_number,
-                            column: provenance.column_number,
+                            file,
+                            line,
+                            column,
                             node_id: provenance.node_id.unwrap_or(0),
                             statement_index: provenance.statement_index,
                         },
@@ -733,24 +782,48 @@ impl Rule for PdaDerivationRule {
 // Display helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-fn fact_expr_to_string(expr: &FactExpression) -> String {
+/// Renders a `GuardTarget` as the real account field name when it resolves
+/// against `symbol_table`, falling back to a labeled placeholder only when it
+/// genuinely can't be resolved (e.g. a target from a different instruction's
+/// symbol table).
+fn guard_target_to_string(target: &GuardTarget, symbol_table: &HashMap<String, SymbolId>) -> String {
+    match target {
+        GuardTarget::Literal(s) => s.clone(),
+        GuardTarget::Variable(_) | GuardTarget::Account(_) => {
+            symbol_name(target, symbol_table).unwrap_or_else(|| "<unresolved>".to_string())
+        }
+    }
+}
+
+/// Maps a `SolanaProperty` back to the source-level field name it was parsed
+/// from, for rendering `<target>.<field>` in diagnostic messages.
+fn solana_property_field_name(property: &SolanaProperty) -> &'static str {
+    match property {
+        SolanaProperty::Bump => "bump",
+        SolanaProperty::Owner => "owner",
+        SolanaProperty::Lamports => "lamports",
+        SolanaProperty::Address => "key",
+        SolanaProperty::DataLength => "data_len",
+        SolanaProperty::IsSigner => "is_signer",
+        SolanaProperty::IsWritable => "is_writable",
+        SolanaProperty::Executable => "executable",
+    }
+}
+
+fn fact_expr_to_string(expr: &FactExpression, symbol_table: &HashMap<String, SymbolId>) -> String {
     match expr {
         FactExpression::Literal(s) => s.clone(),
-        FactExpression::Target(t) => match t {
-            GuardTarget::Literal(s) => s.clone(),
-            GuardTarget::Variable(v) => format!("<var:{}>", v.symbol_id.0),
-            GuardTarget::Account(s) => format!("<account:{}>", s.0),
-        },
-        FactExpression::PropertyOf { target, .. } => match target {
-            GuardTarget::Literal(s) => format!("{}.property", s),
-            GuardTarget::Variable(v) => format!("<var:{}>.property", v.symbol_id.0),
-            GuardTarget::Account(s) => format!("<account:{}>.property", s.0),
-        },
+        FactExpression::Target(t) => guard_target_to_string(t, symbol_table),
+        FactExpression::PropertyOf { target, property } => format!(
+            "{}.{}",
+            guard_target_to_string(target, symbol_table),
+            solana_property_field_name(property)
+        ),
         FactExpression::BinaryOp { op, lhs, rhs } => format!(
             "{} {} {}",
-            fact_expr_to_string(lhs),
+            fact_expr_to_string(lhs, symbol_table),
             op,
-            fact_expr_to_string(rhs)
+            fact_expr_to_string(rhs, symbol_table)
         ),
         FactExpression::Unknown => "<unknown>".to_string(),
     }

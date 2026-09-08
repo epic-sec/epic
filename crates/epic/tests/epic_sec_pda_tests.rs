@@ -742,3 +742,79 @@ fn test_mixed_accounts() {
         "Should have a missing PDA constraint finding"
     );
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Full-pipeline regression tests: `bump = <account>.bump` (canonical stored
+// bump, via a real `syn::Expr::Field` parse) vs. `bump = <bare instruction arg>`
+// (caller-supplied). These run the real `epic::run_audit` pipeline against
+// on-disk fixtures — unlike the synthetic-context tests above, this exercises
+// the actual `#[account(...)]` attribute parser (`convert_syn_expr` in
+// guards.rs), which is where the false positive on canonical stored bumps was
+// found: any `x.bump` field access was converted to `FactExpression::PropertyOf`
+// with no way to distinguish it from `x.owner`/`x.key`, and `is_stored_bump_expr`
+// treated every `PropertyOf` as unconditionally caller-supplied.
+// ─────────────────────────────────────────────────────────────────────────────
+
+fn fixture_path(name: &str) -> String {
+    format!("{}/tests/fixtures/{}", env!("CARGO_MANIFEST_DIR"), name)
+}
+
+#[test]
+fn test_pda_bump_canonical_fixture_is_clean() {
+    let diagnostics = epic::run_audit(&fixture_path("pda-bump-canonical"))
+        .expect("run_audit should succeed on a syntactically valid fixture");
+
+    let pda_findings: Vec<_> = diagnostics
+        .iter()
+        .filter(|d| d.rule_id == "EPIC-SEC-PDA")
+        .collect();
+
+    assert!(
+        pda_findings.is_empty(),
+        "bump = <account>.bump is the canonical safe pattern and must not be flagged, got: {:?}",
+        pda_findings
+    );
+}
+
+#[test]
+fn test_pda_bump_caller_supplied_fixture_flags() {
+    let diagnostics = epic::run_audit(&fixture_path("pda-bump-caller-supplied"))
+        .expect("run_audit should succeed on a syntactically valid fixture");
+
+    let pda_findings: Vec<_> = diagnostics
+        .iter()
+        .filter(|d| d.rule_id == "EPIC-SEC-PDA")
+        .collect();
+
+    assert_eq!(
+        pda_findings.len(),
+        1,
+        "bump = <bare instruction arg> is genuinely caller-supplied and must be flagged exactly once, got: {:?}",
+        pda_findings
+    );
+    assert_eq!(pda_findings[0].severity, RuleSeverity::Critical);
+    assert!(
+        pda_findings[0].message.contains("caller-supplied"),
+        "message should say caller-supplied: {}",
+        pda_findings[0].message
+    );
+    assert!(
+        pda_findings[0].message.contains("multisig"),
+        "message should name the account: {}",
+        pda_findings[0].message
+    );
+    assert!(
+        !pda_findings[0].message.contains(".property"),
+        "message must not leak the internal '.property' debug token: {}",
+        pda_findings[0].message
+    );
+    assert_ne!(
+        pda_findings[0].location.line, 0,
+        "location must be a real line, not the 0 placeholder"
+    );
+    assert!(
+        pda_findings[0].location.file.ends_with("pda-bump-caller-supplied/src/lib.rs"),
+        "location must point at the real fixture file, not a hardcoded 'lib.rs': {}",
+        pda_findings[0].location.file
+    );
+}

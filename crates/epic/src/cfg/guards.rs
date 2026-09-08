@@ -59,6 +59,7 @@ pub enum SolanaProperty {
     IsSigner,
     IsWritable,
     Executable,
+    Bump,
 }
 
 /// Structured security metadata derived from declarations or explicit checks.
@@ -302,6 +303,24 @@ fn parse_anchor_attribute_string(attr_str: &str) -> Vec<ParsedAttributeMeta> {
     results
 }
 
+/// Strips trivial accessor wrappers (`?`, parens, and method calls) off an
+/// expression to find the underlying object identity — e.g. `bank.load()?`
+/// strips down to `bank`. Used when resolving the base of a field access so
+/// zero-copy `AccountLoader<'info, T>` patterns (`bank.load()?.some_bump`)
+/// resolve to the same target as a direct field access would. This does not
+/// attempt to interpret *what* the method call does, only to see through it
+/// for identity purposes, so it is conservative by construction: it can only
+/// ever change a base from "unresolved literal text" to "resolved account
+/// symbol", never the reverse.
+fn strip_accessor_wrappers(expr: &syn::Expr) -> &syn::Expr {
+    match expr {
+        syn::Expr::Try(inner) => strip_accessor_wrappers(&inner.expr),
+        syn::Expr::Paren(inner) => strip_accessor_wrappers(&inner.expr),
+        syn::Expr::MethodCall(inner) => strip_accessor_wrappers(&inner.receiver),
+        _ => expr,
+    }
+}
+
 pub fn convert_syn_expr(
     expr: &syn::Expr,
     symbol_table: &HashMap<String, SymbolId>,
@@ -323,7 +342,13 @@ pub fn convert_syn_expr(
             FactExpression::Literal(val)
         }
         syn::Expr::Field(expr_field) => {
-            let base = convert_syn_expr(&expr_field.base, symbol_table);
+            // Resolve the base through trivial wrapper calls (`?`, `.load()`,
+            // `.load_mut()`, parens, etc.) so `bank.load()?.liquidity_vault_bump`
+            // resolves to the same target as a plain `bank.bump` would — Anchor's
+            // zero-copy `AccountLoader<'info, T>` accessor pattern is extremely
+            // common and the underlying account identity is unaffected by it.
+            let unwrapped_base = strip_accessor_wrappers(&expr_field.base);
+            let base = convert_syn_expr(unwrapped_base, symbol_table);
             let field = match &expr_field.member {
                 syn::Member::Named(ident) => ident.to_string(),
                 syn::Member::Unnamed(idx) => idx.index.to_string(),
@@ -335,11 +360,22 @@ pub fn convert_syn_expr(
                     GuardTarget::Literal(quote::quote!(#base_expr).to_string().replace(" ", ""))
                 }
             };
-            let property = match field.as_str() {
-                "owner" => SolanaProperty::Owner,
-                "lamports" => SolanaProperty::Lamports,
-                "key" => SolanaProperty::Address,
-                _ => SolanaProperty::Address,
+            let property = if field == "owner" {
+                SolanaProperty::Owner
+            } else if field == "lamports" {
+                SolanaProperty::Lamports
+            } else if field == "key" {
+                SolanaProperty::Address
+            } else if field == "bump" || field.ends_with("_bump") {
+                // Anchor programs commonly store per-purpose canonical bumps
+                // under names like `liquidity_vault_authority_bump`, not just
+                // a bare `bump` field (seen in marginfi, mango-v4, etc.) —
+                // both shapes are equally "the stored bump", so both must be
+                // recognized here for is_stored_bump_expr to classify them
+                // as safe rather than caller-supplied.
+                SolanaProperty::Bump
+            } else {
+                SolanaProperty::Address
             };
             FactExpression::PropertyOf { target, property }
         }
