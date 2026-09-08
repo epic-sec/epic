@@ -12,3 +12,4 @@ artifacts/
 *.bak
 .eslintcache
 coverage/
+audit-output-*.txt
