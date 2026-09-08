@@ -552,6 +552,14 @@ pub fn convert_expr(expr: &syn::Expr) -> ExpressionNode {
                 },
             }
         }
+        syn::Expr::Index(expr_index) => {
+            // Slicing/indexing (e.g. `seeds[..]`) is transparent to identifier
+            // tracking here — pass through the base expression rather than
+            // erasing it to `Unresolved`, so callers that walk the tree for
+            // account references (e.g. EPIC-SEC-PDA's usage-based detection)
+            // can still see through `&seeds[..]`-style signer-seed slicing.
+            convert_expr(&expr_index.expr)
+        }
         _ => ExpressionNode {
             kind: ExpressionKind::Unresolved,
         },

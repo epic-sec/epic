@@ -4,18 +4,121 @@
 //!   1. Canonical bump (`bump: None`) → no finding.
 //!   2. Stored-bump field (`bump = some_account.bump`) → no finding.
 //!   3. Caller-supplied bump (`bump = ix_data.bump`) → CRITICAL finding.
-//!   4. PDA-named account WITHOUT a PDA fact → CRITICAL finding.
-//!   5. Normal non-PDA account (no PDA name, no PDA fact) → no finding.
+//!   4. Account used in `find_program_address`/`invoke_signed`/variable-
+//!      indirected signer seeds, WITHOUT a PDA fact → CRITICAL finding.
+//!      Deliberately named without any "pda" substring (`escrow`, `bank`,
+//!      `vault`) to prove detection is usage-based, not name-based.
+//!   4d. Account passed as a plain CPI argument (not the seeds slot) → no
+//!      finding, confirming detection targets the seeds argument specifically.
+//!   5. Normal non-PDA account (never referenced in a PDA call) → no finding.
 
+use epic::ast::{ExpressionKind, ExpressionNode, StatementKind, StatementNode};
 use epic::cfg::{
-    ControlFlowGraph, FactConfidence, FactExpression, FactProvenance, GuardFact, GuardTarget,
-    InstructionAnalysisContext, SSAVersionId, SymbolId,
+    CFGNode, ControlFlowGraph, FactConfidence, FactExpression, FactProvenance, GuardFact,
+    GuardTarget, InstructionAnalysisContext, SymbolId,
 };
 use epic::rules::epic_sec_pda::PdaDerivationRule;
 use epic::rules::{AnalysisContext, ProgramMetadata, Rule, RuleSeverity};
 use epic::types::{FieldDef, StructDef, TypeDef, TypeRef, TypeRegistry};
 use epic::Workspace;
 use std::collections::{HashMap, HashSet};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Expression/CFG builder helpers — for constructing instruction bodies that
+// exercise the usage-based PDA detection (find_program_address /
+// create_program_address / invoke_signed / CpiContext::new_with_signer).
+// ─────────────────────────────────────────────────────────────────────────────
+
+fn ident(name: &str) -> ExpressionNode {
+    ExpressionNode {
+        kind: ExpressionKind::Identifier(name.to_string()),
+    }
+}
+
+fn method_call(object: ExpressionNode, method: &str, arguments: Vec<ExpressionNode>) -> ExpressionNode {
+    ExpressionNode {
+        kind: ExpressionKind::MethodCall {
+            object: Box::new(object),
+            method: method.to_string(),
+            arguments,
+        },
+    }
+}
+
+fn reference(expr: ExpressionNode) -> ExpressionNode {
+    ExpressionNode {
+        kind: ExpressionKind::Reference {
+            expression: Box::new(expr),
+            is_mutable: false,
+        },
+    }
+}
+
+fn array(elems: Vec<ExpressionNode>) -> ExpressionNode {
+    ExpressionNode {
+        kind: ExpressionKind::MethodCall {
+            object: Box::new(ExpressionNode {
+                kind: ExpressionKind::Unresolved,
+            }),
+            method: "array".to_string(),
+            arguments: elems,
+        },
+    }
+}
+
+/// A free-function / associated-function call, e.g. `Pubkey::find_program_address(..)`
+/// or `invoke_signed(..)` — matches how `syn::Expr::Call` lowers in the real IR.
+fn call(func: &str, arguments: Vec<ExpressionNode>) -> ExpressionNode {
+    ExpressionNode {
+        kind: ExpressionKind::MethodCall {
+            object: Box::new(ExpressionNode {
+                kind: ExpressionKind::Unresolved,
+            }),
+            method: func.to_string(),
+            arguments,
+        },
+    }
+}
+
+/// `account.key().as_ref()` — the common seed-element shape for PDA derivation.
+fn key_as_ref(account: &str) -> ExpressionNode {
+    method_call(method_call(ident(account), "key", vec![]), "as_ref", vec![])
+}
+
+fn semi(expr: ExpressionNode) -> StatementNode {
+    StatementNode {
+        kind: StatementKind::Semi(expr),
+        line_number: 20,
+    }
+}
+
+fn let_stmt(name: &str, initializer: ExpressionNode) -> StatementNode {
+    StatementNode {
+        kind: StatementKind::Let {
+            name: name.to_string(),
+            initializer,
+            type_annotation: None,
+            is_mutable: false,
+        },
+        line_number: 20,
+    }
+}
+
+/// A single-node CFG whose entry node contains `statements` — enough for
+/// EPIC-SEC-PDA's usage scan, which does not need real control flow.
+fn single_node_cfg(statements: Vec<StatementNode>) -> ControlFlowGraph {
+    let mut cfg = ControlFlowGraph::default();
+    cfg.entry_node = 0;
+    cfg.nodes.insert(
+        0,
+        CFGNode {
+            id: 0,
+            statements,
+            ir_instructions: vec![],
+        },
+    );
+    cfg
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
@@ -56,6 +159,42 @@ fn build_context(
     symbol_table: HashMap<String, SymbolId>,
     account_field_ids: HashSet<SymbolId>,
 ) -> AnalysisContext {
+    build_context_with_cfg(
+        fields,
+        guard_facts,
+        symbol_table,
+        account_field_ids,
+        ControlFlowGraph::default(),
+    )
+}
+
+fn build_context_with_cfg(
+    fields: Vec<FieldDef>,
+    guard_facts: Vec<(GuardFact, FactProvenance)>,
+    symbol_table: HashMap<String, SymbolId>,
+    account_field_ids: HashSet<SymbolId>,
+    cfg: ControlFlowGraph,
+) -> AnalysisContext {
+    build_context_full(
+        fields,
+        guard_facts,
+        symbol_table,
+        account_field_ids,
+        cfg,
+        "lib.rs".to_string(),
+        "test_ix".to_string(),
+    )
+}
+
+fn build_context_full(
+    fields: Vec<FieldDef>,
+    guard_facts: Vec<(GuardFact, FactProvenance)>,
+    symbol_table: HashMap<String, SymbolId>,
+    account_field_ids: HashSet<SymbolId>,
+    cfg: ControlFlowGraph,
+    file_path: String,
+    fn_name: String,
+) -> AnalysisContext {
     let struct_def = StructDef {
         name: "TestAccounts".to_string(),
         fields,
@@ -69,15 +208,15 @@ fn build_context(
         .insert("TestAccounts".to_string(), TypeDef::Struct(struct_def));
     registry
         .file_paths
-        .insert("TestAccounts".to_string(), "lib.rs".to_string());
+        .insert("TestAccounts".to_string(), file_path.clone());
 
     let instruction_context = InstructionAnalysisContext {
-        name: "test_ix".to_string(),
+        name: fn_name,
         guard_facts,
-        cfg: ControlFlowGraph::default(),
+        cfg,
         symbol_table,
         account_field_ids,
-        file_path: "lib.rs".to_string(),
+        file_path,
         context_var_name: "ctx".to_string(),
         context_struct_name: "TestAccounts".to_string(),
     };
@@ -92,6 +231,20 @@ fn build_context(
         instruction_context,
         rule_registry: vec![],
     }
+}
+
+/// Writes a standalone instruction function to a uniquely-named temp file, so
+/// EPIC-SEC-PDA's manual-derivation detection (which re-parses the real
+/// source file via `syn`, since `find_program_address` result comparisons
+/// live in `if`-conditions and tuple-destructured `let`s the shared CFG/IR
+/// does not preserve) has something real to read.
+fn write_temp_instruction_source(unique: &str, fn_name: &str, body: &str) -> String {
+    let path = std::env::temp_dir().join(format!("epic_sec_pda_test_{}.rs", unique));
+    let content = format!(
+        "pub fn {fn_name}(ctx: Context<TestAccounts>) -> Result<()> {{\n{body}\n    Ok(())\n}}\n"
+    );
+    std::fs::write(&path, content).expect("failed to write temp instruction source file");
+    path.to_string_lossy().to_string()
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -208,23 +361,37 @@ fn test_caller_supplied_bump_finding() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Test 4: PDA-named account with no PDA fact → CRITICAL finding
+// Test 4: account used in Pubkey::find_program_address, with no PDA fact
+// → CRITICAL finding. Field is deliberately named "escrow" — no "pda"
+// substring anywhere — to prove detection is usage-based, not name-based.
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[test]
-fn test_pda_named_account_without_pda_fact_finding() {
+fn test_pda_used_via_find_program_address_without_pda_fact_finding() {
     let sym = SymbolId(4);
     let mut symbol_table = HashMap::new();
-    symbol_table.insert("escrow_pda".to_string(), sym);
+    symbol_table.insert("escrow".to_string(), sym);
     let mut account_field_ids = HashSet::new();
     account_field_ids.insert(sym);
 
+    // Manual-derivation detection re-parses the real source (see
+    // `write_temp_instruction_source`'s doc comment), so the CFG here just
+    // needs to exist — the actual signal comes from the file below.
+    let file_path = write_temp_instruction_source(
+        "find_program_address_without_fact",
+        "test_ix",
+        "let (expected, _bump) = Pubkey::find_program_address(&[b\"escrow\"], &crate::ID);\nif expected != ctx.accounts.escrow.key() {\nreturn Err(MyError::Invalid.into());\n}",
+    );
+
     // No GuardFact::PDA for this account at all.
-    let context = build_context(
-        vec![make_field("escrow_pda")],
+    let context = build_context_full(
+        vec![make_field("escrow")],
         vec![], // no guard facts
         symbol_table,
         account_field_ids,
+        ControlFlowGraph::default(),
+        file_path,
+        "test_ix".to_string(),
     );
 
     let rule = PdaDerivationRule;
@@ -233,7 +400,7 @@ fn test_pda_named_account_without_pda_fact_finding() {
     assert_eq!(
         diagnostics.len(),
         1,
-        "PDA-named account without PDA fact should produce exactly 1 finding, got: {:?}",
+        "Account verified against a manually derived PDA without a PDA fact should produce exactly 1 finding, got: {:?}",
         diagnostics
     );
     assert_eq!(diagnostics[0].severity, RuleSeverity::Critical);
@@ -246,9 +413,207 @@ fn test_pda_named_account_without_pda_fact_finding() {
         diagnostics[0].message
     );
     assert!(
-        diagnostics[0].message.contains("escrow_pda"),
+        diagnostics[0].message.contains("escrow"),
         "Message should mention account name: {}",
         diagnostics[0].message
+    );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Test 4e: find_program_address seed *ingredients* must NOT be flagged —
+// only the account actually compared against the derived pubkey is the PDA.
+// Regression test for the false-positive class found on marginfi/squads-v4
+// during real-repo validation (seed ingredients like `mint`/`group`/`creator`
+// were incorrectly flagged as "should be a PDA").
+// ─────────────────────────────────────────────────────────────────────────────
+
+#[test]
+fn test_find_program_address_seed_ingredient_not_flagged() {
+    let sym_ingredient = SymbolId(23); // "authority" — seed ingredient only
+    let sym_derived = SymbolId(24); // "vault" — the actual derived/verified PDA
+
+    let mut symbol_table = HashMap::new();
+    symbol_table.insert("authority".to_string(), sym_ingredient);
+    symbol_table.insert("vault".to_string(), sym_derived);
+
+    let mut account_field_ids = HashSet::new();
+    account_field_ids.insert(sym_ingredient);
+    account_field_ids.insert(sym_derived);
+
+    let file_path = write_temp_instruction_source(
+        "seed_ingredient_not_flagged",
+        "test_ix",
+        "let (derived, _bump) = Pubkey::find_program_address(&[b\"vault\", ctx.accounts.authority.key().as_ref()], &crate::ID);\nif derived != ctx.accounts.vault.key() {\nreturn Err(MyError::Invalid.into());\n}",
+    );
+
+    // Neither account has a PDA fact — only "vault" should be flagged.
+    let context = build_context_full(
+        vec![make_field("authority"), make_field("vault")],
+        vec![],
+        symbol_table,
+        account_field_ids,
+        ControlFlowGraph::default(),
+        file_path,
+        "test_ix".to_string(),
+    );
+
+    let rule = PdaDerivationRule;
+    let diagnostics = rule.check(&context);
+
+    assert_eq!(
+        diagnostics.len(),
+        1,
+        "Only the derived/verified account should be flagged, not seed ingredients: {:?}",
+        diagnostics
+    );
+    assert!(
+        diagnostics[0].message.contains("vault"),
+        "Finding should name the derived account 'vault': {}",
+        diagnostics[0].message
+    );
+    assert!(
+        !diagnostics[0].message.contains("authority"),
+        "Finding must not name the seed-ingredient account 'authority': {}",
+        diagnostics[0].message
+    );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Test 4b: account used as the signer-seeds argument of invoke_signed, with
+// no PDA fact → CRITICAL finding. Field named "bank" — again, no "pda"
+// substring — matching the real-world mango-v4/orca-whirlpools style naming
+// the naive name heuristic used to miss entirely.
+// ─────────────────────────────────────────────────────────────────────────────
+
+#[test]
+fn test_pda_used_via_invoke_signed_without_pda_fact_finding() {
+    let sym = SymbolId(20);
+    let mut symbol_table = HashMap::new();
+    symbol_table.insert("bank".to_string(), sym);
+    let mut account_field_ids = HashSet::new();
+    account_field_ids.insert(sym);
+
+    // invoke_signed(&ix, &account_infos, &[&[b"bank", bank.key().as_ref(), &[bump]]]);
+    let cfg = single_node_cfg(vec![semi(call(
+        "invoke_signed",
+        vec![
+            reference(ident("ix")),
+            reference(ident("account_infos")),
+            reference(array(vec![reference(array(vec![key_as_ref("bank")]))])),
+        ],
+    ))]);
+
+    let context = build_context_with_cfg(
+        vec![make_field("bank")],
+        vec![],
+        symbol_table,
+        account_field_ids,
+        cfg,
+    );
+
+    let rule = PdaDerivationRule;
+    let diagnostics = rule.check(&context);
+
+    assert_eq!(
+        diagnostics.len(),
+        1,
+        "Account used as invoke_signed's signer seeds without a PDA fact should produce exactly 1 finding, got: {:?}",
+        diagnostics
+    );
+    assert!(
+        diagnostics[0].message.contains("bank"),
+        "Message should mention account name: {}",
+        diagnostics[0].message
+    );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Test 4c: signer seeds referenced through one level of local-variable
+// indirection (the common `let seeds = &[...]; let signer_seeds =
+// &[&seeds[..]];` pattern) — resolution must follow the `let` binding to
+// find the account reference.
+// ─────────────────────────────────────────────────────────────────────────────
+
+#[test]
+fn test_pda_used_via_signer_seeds_variable_indirection_finding() {
+    let sym = SymbolId(21);
+    let mut symbol_table = HashMap::new();
+    symbol_table.insert("vault".to_string(), sym);
+    let mut account_field_ids = HashSet::new();
+    account_field_ids.insert(sym);
+
+    // let seeds = &[b"vault", vault.key().as_ref(), &[bump]];
+    // let signer_seeds = &[&seeds[..]];
+    // CpiContext::new_with_signer(cpi_program, cpi_accounts, signer_seeds);
+    let cfg = single_node_cfg(vec![
+        let_stmt("seeds", reference(array(vec![key_as_ref("vault")]))),
+        let_stmt("signer_seeds", reference(array(vec![reference(ident("seeds"))]))),
+        semi(call(
+            "CpiContext::new_with_signer",
+            vec![ident("cpi_program"), ident("cpi_accounts"), ident("signer_seeds")],
+        )),
+    ]);
+
+    let context = build_context_with_cfg(
+        vec![make_field("vault")],
+        vec![],
+        symbol_table,
+        account_field_ids,
+        cfg,
+    );
+
+    let rule = PdaDerivationRule;
+    let diagnostics = rule.check(&context);
+
+    assert_eq!(
+        diagnostics.len(),
+        1,
+        "Account referenced only via local-variable indirection should still be found: {:?}",
+        diagnostics
+    );
+    assert!(diagnostics[0].message.contains("vault"));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Test 4d: account passed as a plain CPI account (not in the signer-seeds
+// slot) of CpiContext::new_with_signer → no finding. Confirms detection
+// targets the seeds argument specifically, not every argument of a CPI call.
+// ─────────────────────────────────────────────────────────────────────────────
+
+#[test]
+fn test_account_as_cpi_account_not_seeds_no_finding() {
+    let sym = SymbolId(22);
+    let mut symbol_table = HashMap::new();
+    symbol_table.insert("token_program".to_string(), sym);
+    let mut account_field_ids = HashSet::new();
+    account_field_ids.insert(sym);
+
+    // CpiContext::new_with_signer(token_program, cpi_accounts, signer_seeds);
+    // "token_program" sits in the *program* argument slot, not the seeds slot.
+    let cfg = single_node_cfg(vec![semi(call(
+        "CpiContext::new_with_signer",
+        vec![
+            ident("token_program"),
+            ident("cpi_accounts"),
+            reference(array(vec![reference(array(vec![key_as_ref("authority")]))])),
+        ],
+    ))]);
+
+    let context = build_context_with_cfg(
+        vec![make_field("token_program")],
+        vec![],
+        symbol_table,
+        account_field_ids,
+        cfg,
+    );
+
+    let rule = PdaDerivationRule;
+    let diagnostics = rule.check(&context);
+
+    assert!(
+        diagnostics.is_empty(),
+        "Account passed as a non-seeds CPI argument should not be flagged, got: {:?}",
+        diagnostics
     );
 }
 
@@ -284,20 +649,22 @@ fn test_normal_non_pda_account_no_finding() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Test 6: Multiple accounts — pda_named + canonical PDA + caller-supplied bump
+// Test 6: Multiple accounts — canonical PDA + caller-supplied bump + a
+// usage-detected missing-derivation PDA ("vault", no "pda" in the name) +
+// a normal account never referenced in any PDA call.
 // ─────────────────────────────────────────────────────────────────────────────
 
 #[test]
 fn test_mixed_accounts() {
     let sym_good = SymbolId(10); // canonical bump → no finding
     let sym_bad_bump = SymbolId(11); // caller-supplied bump → finding
-    let sym_no_fact = SymbolId(12); // pda name, no fact → finding
-    let sym_normal = SymbolId(13); // normal account → no finding
+    let sym_no_fact = SymbolId(12); // used as PDA in body, no fact → finding
+    let sym_normal = SymbolId(13); // normal account, unused in any PDA call → no finding
 
     let mut symbol_table = HashMap::new();
     symbol_table.insert("good_pda".to_string(), sym_good);
     symbol_table.insert("bad_bump_pda".to_string(), sym_bad_bump);
-    symbol_table.insert("raw_pda".to_string(), sym_no_fact);
+    symbol_table.insert("vault".to_string(), sym_no_fact);
     symbol_table.insert("authority".to_string(), sym_normal);
 
     let mut account_field_ids = HashSet::new();
@@ -312,17 +679,34 @@ fn test_mixed_accounts() {
             sym_bad_bump,
             Some(FactExpression::Literal("ctx.accounts.args.bump_override".to_string())),
         ),
-        // sym_no_fact intentionally has no PDA fact
+        // sym_no_fact ("vault") intentionally has no PDA fact
     ];
 
     let fields = vec![
         make_field("good_pda"),
         make_field("bad_bump_pda"),
-        make_field("raw_pda"),
+        make_field("vault"),
         make_field("authority"),
     ];
 
-    let context = build_context(fields, facts, symbol_table, account_field_ids);
+    // "vault" is derived and verified via find_program_address in the
+    // instruction body; "authority" never appears in any PDA-derivation/
+    // signer-seeds call.
+    let file_path = write_temp_instruction_source(
+        "mixed_accounts",
+        "test_ix",
+        "let (derived, _bump) = Pubkey::find_program_address(&[b\"vault\"], &crate::ID);\nif derived != ctx.accounts.vault.key() {\nreturn Err(MyError::Invalid.into());\n}",
+    );
+
+    let context = build_context_full(
+        fields,
+        facts,
+        symbol_table,
+        account_field_ids,
+        ControlFlowGraph::default(),
+        file_path,
+        "test_ix".to_string(),
+    );
 
     let rule = PdaDerivationRule;
     let mut diagnostics = rule.check(&context);
