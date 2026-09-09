@@ -790,6 +790,24 @@ fn test_pda_bump_canonical_fixture_is_clean() {
 }
 
 #[test]
+fn test_pda_bump_seed_suffix_canonical_fixture_is_clean() {
+    let diagnostics = epic::run_audit(&fixture_path("pda-bump-seed-suffix-canonical"))
+        .expect("run_audit should succeed on a syntactically valid fixture");
+
+    let pda_findings: Vec<_> = diagnostics
+        .iter()
+        .filter(|d| d.rule_id == "EPIC-SEC-PDA")
+        .collect();
+
+    assert!(
+        pda_findings.is_empty(),
+        "bump = state.reserve_bump_seed (marinade's `_bump_seed` naming convention) \
+         is a canonical safe stored bump and must not be flagged, got: {:?}",
+        pda_findings
+    );
+}
+
+#[test]
 fn test_pda_bump_caller_supplied_fixture_flags() {
     let diagnostics = epic::run_audit(&fixture_path("pda-bump-caller-supplied"))
         .expect("run_audit should succeed on a syntactically valid fixture");

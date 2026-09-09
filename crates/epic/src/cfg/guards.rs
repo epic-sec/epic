@@ -366,13 +366,25 @@ pub fn convert_syn_expr(
                 SolanaProperty::Lamports
             } else if field == "key" {
                 SolanaProperty::Address
-            } else if field == "bump" || field.ends_with("_bump") {
-                // Anchor programs commonly store per-purpose canonical bumps
-                // under names like `liquidity_vault_authority_bump`, not just
-                // a bare `bump` field (seen in marginfi, mango-v4, etc.) —
-                // both shapes are equally "the stored bump", so both must be
-                // recognized here for is_stored_bump_expr to classify them
-                // as safe rather than caller-supplied.
+            } else if field.contains("bump") {
+                // Anchor programs store canonical bumps under a wide variety
+                // of names — a bare `bump`, a per-purpose suffix like
+                // `liquidity_vault_authority_bump` (marginfi, mango-v4), or a
+                // `_bump_seed` suffix (marinade's `sol_leg_bump_seed`). All of
+                // these are equally "the stored bump", so a broad substring
+                // match is used here rather than chasing each naming
+                // convention individually as it's discovered.
+                //
+                // TODO(principled fix): this is still a name heuristic, not a
+                // use-based one, and will both over- and under-match: a field
+                // named e.g. `debump` would false-positive, and a
+                // renamed/obfuscated bump field would false-negative. The
+                // correct signal is how the value is *used* — does it flow
+                // into a `seeds = [...]` array or a `with_signer`/
+                // `invoke_signed` signer-seeds argument as the trailing bump
+                // byte — the same use-based approach EPIC-SEC-PDA's sub-check
+                // 1 (missing derivation) already takes for identifying PDA
+                // accounts, rather than matching on field names at all.
                 SolanaProperty::Bump
             } else {
                 SolanaProperty::Address
