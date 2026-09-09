@@ -37,7 +37,6 @@ impl Rule for VaultAuthorityRule {
         {
             // Find all vault fields
             for field in &s_def.fields {
-
                 let ty_str = format!("{:?}", field.type_ref);
                 if (ty_str.contains("TokenAccount")
                     || ty_str.contains("Account<'info, TokenAccount>")

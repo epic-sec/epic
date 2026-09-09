@@ -265,8 +265,6 @@ pub fn find_struct_for_context<'a>(
     candidates.into_iter().next()
 }
 
-
-
 /// Recursively discovers all programs, compiles CFG & SSA, extracts GuardFacts, and executes rules.
 pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
     let root = Path::new(root_path);
@@ -392,7 +390,6 @@ pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
             &raw_fn.module_path,
             &raw_fn.context_struct_name,
         ) {
-
             let mut symbol_table = HashMap::new();
             let mut next_symbol_id = 1;
 

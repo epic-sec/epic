@@ -36,7 +36,6 @@ impl Rule for TokenMintRule {
             .unwrap_or_else(|| instruction_context.file_path.clone());
         {
             for field in &s_def.fields {
-
                 let ty_str = format!("{:?}", field.type_ref);
                 if ty_str.contains("TokenAccount")
                     || ty_str.contains("Account<'info, TokenAccount>")

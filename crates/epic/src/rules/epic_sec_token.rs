@@ -61,7 +61,7 @@ impl Rule for TokenAccountRule {
                             {
                                 has_mint = true;
                             }
-                            
+
                             if attr.contains("authority =")
                                 || attr.contains("token::authority")
                                 || attr.contains("address")
@@ -116,7 +116,10 @@ impl Rule for TokenAccountRule {
                             diagnostics.push(RuleDiagnostic {
                                 rule_id: self.id().to_string(),
                                 severity: RuleSeverity::High,
-                                message: format!("Token account '{}' missing mint constraint", field.name),
+                                message: format!(
+                                    "Token account '{}' missing mint constraint",
+                                    field.name
+                                ),
                                 location: FindingLocation {
                                     file: file_path.clone(),
                                     line: field.line_number,
@@ -131,7 +134,10 @@ impl Rule for TokenAccountRule {
                             diagnostics.push(RuleDiagnostic {
                                 rule_id: self.id().to_string(),
                                 severity: RuleSeverity::Medium,
-                                message: format!("Token account '{}' missing authority constraint", field.name),
+                                message: format!(
+                                    "Token account '{}' missing authority constraint",
+                                    field.name
+                                ),
                                 location: FindingLocation {
                                     file: file_path.clone(),
                                     line: field.line_number,

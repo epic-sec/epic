@@ -27,7 +27,10 @@ pub use ast::{
     InferenceResult, InferenceScope, ParameterNode, StatementKind, StatementNode,
     TypeInferenceEngine,
 };
-pub use audit::{extract_context_struct_name, find_struct_for_context, run_audit, RawFunction, RawFunctionVisitor};
+pub use audit::{
+    extract_context_struct_name, find_struct_for_context, run_audit, RawFunction,
+    RawFunctionVisitor,
+};
 pub use cfg::{
     extract_guards_from_accounts_struct, CFGBoundaryWarning, CFGBuilder, CFGEdge, CFGNode,
     ControlFlowGraph, DominanceInterval, FactConfidence, FactExpression, FactProvenance, GuardFact,

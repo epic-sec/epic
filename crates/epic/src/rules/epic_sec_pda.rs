@@ -1,5 +1,8 @@
 use crate::ast::{ExpressionKind, ExpressionNode, StatementKind, StatementNode};
-use crate::cfg::guards::{FactConfidence, FactExpression, GuardFact, GuardTarget, InstructionAnalysisContext, SolanaProperty, SymbolId};
+use crate::cfg::guards::{
+    FactConfidence, FactExpression, GuardFact, GuardTarget, InstructionAnalysisContext,
+    SolanaProperty, SymbolId,
+};
 use crate::rules::{AnalysisContext, FindingLocation, Rule, RuleDiagnostic, RuleSeverity};
 use std::collections::{HashMap, HashSet};
 use syn::visit::Visit;
@@ -33,16 +36,25 @@ pub struct PdaDerivationRule;
 /// Known instruction-data/argument container name prefixes.
 /// Bumps coming from these are caller-supplied — always unsafe.
 const INSTRUCTION_DATA_PREFIXES: &[&str] = &[
-    "ix", "args", "params", "data", "instruction", "input", "inputs", "request",
+    "ix",
+    "args",
+    "params",
+    "data",
+    "instruction",
+    "input",
+    "inputs",
+    "request",
 ];
 
 /// Returns `true` when the base object of a `.bump` field access looks like an
 /// instruction-data container (and thus the bump is caller-supplied).
 fn object_is_instruction_data(object_name: &str) -> bool {
     let n = object_name.trim().to_lowercase();
-    INSTRUCTION_DATA_PREFIXES
-        .iter()
-        .any(|prefix| n == *prefix || n.starts_with(&format!("{}_", prefix)) || n.ends_with(&format!("_{}", prefix)))
+    INSTRUCTION_DATA_PREFIXES.iter().any(|prefix| {
+        n == *prefix
+            || n.starts_with(&format!("{}_", prefix))
+            || n.ends_with(&format!("_{}", prefix))
+    })
 }
 
 /// Returns `true` when `expr` looks like a stored-on-chain bump reference.
@@ -117,7 +129,10 @@ fn is_stored_bump_expr(expr: &FactExpression, symbol_table: &HashMap<String, Sym
     }
 }
 
-fn is_caller_supplied_bump(expr: &FactExpression, symbol_table: &HashMap<String, SymbolId>) -> bool {
+fn is_caller_supplied_bump(
+    expr: &FactExpression,
+    symbol_table: &HashMap<String, SymbolId>,
+) -> bool {
     !is_stored_bump_expr(expr, symbol_table)
 }
 
@@ -157,7 +172,9 @@ fn symbol_name(target: &GuardTarget, symbol_table: &HashMap<String, SymbolId>) -
 // ─────────────────────────────────────────────────────────────────────────────
 
 fn is_signer_seeds_call(method: &str) -> bool {
-    method.contains("invoke_signed") || method == "new_with_signer" || method.ends_with("::new_with_signer")
+    method.contains("invoke_signed")
+        || method == "new_with_signer"
+        || method.ends_with("::new_with_signer")
 }
 
 /// Bound on how many levels of local `let` indirection to follow when
@@ -188,7 +205,14 @@ fn collect_referenced_account_names(
             if depth < MAX_RESOLUTION_DEPTH {
                 if let Some(bound) = let_bindings.get(name) {
                     if resolving.insert(name.clone()) {
-                        collect_referenced_account_names(bound, ctx_var, let_bindings, depth + 1, resolving, out);
+                        collect_referenced_account_names(
+                            bound,
+                            ctx_var,
+                            let_bindings,
+                            depth + 1,
+                            resolving,
+                            out,
+                        );
                         resolving.remove(name);
                     }
                 }
@@ -226,7 +250,14 @@ fn collect_referenced_account_names(
         ExpressionKind::Reference { expression, .. }
         | ExpressionKind::Dereference(expression)
         | ExpressionKind::Try(expression) => {
-            collect_referenced_account_names(expression, ctx_var, let_bindings, depth, resolving, out);
+            collect_referenced_account_names(
+                expression,
+                ctx_var,
+                let_bindings,
+                depth,
+                resolving,
+                out,
+            );
         }
         ExpressionKind::Assign { left, right } => {
             collect_referenced_account_names(left, ctx_var, let_bindings, depth, resolving, out);
@@ -255,7 +286,14 @@ fn scan_expr_for_signer_seeds_calls(
             if is_signer_seeds_call(method) {
                 if let Some(target_arg) = arguments.last() {
                     let mut resolving = HashSet::new();
-                    collect_referenced_account_names(target_arg, ctx_var, let_bindings, 0, &mut resolving, used);
+                    collect_referenced_account_names(
+                        target_arg,
+                        ctx_var,
+                        let_bindings,
+                        0,
+                        &mut resolving,
+                        used,
+                    );
                 }
             }
             scan_expr_for_signer_seeds_calls(object, ctx_var, let_bindings, used);
@@ -279,7 +317,8 @@ fn scan_expr_for_signer_seeds_calls(
             scan_expr_for_signer_seeds_calls(left, ctx_var, let_bindings, used);
             scan_expr_for_signer_seeds_calls(right, ctx_var, let_bindings, used);
         }
-        ExpressionKind::Identifier(_) | ExpressionKind::Literal(_) | ExpressionKind::Unresolved => {}
+        ExpressionKind::Identifier(_) | ExpressionKind::Literal(_) | ExpressionKind::Unresolved => {
+        }
     }
 }
 
@@ -296,7 +335,9 @@ fn collect_let_bindings_from_stmts(
                 // iterates nodes/statements in a fixed order, and avoids
                 // flip-flopping between branch-local redefinitions of the
                 // same name across repeated audit runs.
-                bindings.entry(name.clone()).or_insert_with(|| initializer.clone());
+                bindings
+                    .entry(name.clone())
+                    .or_insert_with(|| initializer.clone());
             }
             StatementKind::Block(inner) => collect_let_bindings_from_stmts(inner, bindings),
             StatementKind::Expr(_) | StatementKind::Semi(_) | StatementKind::MacroCall { .. } => {}
@@ -440,7 +481,9 @@ fn resolve_syn_account_ref(expr: &syn::Expr, ctx_var: &str) -> Option<String> {
 
 fn resolve_syn_key_account(expr: &syn::Expr, ctx_var: &str) -> Option<String> {
     match expr {
-        syn::Expr::MethodCall(mc) if mc.method == "key" => resolve_syn_account_ref(&mc.receiver, ctx_var),
+        syn::Expr::MethodCall(mc) if mc.method == "key" => {
+            resolve_syn_account_ref(&mc.receiver, ctx_var)
+        }
         syn::Expr::Reference(r) => resolve_syn_key_account(&r.expr, ctx_var),
         syn::Expr::Paren(p) => resolve_syn_key_account(&p.expr, ctx_var),
         _ => None,
@@ -511,7 +554,10 @@ impl<'a, 'ast> Visit<'ast> for ComparisonCollector<'a> {
     fn visit_macro(&mut self, mac: &'ast syn::Macro) {
         let tokens = &mac.tokens;
         let raw = quote::quote!(#tokens).to_string().replace(' ', "");
-        let mentions_derivation_var = self.derivation_vars.iter().any(|v| raw.contains(v.as_str()));
+        let mentions_derivation_var = self
+            .derivation_vars
+            .iter()
+            .any(|v| raw.contains(v.as_str()));
         if mentions_derivation_var {
             for candidate in extract_key_call_idents(&raw) {
                 self.found.insert(candidate);
@@ -603,7 +649,12 @@ fn collect_pda_usage_accounts(instruction_context: &InstructionAnalysisContext) 
     let mut used = HashSet::new();
     for &node_id in &node_ids {
         if let Some(node) = cfg.nodes.get(&node_id) {
-            collect_signer_seeds_usage_from_stmts(&node.statements, ctx_var, &let_bindings, &mut used);
+            collect_signer_seeds_usage_from_stmts(
+                &node.statements,
+                ctx_var,
+                &let_bindings,
+                &mut used,
+            );
         }
     }
 
@@ -674,11 +725,10 @@ impl Rule for PdaDerivationRule {
                 }
 
                 // Is a PDA fact already present for this account?
-                let has_pda_fact =
-                    instruction_context.guard_facts.iter().any(|(fact, _)| {
-                        matches!(fact, GuardFact::PDA { account, .. }
+                let has_pda_fact = instruction_context.guard_facts.iter().any(|(fact, _)| {
+                    matches!(fact, GuardFact::PDA { account, .. }
                             if account.symbol_id() == Some(field_sym))
-                    });
+                });
 
                 if !has_pda_fact {
                     diagnostics.push(RuleDiagnostic {
@@ -786,7 +836,10 @@ impl Rule for PdaDerivationRule {
 /// against `symbol_table`, falling back to a labeled placeholder only when it
 /// genuinely can't be resolved (e.g. a target from a different instruction's
 /// symbol table).
-fn guard_target_to_string(target: &GuardTarget, symbol_table: &HashMap<String, SymbolId>) -> String {
+fn guard_target_to_string(
+    target: &GuardTarget,
+    symbol_table: &HashMap<String, SymbolId>,
+) -> String {
     match target {
         GuardTarget::Literal(s) => s.clone(),
         GuardTarget::Variable(_) | GuardTarget::Account(_) => {

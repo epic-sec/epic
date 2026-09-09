@@ -35,7 +35,11 @@ fn ident(name: &str) -> ExpressionNode {
     }
 }
 
-fn method_call(object: ExpressionNode, method: &str, arguments: Vec<ExpressionNode>) -> ExpressionNode {
+fn method_call(
+    object: ExpressionNode,
+    method: &str,
+    arguments: Vec<ExpressionNode>,
+) -> ExpressionNode {
     ExpressionNode {
         kind: ExpressionKind::MethodCall {
             object: Box::new(object),
@@ -547,10 +551,17 @@ fn test_pda_used_via_signer_seeds_variable_indirection_finding() {
     // CpiContext::new_with_signer(cpi_program, cpi_accounts, signer_seeds);
     let cfg = single_node_cfg(vec![
         let_stmt("seeds", reference(array(vec![key_as_ref("vault")]))),
-        let_stmt("signer_seeds", reference(array(vec![reference(ident("seeds"))]))),
+        let_stmt(
+            "signer_seeds",
+            reference(array(vec![reference(ident("seeds"))])),
+        ),
         semi(call(
             "CpiContext::new_with_signer",
-            vec![ident("cpi_program"), ident("cpi_accounts"), ident("signer_seeds")],
+            vec![
+                ident("cpi_program"),
+                ident("cpi_accounts"),
+                ident("signer_seeds"),
+            ],
         )),
     ]);
 
@@ -677,7 +688,9 @@ fn test_mixed_accounts() {
         make_pda_fact(sym_good, None), // canonical
         make_pda_fact(
             sym_bad_bump,
-            Some(FactExpression::Literal("ctx.accounts.args.bump_override".to_string())),
+            Some(FactExpression::Literal(
+                "ctx.accounts.args.bump_override".to_string(),
+            )),
         ),
         // sym_no_fact ("vault") intentionally has no PDA fact
     ];
@@ -813,7 +826,10 @@ fn test_pda_bump_caller_supplied_fixture_flags() {
         "location must be a real line, not the 0 placeholder"
     );
     assert!(
-        pda_findings[0].location.file.ends_with("pda-bump-caller-supplied/src/lib.rs"),
+        pda_findings[0]
+            .location
+            .file
+            .ends_with("pda-bump-caller-supplied/src/lib.rs"),
         "location must point at the real fixture file, not a hardcoded 'lib.rs': {}",
         pda_findings[0].location.file
     );

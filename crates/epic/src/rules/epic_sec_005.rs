@@ -352,12 +352,8 @@ impl ArbitraryCpiTargetRule {
         }
 
         // Sorted fallback — deterministic key order.
-        let mut sorted_defs: Vec<(&String, &TypeDef)> = context
-            .ast_graph
-            .registry
-            .definitions
-            .iter()
-            .collect();
+        let mut sorted_defs: Vec<(&String, &TypeDef)> =
+            context.ast_graph.registry.definitions.iter().collect();
         sorted_defs.sort_by_key(|(k, _)| k.as_str());
 
         for (_, def) in sorted_defs {

@@ -657,11 +657,7 @@ fn test_sec002_bool_local_does_not_fire() {
 /// fire SEC-002 even though the name is \"admin\".
 #[test]
 fn test_sec002_option_destructured_local_does_not_fire() {
-    let diags = run_sec002(
-        "admin",
-        SymbolId(4),
-        /*is_account_field=*/ false,
-    );
+    let diags = run_sec002("admin", SymbolId(4), /*is_account_field=*/ false);
     assert!(
         diags.is_empty(),
         "Expected SEC-002 to be silent for an Option-destructured local 'admin', got: {:#?}",
@@ -673,7 +669,6 @@ fn test_sec002_option_destructured_local_does_not_fire() {
 /// (mirroring the SwapLikeJupiter pattern) does not produce duplicate diagnostics.
 #[test]
 fn test_multiple_impl_blocks_no_duplicate_diagnostics() {
-
     let source = r#"
 use anchor_lang::prelude::*;
 use anchor_spl::token::{Token, TokenAccount};

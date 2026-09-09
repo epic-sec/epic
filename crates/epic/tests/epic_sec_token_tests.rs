@@ -1,7 +1,10 @@
-use epic::cfg::{InstructionAnalysisContext, ControlFlowGraph, GuardFact, GuardTarget, FactExpression, SymbolId, FactConfidence, FactProvenance};
-use epic::rules::{Rule, RuleEngine, AnalysisContext, ProgramMetadata};
-use epic::types::{StructDef, TypeDef, FieldDef, TypeRef, TypeRegistry};
+use epic::cfg::{
+    ControlFlowGraph, FactConfidence, FactExpression, FactProvenance, GuardFact, GuardTarget,
+    InstructionAnalysisContext, SymbolId,
+};
 use epic::rules::epic_sec_token::TokenAccountRule;
+use epic::rules::{AnalysisContext, ProgramMetadata, Rule, RuleEngine};
+use epic::types::{FieldDef, StructDef, TypeDef, TypeRef, TypeRegistry};
 use epic::Workspace;
 use std::collections::HashMap;
 
@@ -22,9 +25,12 @@ fn test_token_account_rule() {
     // 2. missing_mint (authority only) -> High severity (missing mint)
     // 3. missing_authority (mint only) -> Medium severity (missing authority) - Not named vault/pool!
     // 4. missing_both -> High severity (missing both)
-    
+
     let fields = vec![
-        create_token_field("both_constraints", vec!["mint = some_mint", "authority = some_auth"]),
+        create_token_field(
+            "both_constraints",
+            vec!["mint = some_mint", "authority = some_auth"],
+        ),
         create_token_field("missing_mint", vec!["authority = some_auth"]),
         create_token_field("missing_authority", vec!["mint = some_mint"]),
         create_token_field("missing_both", vec![]),
@@ -38,12 +44,14 @@ fn test_token_account_rule() {
     };
 
     let mut registry = TypeRegistry::new();
-    registry.definitions.insert("TestAccounts".to_string(), TypeDef::Struct(struct_def));
-    registry.file_paths.insert("TestAccounts".to_string(), "lib.rs".to_string());
+    registry
+        .definitions
+        .insert("TestAccounts".to_string(), TypeDef::Struct(struct_def));
+    registry
+        .file_paths
+        .insert("TestAccounts".to_string(), "lib.rs".to_string());
 
-    let ast_graph = Workspace {
-        registry,
-    };
+    let ast_graph = Workspace { registry };
 
     let mut symbol_table = HashMap::new();
     symbol_table.insert("both_constraints".to_string(), SymbolId(1));
@@ -78,16 +86,25 @@ fn test_token_account_rule() {
 
     // We expect 3 findings
     assert_eq!(diagnostics.len(), 3);
-    
-    let missing_mint = diagnostics.iter().find(|d| d.message.contains("missing mint constraint")).unwrap();
+
+    let missing_mint = diagnostics
+        .iter()
+        .find(|d| d.message.contains("missing mint constraint"))
+        .unwrap();
     assert_eq!(missing_mint.target_symbol, SymbolId(2));
     assert_eq!(missing_mint.severity, epic::rules::RuleSeverity::High);
-    
-    let missing_auth = diagnostics.iter().find(|d| d.message.contains("missing authority constraint")).unwrap();
+
+    let missing_auth = diagnostics
+        .iter()
+        .find(|d| d.message.contains("missing authority constraint"))
+        .unwrap();
     assert_eq!(missing_auth.target_symbol, SymbolId(3));
     assert_eq!(missing_auth.severity, epic::rules::RuleSeverity::Medium);
 
-    let missing_both = diagnostics.iter().find(|d| d.message.contains("missing both")).unwrap();
+    let missing_both = diagnostics
+        .iter()
+        .find(|d| d.message.contains("missing both"))
+        .unwrap();
     assert_eq!(missing_both.target_symbol, SymbolId(4));
     assert_eq!(missing_both.severity, epic::rules::RuleSeverity::High);
 }

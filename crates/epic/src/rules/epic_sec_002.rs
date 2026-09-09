@@ -256,7 +256,8 @@ impl SignerValidationRule {
     fn is_ctx_accounts(&self, expr: &epic_ir::IRExpression) -> bool {
         match expr {
             epic_ir::IRExpression::FieldAccess { object, field } => {
-                field == "accounts" && matches!(object.as_ref(), epic_ir::IRExpression::Variable(v) if v == "ctx")
+                field == "accounts"
+                    && matches!(object.as_ref(), epic_ir::IRExpression::Variable(v) if v == "ctx")
             }
             _ => false,
         }
