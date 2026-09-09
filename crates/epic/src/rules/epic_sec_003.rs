@@ -184,6 +184,7 @@ impl Rule for MissingPostCpiReloadRule {
         // Sort by SymbolId for deterministic diagnostic ordering.
         // access_locations is a HashMap so its iteration order is random; sorting
         // by SymbolId produces the same sequence of findings across every run.
+        #[allow(clippy::type_complexity)]
         let mut sorted_accesses: Vec<(SymbolId, Vec<(usize, usize, usize)>)> =
             access_locations.into_iter().collect();
         sorted_accesses.sort_by_key(|(sym, _)| sym.0);

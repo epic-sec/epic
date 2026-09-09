@@ -238,7 +238,7 @@ pub fn find_struct_for_context<'a>(
         registry
             .file_paths
             .get(*abs_path)
-            .map_or(false, |fp| fp == instruction_file)
+            .is_some_and(|fp| fp == instruction_file)
     }) {
         return Some(*hit);
     }
@@ -251,10 +251,10 @@ pub fn find_struct_for_context<'a>(
 
     if !instr_dir.is_empty() {
         if let Some(hit) = candidates.iter().find(|(abs_path, _)| {
-            registry.file_paths.get(*abs_path).map_or(false, |fp| {
+            registry.file_paths.get(*abs_path).is_some_and(|fp| {
                 std::path::Path::new(fp.as_str())
                     .parent()
-                    .map_or(false, |p| p.to_string_lossy() == instr_dir.as_str())
+                    .is_some_and(|p| p.to_string_lossy() == instr_dir.as_str())
             })
         }) {
             return Some(*hit);
