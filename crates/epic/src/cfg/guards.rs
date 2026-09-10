@@ -679,6 +679,15 @@ fn ir_expr_to_string(expr: &epic_ir::IRExpression) -> String {
         epic_ir::IRExpression::FieldAccess { object, field } => {
             format!("{}.{}", ir_expr_to_string(object), field)
         }
+        // `&spl_token::ID` / `*owner_ref` / `foo()?` — a reference, deref, or
+        // try-unwrap around an owner-comparison value is transparent to its
+        // identity for this purpose. Without unwrapping these, the extremely
+        // common `account.owner != &SomeProgram::ID` idiom stringified to
+        // "unknown" and could never match is_valid_expected_owner's
+        // whitelist, regardless of what that whitelist accepts.
+        epic_ir::IRExpression::Reference { expression, .. }
+        | epic_ir::IRExpression::Dereference(expression)
+        | epic_ir::IRExpression::Try(expression) => ir_expr_to_string(expression),
         _ => "unknown".to_string(),
     }
 }

@@ -226,6 +226,8 @@ impl OwnerValidationRule {
                     || val == "super::ID"
                     || val == "spl_token"
                     || val == "token_program"
+                    || val.ends_with("::ID")
+                    || val.ends_with("::id")
                     || val.len() >= 32
             }
             crate::cfg::guards::FactExpression::Unknown => false,
