@@ -313,7 +313,28 @@ impl ArbitraryCpiTargetRule {
                 return Some(root_sym);
             }
         }
-        resolver.resolve_expr_ir(expr, state_before)
+        if let Some(sym) = resolver.resolve_expr_ir(expr, state_before) {
+            return Some(sym);
+        }
+        // `resolver.resolve_expr_ir` only matches a FieldAccess path exactly
+        // (`ctx.accounts.<field>`), so a trailing property read like
+        // `ctx.accounts.token_program.key` — the raw `AccountInfo.key: &Pubkey`
+        // field, as opposed to a `.key()` method call, which the resolver
+        // already unwraps — fails to resolve at all. Peel one FieldAccess
+        // layer off the end and retry: this is bounded (each step strictly
+        // shortens the path) and general over arbitrary trailing property
+        // names (`.key`, `.owner`, `.lamports`, `.data`, ...) without having
+        // to enumerate them.
+        if let epic_ir::IRExpression::FieldAccess { object, .. } = expr {
+            return self.get_root_symbol_ir(
+                object,
+                state_before,
+                resolver,
+                var_to_parent_var,
+                var_to_root_symbol,
+            );
+        }
+        None
     }
 
     fn find_context_struct<'a>(&self, context: &'a AnalysisContext) -> Option<&'a StructDef> {
@@ -608,6 +629,23 @@ impl ArbitraryCpiTargetRule {
                             let slice = &arguments[1];
                             self.collect_slice_targets_ir(slice, targets);
                         }
+                        // The account-infos slice (arguments[1]) never
+                        // determines which program actually runs — that's
+                        // arguments[0], the `Instruction` itself. When that
+                        // instruction is built by a call (the common
+                        // `spl_token::instruction::transfer(token_program,
+                        // ...)` idiom, or any other instruction-builder
+                        // function), the target program id is one of ITS
+                        // arguments, not visible anywhere in invoke()'s own
+                        // argument list. Surface every argument of that
+                        // inner call as a candidate target: is_program_symbol
+                        // below already filters this down to program-typed
+                        // accounts only, so non-program arguments
+                        // (source/destination/authority/amount, ...) are
+                        // silently dropped rather than producing noise.
+                        if let Some(ix_expr) = arguments.first() {
+                            self.collect_instruction_call_args_ir(ix_expr, targets);
+                        }
                     } else if is_new {
                         if !arguments.is_empty() {
                             targets.push(&arguments[0]);
@@ -634,6 +672,35 @@ impl ArbitraryCpiTargetRule {
             epic_ir::IRExpression::Assign { left, right } => {
                 self.extract_cpi_targets_expr_ir(left, targets);
                 self.extract_cpi_targets_expr_ir(right, targets);
+            }
+            _ => {}
+        }
+    }
+
+    /// Unwraps `?`/`&` around an instruction-building expression and, if it
+    /// is itself a call (e.g. `spl_token::instruction::transfer(program_id,
+    /// ...)`), surfaces every one of its arguments as a candidate CPI
+    /// target. General fix for dataflow through a call argument into
+    /// `invoke`/`invoke_signed`: the target program id can appear in any
+    /// argument position of whatever function actually builds the
+    /// `Instruction`, and this rule has no reason to special-case one
+    /// instruction-builder's signature over another's.
+    fn collect_instruction_call_args_ir<'a>(
+        &self,
+        expr: &'a epic_ir::IRExpression,
+        targets: &mut Vec<&'a epic_ir::IRExpression>,
+    ) {
+        match expr {
+            epic_ir::IRExpression::Try(inner) => {
+                self.collect_instruction_call_args_ir(inner, targets);
+            }
+            epic_ir::IRExpression::Reference { expression, .. } => {
+                self.collect_instruction_call_args_ir(expression, targets);
+            }
+            epic_ir::IRExpression::Call { arguments, .. } => {
+                for arg in arguments {
+                    targets.push(arg);
+                }
             }
             _ => {}
         }
@@ -873,8 +940,25 @@ fn expr_to_string(expr: &ExpressionNode) -> String {
         ExpressionKind::FieldAccess { object, field } => {
             format!("{}.{}", expr_to_string(object), field)
         }
-        ExpressionKind::MethodCall { object, method, .. } => {
-            format!("{}.{}()", expr_to_string(object), method)
+        ExpressionKind::MethodCall {
+            object,
+            method,
+            arguments,
+        } => {
+            // Plain function calls (e.g. `assert_token_program_matches_package(x)`)
+            // are represented the same way as `.method()` calls, with an
+            // `Unresolved` object (see the AST builder's `syn::Expr::Call`
+            // handling) — so `arguments` is where a validated account name
+            // actually lives for this shape. Without rendering them, the
+            // text-based `.contains(account_name)` checks in
+            // get_validated_root_symbols/is_edge_condition_validating can
+            // never see past-the-argument-list validation calls at all.
+            let args_str = arguments
+                .iter()
+                .map(expr_to_string)
+                .collect::<Vec<_>>()
+                .join(", ");
+            format!("{}.{}({})", expr_to_string(object), method, args_str)
         }
         ExpressionKind::Reference { expression, .. } => expr_to_string(expression),
         ExpressionKind::Dereference(expression) => expr_to_string(expression),
