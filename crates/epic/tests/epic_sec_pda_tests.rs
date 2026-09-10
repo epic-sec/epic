@@ -401,24 +401,85 @@ fn test_pda_used_via_find_program_address_without_pda_fact_finding() {
     let rule = PdaDerivationRule;
     let diagnostics = rule.check(&context);
 
+    // `find_program_address` is unconditionally canonical, so a manual
+    // comparison against its result already rules out account-substitution
+    // attacks. This is downgraded to a hardening recommendation (Warning),
+    // not a vulnerability (Critical) — see sub-check 1's manual-validation
+    // awareness fix.
     assert_eq!(
         diagnostics.len(),
         1,
         "Account verified against a manually derived PDA without a PDA fact should produce exactly 1 finding, got: {:?}",
         diagnostics
     );
-    assert_eq!(diagnostics[0].severity, RuleSeverity::Critical);
+    assert_eq!(diagnostics[0].severity, RuleSeverity::Warning);
     assert!(diagnostics[0].rule_id.contains("EPIC-SEC-PDA"));
     assert!(
-        diagnostics[0]
-            .message
-            .contains("without PDA derivation constraint"),
-        "Message should mention missing constraint: {}",
+        diagnostics[0].message.contains("find_program_address"),
+        "Message should mention the canonical manual verification: {}",
         diagnostics[0].message
     );
     assert!(
         diagnostics[0].message.contains("escrow"),
         "Message should mention account name: {}",
+        diagnostics[0].message
+    );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Test 4d-2: sealevel-attacks 7-bump-seed-canonicalization "insecure" shape —
+// manual verification against a `create_program_address` result, where the
+// bump is a plain caller-supplied argument, must stay CRITICAL. Unlike
+// `find_program_address`, `create_program_address` blindly trusts whatever
+// bump it's given, so a comparison against its result provides no protection
+// against account substitution. This is the discrimination the manual-
+// validation-awareness fix in sub-check 1 must preserve: it only downgrades
+// `find_program_address`-verified accounts, never `create_program_address`.
+// ─────────────────────────────────────────────────────────────────────────────
+
+#[test]
+fn test_pda_used_via_create_program_address_stays_critical() {
+    let sym = SymbolId(5);
+    let mut symbol_table = HashMap::new();
+    symbol_table.insert("data".to_string(), sym);
+    let mut account_field_ids = HashSet::new();
+    account_field_ids.insert(sym);
+
+    let file_path = write_temp_instruction_source(
+        "create_program_address_without_fact",
+        "set_value",
+        "let address = Pubkey::create_program_address(&[key.to_le_bytes().as_ref(), &[bump]], ctx.program_id)?;\nif address != ctx.accounts.data.key() {\nreturn Err(MyError::Invalid.into());\n}",
+    );
+
+    let context = build_context_full(
+        vec![make_field("data")],
+        vec![], // no guard facts
+        symbol_table,
+        account_field_ids,
+        ControlFlowGraph::default(),
+        file_path,
+        "set_value".to_string(),
+    );
+
+    let rule = PdaDerivationRule;
+    let diagnostics = rule.check(&context);
+
+    assert_eq!(
+        diagnostics.len(),
+        1,
+        "Account verified against a create_program_address result with a caller-supplied bump should still produce exactly 1 finding, got: {:?}",
+        diagnostics
+    );
+    assert_eq!(
+        diagnostics[0].severity,
+        RuleSeverity::Critical,
+        "create_program_address verification must NOT be downgraded — it doesn't rule out a forged bump"
+    );
+    assert!(
+        diagnostics[0]
+            .message
+            .contains("without PDA derivation constraint"),
+        "Message should still read as the standard missing-constraint finding: {}",
         diagnostics[0].message
     );
 }
@@ -722,37 +783,39 @@ fn test_mixed_accounts() {
     );
 
     let rule = PdaDerivationRule;
-    let mut diagnostics = rule.check(&context);
+    let diagnostics = rule.check(&context);
 
-    // Expect exactly 2 findings: caller-supplied bump + missing PDA fact
+    // Expect exactly 2 findings: caller-supplied bump + manual-verification
+    // hardening recommendation for "vault" (canonically verified via
+    // find_program_address in the body, so no longer CRITICAL).
     assert_eq!(
         diagnostics.len(),
         2,
-        "Expected 2 findings (caller bump + missing PDA fact), got: {:?}",
+        "Expected 2 findings (caller bump + vault hardening note), got: {:?}",
         diagnostics
     );
 
-    // All findings should be CRITICAL
     for d in &diagnostics {
-        assert_eq!(d.severity, RuleSeverity::Critical);
         assert_eq!(d.rule_id, "EPIC-SEC-PDA");
     }
 
-    // Verify we have one of each type
-    let has_caller_supplied = diagnostics
+    // Verify we have one of each type, at the right severity.
+    let caller_supplied = diagnostics
         .iter()
-        .any(|d| d.message.contains("caller-supplied"));
-    let has_missing_constraint = diagnostics
+        .find(|d| d.message.contains("caller-supplied"));
+    let manual_verification = diagnostics
         .iter()
-        .any(|d| d.message.contains("without PDA derivation constraint"));
+        .find(|d| d.message.contains("find_program_address"));
 
     assert!(
-        has_caller_supplied,
-        "Should have a caller-supplied bump finding"
+        matches!(caller_supplied, Some(d) if d.severity == RuleSeverity::Critical),
+        "Should have a CRITICAL caller-supplied bump finding, got: {:?}",
+        diagnostics
     );
     assert!(
-        has_missing_constraint,
-        "Should have a missing PDA constraint finding"
+        matches!(manual_verification, Some(d) if d.severity == RuleSeverity::Warning),
+        "Should have a Warning-level manual-verification finding for 'vault', got: {:?}",
+        diagnostics
     );
 }
 

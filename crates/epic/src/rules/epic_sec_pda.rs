@@ -402,17 +402,41 @@ impl<'ast> Visit<'ast> for FunctionFinder {
     }
 }
 
-fn is_pda_derivation_call_expr(expr: &syn::Expr) -> bool {
+/// Classifies a PDA-derivation call expression by whether its result is
+/// unconditionally canonical.
+///
+/// `find_program_address` always returns the canonical (highest valid) bump
+/// for its seeds — there is no way to make it return anything else, so any
+/// manual comparison against its output is safe from bump-seed-forgery
+/// regardless of what the caller passes in.
+///
+/// `create_program_address` takes the bump as a plain input and returns
+/// whatever address that (seeds, bump) pair produces — if the bump comes
+/// from caller-controlled data, the "verified" address is just as
+/// attacker-controlled as if there were no check at all. This is exactly the
+/// sealevel-attacks `7-bump-seed-canonicalization` insecure/secure split:
+/// both variants compare a derived address against the account's key, but
+/// only `find_program_address` makes that comparison meaningful.
+///
+/// Returns `Some(true)` for `find_program_address`, `Some(false)` for
+/// `create_program_address`, `None` for anything else.
+fn classify_pda_derivation_call_expr(expr: &syn::Expr) -> Option<bool> {
     match expr {
         syn::Expr::Call(call) => {
             let func = &call.func;
             let func_str = quote::quote!(#func).to_string().replace(' ', "");
-            func_str.contains("find_program_address") || func_str.contains("create_program_address")
+            if func_str.contains("find_program_address") {
+                Some(true)
+            } else if func_str.contains("create_program_address") {
+                Some(false)
+            } else {
+                None
+            }
         }
-        syn::Expr::Try(t) => is_pda_derivation_call_expr(&t.expr),
-        syn::Expr::Paren(p) => is_pda_derivation_call_expr(&p.expr),
-        syn::Expr::Reference(r) => is_pda_derivation_call_expr(&r.expr),
-        _ => false,
+        syn::Expr::Try(t) => classify_pda_derivation_call_expr(&t.expr),
+        syn::Expr::Paren(p) => classify_pda_derivation_call_expr(&p.expr),
+        syn::Expr::Reference(r) => classify_pda_derivation_call_expr(&r.expr),
+        _ => None,
     }
 }
 
@@ -432,15 +456,24 @@ fn collect_pat_idents(pat: &syn::Pat, out: &mut HashSet<String>) {
     }
 }
 
+/// Maps each derivation-result variable name to whether it came from a
+/// canonical derivation call (`find_program_address` → `true`) or not
+/// (`create_program_address` → `false`). A tuple destructure like
+/// `let (address, expected_bump) = Pubkey::find_program_address(...)` marks
+/// every bound identifier with the same classification.
 struct DerivationVarCollector<'a> {
-    vars: &'a mut HashSet<String>,
+    vars: &'a mut HashMap<String, bool>,
 }
 
 impl<'a, 'ast> Visit<'ast> for DerivationVarCollector<'a> {
     fn visit_local(&mut self, local: &'ast syn::Local) {
         if let Some(init) = &local.init {
-            if is_pda_derivation_call_expr(&init.expr) {
-                collect_pat_idents(&local.pat, self.vars);
+            if let Some(is_canonical) = classify_pda_derivation_call_expr(&init.expr) {
+                let mut idents = HashSet::new();
+                collect_pat_idents(&local.pat, &mut idents);
+                for ident in idents {
+                    self.vars.insert(ident, is_canonical);
+                }
             }
         }
         syn::visit::visit_local(self, local);
@@ -490,8 +523,11 @@ fn resolve_syn_key_account(expr: &syn::Expr, ctx_var: &str) -> Option<String> {
     }
 }
 
-fn is_derivation_var(expr: &syn::Expr, vars: &HashSet<String>) -> bool {
-    matches!(expr, syn::Expr::Path(p) if p.path.get_ident().is_some_and(|i| vars.contains(&i.to_string())))
+fn derivation_var_canonicality(expr: &syn::Expr, vars: &HashMap<String, bool>) -> Option<bool> {
+    match expr {
+        syn::Expr::Path(p) => p.path.get_ident().and_then(|i| vars.get(&i.to_string()).copied()),
+        _ => None,
+    }
 }
 
 /// Extracts every `<ident>.key()` receiver name from a space-stripped token
@@ -523,21 +559,29 @@ fn extract_key_call_idents(raw_stripped: &str) -> HashSet<String> {
 }
 
 struct ComparisonCollector<'a> {
-    derivation_vars: &'a HashSet<String>,
+    derivation_vars: &'a HashMap<String, bool>,
     ctx_var: &'a str,
     found: &'a mut HashSet<String>,
+    found_canonical: &'a mut HashSet<String>,
 }
 
 impl<'a> ComparisonCollector<'a> {
+    fn record(&mut self, acct: String, is_canonical: bool) {
+        if is_canonical {
+            self.found_canonical.insert(acct.clone());
+        }
+        self.found.insert(acct);
+    }
+
     fn check_pair(&mut self, a: &syn::Expr, b: &syn::Expr) {
-        if is_derivation_var(a, self.derivation_vars) {
+        if let Some(is_canonical) = derivation_var_canonicality(a, self.derivation_vars) {
             if let Some(acct) = resolve_syn_key_account(b, self.ctx_var) {
-                self.found.insert(acct);
+                self.record(acct, is_canonical);
             }
         }
-        if is_derivation_var(b, self.derivation_vars) {
+        if let Some(is_canonical) = derivation_var_canonicality(b, self.derivation_vars) {
             if let Some(acct) = resolve_syn_key_account(a, self.ctx_var) {
-                self.found.insert(acct);
+                self.record(acct, is_canonical);
             }
         }
     }
@@ -554,12 +598,22 @@ impl<'a, 'ast> Visit<'ast> for ComparisonCollector<'a> {
     fn visit_macro(&mut self, mac: &'ast syn::Macro) {
         let tokens = &mac.tokens;
         let raw = quote::quote!(#tokens).to_string().replace(' ', "");
-        let mentions_derivation_var = self
+        let mentioned: Vec<bool> = self
             .derivation_vars
             .iter()
-            .any(|v| raw.contains(v.as_str()));
-        if mentions_derivation_var {
+            .filter(|(v, _)| raw.contains(v.as_str()))
+            .map(|(_, is_canonical)| *is_canonical)
+            .collect();
+        if !mentioned.is_empty() {
+            // Conservative: only credit this as a canonical check if every
+            // derivation variable named in the macro text is canonical.
+            // Mixing in a `create_program_address` result means the macro
+            // text alone can't tell us this comparison is forgery-safe.
+            let all_canonical = mentioned.iter().all(|c| *c);
             for candidate in extract_key_call_idents(&raw) {
+                if all_canonical {
+                    self.found_canonical.insert(candidate.clone());
+                }
                 self.found.insert(candidate);
             }
         }
@@ -567,18 +621,30 @@ impl<'a, 'ast> Visit<'ast> for ComparisonCollector<'a> {
     }
 }
 
+/// Result of scanning an instruction body for manual PDA verification.
+#[derive(Default)]
+struct ManualPdaVerification {
+    /// Every account whose `.key()` is compared against *some* manually
+    /// derived PDA result — used to widen the sub-check 1 usage gate.
+    all: HashSet<String>,
+    /// The subset verified against a `find_program_address` result
+    /// specifically, which is unconditionally canonical — used to suppress
+    /// or downgrade sub-check 1 for accounts that don't need the macro form.
+    canonical: HashSet<String>,
+}
+
 /// Best-effort scan of the instruction's own source for accounts that are
 /// specifically *verified* against a manually derived PDA — i.e. the account
 /// whose `.key()` is compared against the `find_program_address`/
 /// `create_program_address` result, not merely a seed ingredient. Returns an
-/// empty set if the file can't be read, can't be parsed, or the function
+/// empty result if the file can't be read, can't be parsed, or the function
 /// can't be located; this signal only ever adds detections.
 fn find_program_address_verified_accounts(
     file_path: &str,
     function_name: &str,
     ctx_var: &str,
-) -> HashSet<String> {
-    let mut result = HashSet::new();
+) -> ManualPdaVerification {
+    let mut result = ManualPdaVerification::default();
 
     let content = match std::fs::read_to_string(file_path) {
         Ok(c) => c,
@@ -598,7 +664,7 @@ fn find_program_address_verified_accounts(
         return result;
     };
 
-    let mut derivation_vars = HashSet::new();
+    let mut derivation_vars = HashMap::new();
     {
         let mut collector = DerivationVarCollector {
             vars: &mut derivation_vars,
@@ -614,7 +680,8 @@ fn find_program_address_verified_accounts(
     let mut comparer = ComparisonCollector {
         derivation_vars: &derivation_vars,
         ctx_var,
-        found: &mut result,
+        found: &mut result.all,
+        found_canonical: &mut result.canonical,
     };
     for stmt in &stmts {
         comparer.visit_stmt(stmt);
@@ -632,7 +699,9 @@ fn find_program_address_verified_accounts(
 /// `HashMap` iteration order) so that signal is reproducible across runs,
 /// per the determinism fix in commit bbd9438; the source re-parse is a pure
 /// function of file content, so it is deterministic by construction.
-fn collect_pda_usage_accounts(instruction_context: &InstructionAnalysisContext) -> HashSet<String> {
+fn collect_pda_usage_accounts(
+    instruction_context: &InstructionAnalysisContext,
+) -> (HashSet<String>, HashSet<String>) {
     let cfg = &instruction_context.cfg;
     let ctx_var = instruction_context.context_var_name.as_str();
 
@@ -658,13 +727,14 @@ fn collect_pda_usage_accounts(instruction_context: &InstructionAnalysisContext) 
         }
     }
 
-    used.extend(find_program_address_verified_accounts(
+    let manual = find_program_address_verified_accounts(
         &instruction_context.file_path,
         &instruction_context.name,
         ctx_var,
-    ));
+    );
+    used.extend(manual.all);
 
-    used
+    (used, manual.canonical)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -706,7 +776,8 @@ impl Rule for PdaDerivationRule {
                 .cloned()
                 .unwrap_or_else(|| instruction_context.file_path.clone());
 
-            let pda_usage_accounts = collect_pda_usage_accounts(instruction_context);
+            let (pda_usage_accounts, canonically_verified_accounts) =
+                collect_pda_usage_accounts(instruction_context);
 
             for field in &struct_def.fields {
                 // Gate: only real Anchor account fields.
@@ -731,15 +802,40 @@ impl Rule for PdaDerivationRule {
                 });
 
                 if !has_pda_fact {
+                    // The account is verified elsewhere in the body against a
+                    // `find_program_address` result — that call is
+                    // unconditionally canonical, so account-substitution
+                    // attacks are already ruled out. This is no longer a
+                    // vulnerability, just a style deviation from the
+                    // idiomatic `seeds = [...], bump` declarative form.
+                    let (severity, message) = if canonically_verified_accounts.contains(&field.name)
+                    {
+                        (
+                            RuleSeverity::Warning,
+                            format!(
+                                "Account '{}' is manually verified against a canonical \
+                                 `find_program_address` result rather than declared via \
+                                 `#[account(seeds = [...], bump)]`. This is not a \
+                                 vulnerability, but the declarative form is easier to audit \
+                                 and lets Anchor compute the bump for you.",
+                                field.name
+                            ),
+                        )
+                    } else {
+                        (
+                            RuleSeverity::Critical,
+                            format!(
+                                "Account '{}' declared without PDA derivation constraint. \
+                                 Add `seeds = [...]` and `bump` to the `#[account(...)]` \
+                                 attribute to prevent account substitution attacks.",
+                                field.name
+                            ),
+                        )
+                    };
                     diagnostics.push(RuleDiagnostic {
                         rule_id: self.id().to_string(),
-                        severity: RuleSeverity::Critical,
-                        message: format!(
-                            "Account '{}' declared without PDA derivation constraint. \
-                             Add `seeds = [...]` and `bump` to the `#[account(...)]` \
-                             attribute to prevent account substitution attacks.",
-                            field.name
-                        ),
+                        severity,
+                        message,
                         location: FindingLocation {
                             file: file_path.clone(),
                             line: field.line_number,
