@@ -70,3 +70,42 @@ Not specific to non-Anchor code. Any Anchor program containing a pattern like `S
 
 **Status:**  
 Documented, not fixed. Filed here as a known issue on record rather than left undiscovered. Fixing it requires the authority-like-symbol scan to resolve struct-literal field values back to their source `ctx.accounts.X` expression (the way `resolve_expr`/`resolve_expr_ir` already does for direct references) rather than treating the field *label* itself as a candidate account symbol — not yet scoped or scheduled.
+
+---
+
+### EPIC-SEC-TOKEN: Structural Limitation — No Body Analysis, No Role Awareness
+
+**Behavior:**  
+`EPIC-SEC-TOKEN` never analyzes the instruction handler's function body. It reads only the `#[account(...)]` attribute text on the field declaration itself, `has_one` relationships elsewhere in the same `#[derive(Accounts)]` struct, and existing PDA guard facts. This is a fundamentally different (and narrower) mechanism than `EPIC-SEC-001`/`EPIC-SEC-002`, which at least attempt CFG dominance analysis to find a manual check in the handler body. A manual check on a token account — however rigorous, however clearly it closes the gap — is invisible to `EPIC-SEC-TOKEN` by construction, because it never looks past the struct definition.
+
+`EPIC-SEC-TOKEN` also does not distinguish a token account's *role* in the operation it's declared for. A credit-only account — a deposit source that only ever gives value away, or a mint destination that only ever receives newly-minted tokens — has no attacker-exploitable path that an authority constraint would close, since no one is harmed by an arbitrary correctly-typed account being the recipient. `EPIC-SEC-TOKEN` demands both a mint constraint and an authority constraint uniformly, regardless of role.
+
+**Verification:**  
+Sampled 10 `EPIC-SEC-TOKEN` findings across 4 protocols (mango-v4, marginfi, marinade, orca-whirlpools) with full source review of each flagged account's declaration and its instruction handler:
+- **0 of 10 were true positives.**
+- **6 of 10** had a real, dominating check in the handler body — sometimes an explicit `require!`/`check!` naming the exact invariant (e.g. mango-v4's `serum3_settle_funds.rs`: `require!(quote_bank.vault == accounts.quote_vault.key(), ...)`; marinade's `liquid_unstake.rs`: `check_token_source_account(...)` verifying owner-or-delegate), sometimes protocol-level enforcement from the SPL Token program itself (a `transfer`/`transfer_checked` CPI unconditionally rejects a mismatched mint or an unauthorized signer, independent of anything the calling program checks).
+- **4 of 10** required no constraint at all: the flagged account was a credit-only role (a deposit source such as mango-v4's `token_account` in `token_deposit.rs`, or a mint/fee destination such as marginfi's `destination_account` in `collect_bank_fees.rs` and marinade's `mint_to` in `deposit.rs`) where an authority constraint doesn't correspond to any real risk.
+
+**Impact:**  
+The finding message — *"Token account 'X' missing mint constraint"* / *"missing authority constraint"* / *"missing both mint and authority constraints"* — overstates what the rule actually detects. It reads as "this account is unconstrained and exploitable." What it actually detects is closer to *"this account does not use Anchor's declarative constraint idiom (`token::mint =`, `token::authority =`, `has_one`, etc.)"* — a style/idiom observation, not a vulnerability claim, given the rule has no way to see whether the same guarantee is enforced imperatively or by the SPL Token program itself.
+
+**Status:**  
+Documented, not fixed. `EPIC-SEC-TOKEN` findings should not be read as security findings without independently checking the instruction handler body — this document exists so that check isn't skipped.
+
+---
+
+### EPIC-SEC-TOKEN: Attempted Keyword Fix, Rejected
+
+**The bug:**  
+`epic_sec_token.rs`'s `has_authority` check (lines ~65-74) scans each field's `#[account(...)]` attribute text for the literal substrings `"authority"`, `"key"`, `"vault"` inside a `constraint = ...` clause, but not `"owner"`. This causes a false negative on a genuine, well-formed Anchor constraint: mango-v4's `token_force_withdraw.rs:51`, `constraint = alternate_owner_token_account.owner == account.load()?.owner`, is a real authority check that the rule doesn't recognize because it never looks for `"owner"`.
+
+**The attempted fix:**  
+Adding `"owner"` to the keyword list was implemented, built, and measured against the 5-protocol sweep and the full test suite (72 passed, 0 failed — no regression there). It was then reverted before commit.
+
+**Why it was rejected:**  
+The check is a bare substring match over the *entire* attribute text, not a match against a parsed constraint expression. Anchor constraints reference their own field by name (e.g. `constraint = token_owner_account_a.mint == whirlpool.token_mint_a`) — and orca-whirlpools names several `TokenAccount` fields with `owner` baked into the field name itself (`token_owner_account_a`, `token_owner_account_b`, `reward_owner_account`, `token_owner_account_one_a/b`, `token_owner_account_two_a/b`). Adding `"owner"` to the substring list matched the *field's own name* sitting inside a mint-only constraint, not a genuine `.owner` property comparison — and silently suppressed 18 legitimate "missing authority constraint" findings on orca-whirlpools that had no owner check of any kind. Measured impact: the 5-protocol sweep total dropped from 224 to 206, entirely from this one repo, none of it a real fix.
+
+This also means the fix wasn't even clean on the case it was meant to solve: `alternate_owner_token_account` is itself a field name containing `owner`, so the same ambiguity is latent there too — it happens to produce the right answer for the field it was written for, but the mechanism generating that answer is unsound, not merely narrow.
+
+**Status:**  
+Not fixed, not scheduled. A correct fix requires parsing the constraint expression (e.g. via `syn`) to test for a genuine `.owner` field access on the account being declared, rather than substring-matching the raw attribute text — the same class of fix noted in `docs/` for other rules that currently rely on text heuristics over parsed structure. Given the demonstrated risk of a narrow substring change silently flipping real findings to false negatives at scale, this should not be attempted again without that structural rework in place.
