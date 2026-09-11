@@ -21,7 +21,7 @@ hex = "0.4"
 clap = { version = "4.4", features = ["derive"] }
 colored = "2.0"
 indicatif = "0.17"
-epic-ir = { version = "0.2.0", path = "../epic-ir" }
+epic-ir = { version = "0.3.0", path = "../epic-ir" }
 
 [features]
 default = []

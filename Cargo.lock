@@ -185,7 +185,7 @@ checksum = "34aa73646ffb006b8f5147f3dc182bd4bcb190227ce861fc4a4844bf8e3cb2c0"
 
 [[package]]
 name = "epic"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -204,7 +204,7 @@ dependencies = [
 
 [[package]]
 name = "epic-ir"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "serde",
 ]

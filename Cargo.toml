@@ -6,7 +6,7 @@ members = [
 resolver = "2"
 
 [workspace.package]
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 description = "Semantic static analysis engine for Solana Anchor protocols."
 license = "MIT"

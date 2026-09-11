@@ -18,7 +18,7 @@ pub fn print_banner() {
     );
     println!(
         "{}",
-        "Compiler-grade Semantic Security\nfor Smart Contracts\n\nv0.2.0"
+        "Compiler-grade Semantic Security\nfor Smart Contracts\n\nv0.3.0"
             .bold()
             .cyan()
     );
