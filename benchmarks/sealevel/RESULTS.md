@@ -102,7 +102,10 @@ structurally cannot see this.
 This was not an oversight. Widening the gate from "write" to "any
 privileged use" (reads, call-argument passes, logged references) was
 implemented and measured against all 6 real protocols in this project's
-audit sweep. It fixed both benchmark classes, but at an unacceptable cost:
+audit sweep at the time (mango-v4, marginfi, marinade, metaplex-mpl,
+orca-whirlpools, squads-v4 — metaplex-mpl was later dropped from the
+sweep corpus; see `KNOWN_LIMITATIONS.md`, current corpus is 5 protocols).
+It fixed both benchmark classes, but at an unacceptable cost:
 100+ new findings on real protocol code, the overwhelming majority on
 program IDs, PDAs, and accounts explicitly annotated
 `/// CHECK: safe, arbitrary` by their own authors (e.g. Orca's
