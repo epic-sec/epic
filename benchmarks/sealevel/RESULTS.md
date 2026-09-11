@@ -15,25 +15,43 @@ Legend:
 - **NOT COVERED** — insecure variant not flagged because no rule in EPIC
   targets this vulnerability class at all (not a bug in an existing rule;
   there's nothing to fire).
-- **FALSE POSITIVE** — secure or recommended variant incorrectly flagged.
+- **FALSE POSITIVE** — secure or recommended variant flagged at full
+  (CRITICAL/HIGH) severity for something that isn't actually a
+  vulnerability.
+- **NOT FLAGGED** — the variant produced zero findings from any rule.
+- **FLAGGED — WARNING** — the variant produced a finding, but at a
+  downgraded, non-blocking severity rather than zero findings. This is
+  *not* the same as NOT FLAGGED and is not scored as a clean pass: a
+  reader of EPIC's output still sees an item to review. It is also not
+  scored as a FALSE POSITIVE, since the downgrade is intentional and the
+  underlying manual check genuinely closes the vulnerability — but it
+  means discrimination on that class is partial, not complete.
 
-| # | Class | Rule(s) that apply | insecure | secure | recommended |
+| # | Class | Rule(s) that apply | insecure | secure flag status | recommended flag status |
 |---|-------|---------------------|----------|--------|-------------|
-| 0 | signer-authorization | EPIC-SEC-002 | FALSE NEGATIVE | clean (correct) | clean (correct) |
-| 1 | account-data-matching | *(none)* | NOT COVERED | clean | clean |
-| 2 | owner-checks | EPIC-SEC-001 | FALSE NEGATIVE | clean (correct)† | clean (correct) |
-| 3 | type-cosplay | *(none)* | NOT COVERED | clean | clean |
-| 4 | initialization | *(none)* | NOT COVERED | clean | clean |
-| 5 | arbitrary-cpi | EPIC-SEC-005 | **TRUE POSITIVE** (CRITICAL) | clean (correct) | clean for SEC-005; SEC-TOKEN fires ×2, see note‡ |
-| 6 | duplicate-mutable-accounts | *(none)* | NOT COVERED | clean | clean |
-| 7 | bump-seed-canonicalization | EPIC-SEC-PDA | **TRUE POSITIVE** (CRITICAL) | flagged WARNING, not CRITICAL (correct — see note§) | clean |
-| 8 | pda-sharing | *(none)* | NOT COVERED | clean | clean |
-| 9 | closing-accounts | *(none)* | NOT COVERED (all 5 variants: insecure, insecure-still, insecure-still-still, secure, recommended — all clean) | — | — |
-| 10 | sysvar-address-checking | *(none)* | NOT COVERED | clean | clean |
+| 0 | signer-authorization | EPIC-SEC-002 | FALSE NEGATIVE | NOT FLAGGED (correct) | NOT FLAGGED (correct) |
+| 1 | account-data-matching | *(none)* | NOT COVERED | NOT FLAGGED | NOT FLAGGED |
+| 2 | owner-checks | EPIC-SEC-001 | FALSE NEGATIVE | NOT FLAGGED (correct)† | NOT FLAGGED (correct) |
+| 3 | type-cosplay | *(none)* | NOT COVERED | NOT FLAGGED | NOT FLAGGED |
+| 4 | initialization | *(none)* | NOT COVERED | NOT FLAGGED | NOT FLAGGED |
+| 5 | arbitrary-cpi | EPIC-SEC-005 | **TRUE POSITIVE** (CRITICAL) | NOT FLAGGED (correct) | NOT FLAGGED for SEC-005; SEC-TOKEN fires ×2, see note‡ |
+| 6 | duplicate-mutable-accounts | *(none)* | NOT COVERED | NOT FLAGGED | NOT FLAGGED |
+| 7 | bump-seed-canonicalization | EPIC-SEC-PDA | **TRUE POSITIVE** (CRITICAL) | **FLAGGED — WARNING** (not clean — see note§) | NOT FLAGGED |
+| 8 | pda-sharing | *(none)* | NOT COVERED | NOT FLAGGED | NOT FLAGGED |
+| 9 | closing-accounts | *(none)* | NOT COVERED (all 5 variants: insecure, insecure-still, insecure-still-still, secure, recommended — all NOT FLAGGED) | — | — |
+| 10 | sysvar-address-checking | *(none)* | NOT COVERED | NOT FLAGGED | NOT FLAGGED |
 
-**Score: 2 TRUE POSITIVE / 2 FALSE NEGATIVE / 7 NOT COVERED / 0 FALSE POSITIVE**
-(zero false positives is expected, not impressive — most classes have no
-rule to false-positive with in the first place).
+**Score: 2 TRUE POSITIVE / 2 FALSE NEGATIVE / 7 NOT COVERED / 0 FALSE POSITIVE
+/ 1 FLAGGED — WARNING (class 7's secure variant).**
+Zero full-severity false positives is expected, not impressive — most
+classes have no rule to false-positive with in the first place. The
+FLAGGED — WARNING case is counted on its own line deliberately: it is
+**not** folded into either "0 FALSE POSITIVE" or a clean pass. Full
+discrimination on class 7 is not yet achieved — EPIC correctly tells
+CRITICAL and WARNING apart by which derivation call backs the manual
+check, but the secure variant still produces a finding at all, so a
+reader auditing its output is not shown a fully clean bill of health for
+that fixture.
 
 ## Notes
 
@@ -56,17 +74,22 @@ stays silent on this variant (it uses a typed `Program<'info, Token>` and
 `CpiContext::new`, which is exactly the fix). Whether the SEC-TOKEN finding
 is itself fair is a separate question this benchmark wasn't testing.
 
-**§ Class 7, `secure` variant downgrade is intentional, not a miss.**
-`find_program_address` always returns the canonical bump, so a manual
-`.key()` comparison against its result already rules out account
-substitution regardless of what the caller passes in — there's no
-vulnerability left to flag CRITICAL. EPIC now emits a WARNING-level
-hardening note instead ("declare this with `seeds = [...], bump]` for
-easier auditing"), rather than either staying silent or crying CRITICAL on
-a textbook-correct fix. See the SEC-PDA sub-check 1 fix for the mechanism
-(it also discriminates against `create_program_address`, which does *not*
-get this downgrade, since that call blindly trusts whatever bump it's
-given).
+**§ Class 7, `secure` variant is FLAGGED — WARNING, not a clean pass, and
+that gap is not yet closed.** `find_program_address` always returns the
+canonical bump, so a manual `.key()` comparison against its result already
+rules out account substitution regardless of what the caller passes in —
+there is no vulnerability here to flag CRITICAL. That severity downgrade
+is intentional and correct. What is *not* yet achieved is full
+discrimination: EPIC still emits a WARNING-level hardening note on this
+fixture ("declare this with `seeds = [...], bump]` for easier auditing")
+rather than recognizing the check as fully sufficient and staying silent.
+The rule correctly tells CRITICAL and WARNING apart by which derivation
+call backs the manual check (see the SEC-PDA sub-check 1 fix — it also
+keeps `create_program_address` at CRITICAL, since that call blindly trusts
+whatever bump it's given), but it does not yet go the further step of
+suppressing the WARNING entirely for a canonically-verified account. Until
+that's done, `secure` on this class will keep showing up as "1 finding" in
+EPIC's own output, not zero.
 
 ## The SEC-001 / SEC-002 mutation-gate decision (classes 0 and 2)
 
