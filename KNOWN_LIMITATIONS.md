@@ -39,3 +39,34 @@ Compounding this, Metaplex's naming convention — `AccountInfo` parameters suff
 **Decision:**  
 Dropped from the sweep corpus rather than corrected in place — the results are not representative of EPIC's accuracy on the Anchor programs it targets, and presenting them alongside 5 genuinely-Anchor protocols would overstate or understate accuracy depending on which way the collision cuts. Re-baselined sweep total and per-rule breakdown live in `benchmarks/sealevel/RESULTS.md` and session history; current 5-protocol total should be treated as the reference number going forward, not any prior 6-protocol figure.
 
+---
+
+### EPIC-SEC-001 / EPIC-SEC-002: Struct-Literal Field Name Collision in Authority-Like Symbol Scan
+
+**Behavior:**  
+`EPIC-SEC-001` and `EPIC-SEC-002` both scan for "authority-like" account symbols (names containing `authority`, `admin`, `owner`, `delegate`, etc.) that lack a dominating owner/signer check. That scan matches on bare identifier/field text without distinguishing "a real account symbol referenced from `ctx.accounts.X`" from "an arbitrary struct-literal field label that happens to share the same name."
+
+**Concrete Example** (`metaplex-mpl`, `programs/token-metadata/program/src/processor/burn/burn.rs:104-108`, commit `349e061053c6fc5b6b815e03e896e4db57012893`):
+
+```rust
+// line 57 — the real, dominating signer check:
+assert_signer(ctx.accounts.authority_info)?;
+
+// ...
+
+// lines 104-108 — a struct literal being built for an unrelated helper call:
+let authority_response = AuthorityType::get_authority_type(AuthorityRequest {
+    authority: ctx.accounts.authority_info.key,   // <- struct-literal field name "authority"
+    update_authority: &metadata.update_authority,
+    mint: ctx.accounts.mint_info.key,
+    // ...
+});
+```
+
+The real account is `authority_info`, and it is correctly checked via `assert_signer` before this statement. But EPIC's finding names the flagged account **`authority`** — the label on the left of `:` in the `AuthorityRequest { .. }` literal, not the account referenced on the right of it. Since no account symbol literally named `authority` exists in this instruction's `Context`, the search for a dominating check on `authority` comes up empty, and EPIC reports a spurious CRITICAL finding for an account that isn't real, on top of a real account (`authority_info`) that was checked correctly.
+
+**Impact:**  
+Not specific to non-Anchor code. Any Anchor program containing a pattern like `SomeStruct { authority: ctx.accounts.some_other_field.key(), .. }` — building a struct whose field happens to be named the same as one of the scan's authority-like keywords, populated from a *different* account than the one that name would suggest — would trigger the same false match, independent of whether the account actually being referenced is validated. This was found via the metaplex-mpl corpus-scope investigation above, where it explains the majority (27 of 35) of that repo's `EPIC-SEC-002` findings, but the underlying mechanism is general to both rules and to any codebase using this shape.
+
+**Status:**  
+Documented, not fixed. Filed here as a known issue on record rather than left undiscovered. Fixing it requires the authority-like-symbol scan to resolve struct-literal field values back to their source `ctx.accounts.X` expression (the way `resolve_expr`/`resolve_expr_ir` already does for direct references) rather than treating the field *label* itself as a candidate account symbol — not yet scoped or scheduled.
