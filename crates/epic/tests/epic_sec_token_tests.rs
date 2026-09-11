@@ -1,9 +1,6 @@
-use epic::cfg::{
-    ControlFlowGraph, FactConfidence, FactExpression, FactProvenance, GuardFact, GuardTarget,
-    InstructionAnalysisContext, SymbolId,
-};
+use epic::cfg::{ControlFlowGraph, InstructionAnalysisContext, SymbolId};
 use epic::rules::epic_sec_token::TokenAccountRule;
-use epic::rules::{AnalysisContext, ProgramMetadata, Rule, RuleEngine};
+use epic::rules::{AnalysisContext, ProgramMetadata, Rule};
 use epic::types::{FieldDef, StructDef, TypeDef, TypeRef, TypeRegistry};
 use epic::Workspace;
 use std::collections::HashMap;

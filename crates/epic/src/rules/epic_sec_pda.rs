@@ -525,7 +525,10 @@ fn resolve_syn_key_account(expr: &syn::Expr, ctx_var: &str) -> Option<String> {
 
 fn derivation_var_canonicality(expr: &syn::Expr, vars: &HashMap<String, bool>) -> Option<bool> {
     match expr {
-        syn::Expr::Path(p) => p.path.get_ident().and_then(|i| vars.get(&i.to_string()).copied()),
+        syn::Expr::Path(p) => p
+            .path
+            .get_ident()
+            .and_then(|i| vars.get(&i.to_string()).copied()),
         _ => None,
     }
 }

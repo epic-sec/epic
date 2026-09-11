@@ -8,7 +8,7 @@
 //!      indirected signer seeds, WITHOUT a PDA fact → CRITICAL finding.
 //!      Deliberately named without any "pda" substring (`escrow`, `bank`,
 //!      `vault`) to prove detection is usage-based, not name-based.
-//!   4d. Account passed as a plain CPI argument (not the seeds slot) → no
+//!      4d. Account passed as a plain CPI argument (not the seeds slot) → no
 //!      finding, confirming detection targets the seeds argument specifically.
 //!   5. Normal non-PDA account (never referenced in a PDA call) → no finding.
 
@@ -111,8 +111,10 @@ fn let_stmt(name: &str, initializer: ExpressionNode) -> StatementNode {
 /// A single-node CFG whose entry node contains `statements` — enough for
 /// EPIC-SEC-PDA's usage scan, which does not need real control flow.
 fn single_node_cfg(statements: Vec<StatementNode>) -> ControlFlowGraph {
-    let mut cfg = ControlFlowGraph::default();
-    cfg.entry_node = 0;
+    let mut cfg = ControlFlowGraph {
+        entry_node: 0,
+        ..Default::default()
+    };
     cfg.nodes.insert(
         0,
         CFGNode {
