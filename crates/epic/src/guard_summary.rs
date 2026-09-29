@@ -70,9 +70,6 @@ fn direct_signer_checks(cfg: &ControlFlowGraph) -> HashMap<String, usize> {
         let Some(cond) = &edge.ir_condition else {
             continue;
         };
-        let Some((param_name, expects_signer)) = extract_signer_check_from_ir_expr(cond) else {
-            continue;
-        };
         let Some(sibling_to) = cfg
             .edges
             .iter()
@@ -81,12 +78,14 @@ fn direct_signer_checks(cfg: &ControlFlowGraph) -> HashMap<String, usize> {
         else {
             continue;
         };
-        if expects_signer {
-            if is_terminating_branch(cfg, sibling_to, edge.to) {
-                result.entry(param_name).or_insert(edge.to);
+        for (param_name, expects_signer) in extract_signer_check_from_ir_expr(cond) {
+            if expects_signer {
+                if is_terminating_branch(cfg, sibling_to, edge.to) {
+                    result.entry(param_name).or_insert(edge.to);
+                }
+            } else if is_terminating_branch(cfg, edge.to, sibling_to) {
+                result.entry(param_name).or_insert(sibling_to);
             }
-        } else if is_terminating_branch(cfg, edge.to, sibling_to) {
-            result.entry(param_name).or_insert(sibling_to);
         }
     }
     result

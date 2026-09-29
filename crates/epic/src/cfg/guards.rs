@@ -692,9 +692,41 @@ pub(crate) fn ir_expr_to_string(expr: &epic_ir::IRExpression) -> String {
     }
 }
 
+/// Extracts every signer-check fact directly provable from `expr`, as
+/// `(account, expects_signer)` pairs meaning "when this (sub-)expression is
+/// true, account.is_signer == expects_signer". Callers anchor a guarantee
+/// on whichever physical CFG branch corresponds to `account.is_signer ==
+/// true`, using `expects_signer` to pick the direction and an independent
+/// `is_terminating_branch` check on the real CFG to confirm the other
+/// branch is actually a dead end — so this function only needs to return
+/// pairs that are valid to interpret with that single-operand semantics.
+///
+/// `||`/`&&` are decomposed at the top level, but asymmetrically, because
+/// only one direction of each is sound:
+/// - `if (A || B) { return Err }`: continuing means NEITHER A nor B holds
+///   (De Morgan), so a fact from either operand IS guaranteed — but only
+///   the "expects_signer == false" ones, i.e. operands phrased as a bad
+///   predicate like `!x.is_signer` (true means NOT signer, so false means
+///   signer, which is exactly the shape the early-return-on-true pattern
+///   proves on the continuing branch). An `expects_signer == true` operand
+///   (bare `x.is_signer`) under `||` would need the *true* branch to prove
+///   anything, which `||` never gives you, so those are dropped.
+/// - `if (A && B) { ...continue... } else { return Err }`: continuing
+///   (taking the true branch) means BOTH A and B hold, so any operand's
+///   fact holds too — but only "expects_signer == true" ones, dually to
+///   the `||` case above. Facts with `expects_signer == false` are dropped
+///   since `&&` never proves anything about an individual operand when the
+///   *whole* expression is false (only that at least one operand is
+///   false — not which one).
+///
+/// This filtering is shape-agnostic: it doesn't know which physical branch
+/// is the dead end, so it must be safe regardless of which one it turns
+/// out to be. Dropping the unsound-direction facts before they ever reach
+/// the caller's branch check is what makes that true (see guards.rs /
+/// guard_summary.rs call sites, unchanged).
 pub(crate) fn extract_signer_check_from_ir_expr(
     expr: &epic_ir::IRExpression,
-) -> Option<(String, bool)> {
+) -> Vec<(String, bool)> {
     match expr {
         epic_ir::IRExpression::FieldAccess { object, field } => {
             if field == "is_signer" {
@@ -704,52 +736,63 @@ pub(crate) fn extract_signer_check_from_ir_expr(
                 } else {
                     obj_str
                 };
-                return Some((acc, true));
+                return vec![(acc, true)];
             }
+            vec![]
         }
         epic_ir::IRExpression::BinaryOp { op, lhs, rhs } => {
             if op == "!" {
-                if let Some((acc, expected)) = extract_signer_check_from_ir_expr(lhs) {
-                    return Some((acc, !expected));
+                let inner = extract_signer_check_from_ir_expr(lhs);
+                if let [(acc, expected)] = inner.as_slice() {
+                    return vec![(acc.clone(), !expected)];
                 }
+                vec![]
             } else if op == "==" || op == "!=" {
-                if let Some((acc, base_expected)) = extract_signer_check_from_ir_expr(lhs) {
-                    let val_str = ir_expr_to_string(rhs);
+                let from_side = |side: &epic_ir::IRExpression,
+                                 other: &epic_ir::IRExpression|
+                 -> Vec<(String, bool)> {
+                    let inner = extract_signer_check_from_ir_expr(side);
+                    let [(acc, base_expected)] = inner.as_slice() else {
+                        return vec![];
+                    };
+                    let val_str = ir_expr_to_string(other);
                     let val_bool = if val_str == "true" {
                         true
                     } else if val_str == "false" {
                         false
                     } else {
-                        return None;
+                        return vec![];
                     };
                     let final_expected = if op == "==" {
-                        val_bool == base_expected
+                        val_bool == *base_expected
                     } else {
-                        val_bool != base_expected
+                        val_bool != *base_expected
                     };
-                    return Some((acc, final_expected));
+                    vec![(acc.clone(), final_expected)]
+                };
+                let from_lhs = from_side(lhs, rhs);
+                if !from_lhs.is_empty() {
+                    return from_lhs;
                 }
-                if let Some((acc, base_expected)) = extract_signer_check_from_ir_expr(rhs) {
-                    let val_str = ir_expr_to_string(lhs);
-                    let val_bool = if val_str == "true" {
-                        true
-                    } else if val_str == "false" {
-                        false
-                    } else {
-                        return None;
-                    };
-                    let final_expected = if op == "==" {
-                        val_bool == base_expected
-                    } else {
-                        val_bool != base_expected
-                    };
-                    return Some((acc, final_expected));
-                }
+                from_side(rhs, lhs)
+            } else if op == "||" {
+                extract_signer_check_from_ir_expr(lhs)
+                    .into_iter()
+                    .chain(extract_signer_check_from_ir_expr(rhs))
+                    .filter(|(_, expects_signer)| !expects_signer)
+                    .collect()
+            } else if op == "&&" {
+                extract_signer_check_from_ir_expr(lhs)
+                    .into_iter()
+                    .chain(extract_signer_check_from_ir_expr(rhs))
+                    .filter(|(_, expects_signer)| *expects_signer)
+                    .collect()
+            } else {
+                vec![]
             }
         }
-        _ => {}
+        _ => vec![],
     }
-    None
 }
 
 pub fn extract_imperative_checks_ir(
@@ -821,7 +864,7 @@ pub fn extract_imperative_checks_ir(
                 }
             }
 
-            if let Some((acc_name, is_signer)) = extract_signer_check_from_ir_expr(cond) {
+            for (acc_name, is_signer) in extract_signer_check_from_ir_expr(cond) {
                 if let Some(&symbol_id) = symbol_table.get(&acc_name) {
                     let target_acc = GuardTarget::Account(symbol_id);
                     let else_node_opt = cfg
