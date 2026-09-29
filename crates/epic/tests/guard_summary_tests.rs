@@ -109,31 +109,28 @@ fn test_depth_limit_blocks_propagation_past_three_hops() {
     );
 }
 
-/// KNOWN LIMITATION, demonstrated rather than just described: a plain
-/// hand-written `if !cond { return Err(..); }` is semantically identical to
-/// summary-unconditional's require!()-based check, but the CFG builder only
-/// tags require!/assert!/`?`-desugared branches `is_early_return` - a plain
-/// `if`'s branches never get that tag. So this check's Err-only exit is not
-/// excluded from "exits the check must dominate," and this real, correct
-/// check under-claims as "no guarantee." This is the conservative direction
-/// (a false "unguaranteed" rather than a false "guaranteed"), and it is the
-/// verified reason two real functions - orca-whirlpools's
-/// util/shared.rs::validate_owner and marginfi's
-/// test_transfer_hook::process - produced empty summaries in the 5-repo
-/// survey despite containing genuine, unconditional signer checks.
+/// FIXED, was a known limitation: a plain hand-written `if !cond {
+/// return Err(..); }` is semantically identical to summary-unconditional's
+/// require!()-based check. The CFG builder now recognizes this shape
+/// structurally (`block_always_returns_err` in builder.rs) and tags the
+/// branch `is_early_return`, independent of which macro (if any) produced
+/// it - so it's excluded from "exits the check must dominate" exactly like
+/// a require!/assert!-desugared branch. This was the verified reason two
+/// real functions - orca-whirlpools's util/shared.rs::validate_owner and
+/// marginfi's test_transfer_hook::process - produced empty summaries in the
+/// 5-repo survey despite containing genuine, unconditional signer checks;
+/// both are covered by the dedicated real-repo tests below.
 #[test]
-fn test_handwritten_if_return_err_is_a_known_underclaim() {
+fn test_handwritten_if_return_err_is_now_recognized() {
     let graph = build_call_graph(&fixture_path("summary-handwritten-if"));
     let id = function_named(&graph, "::validate").to_string();
     let mut computer = SummaryComputer::new(&graph);
     let summary = computer.summary_for(&id);
     assert!(
-        summary.is_empty(),
-        "documenting the current (conservative, not incorrect) behavior: \
-         plain `if {{ return Err }}` is not yet recognized as an early-return \
-         shape, so this should still be empty. If this now passes, the gap \
-         described above has been closed - update this test's assertion \
-         and its doc comment rather than deleting it, got: {:?}",
+        summary.contains("account"),
+        "if !cond {{ return Err(..); }} should now be recognized as an \
+         early return, making this an unconditional check on every \
+         Ok-returning path, got: {:?}",
         summary
     );
 }

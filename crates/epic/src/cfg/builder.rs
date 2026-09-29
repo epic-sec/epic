@@ -117,15 +117,43 @@ impl CFGBuilder {
                             expr_if.span().start().line
                         };
 
+                        // A hand-written `if cond { return Err(..); }` is
+                        // semantically identical to what require!/assert!
+                        // desugar to (see guard_macro_condition_node below) -
+                        // recognize it by structure, independent of which
+                        // branch (then or else) or which condition polarity
+                        // is the bail-out, so dominance/guard-summary
+                        // analysis sees a hand-written early return exactly
+                        // like a macro-desugared one.
+                        let then_is_early_return =
+                            block_always_returns_err(&expr_if.then_branch.stmts);
+                        let else_is_early_return = match &expr_if.else_branch {
+                            Some((_, else_expr)) => match &**else_expr {
+                                syn::Expr::Block(expr_block) => {
+                                    block_always_returns_err(&expr_block.block.stmts)
+                                }
+                                // else-if chains aren't recursively analyzed
+                                // for this - conservatively not proven.
+                                _ => false,
+                            },
+                            None => false,
+                        };
+
                         // Branch edges
                         self.add_edge(
                             current_node,
                             then_node,
                             Some(cond.clone()),
-                            false,
+                            then_is_early_return,
                             Some(branch_line),
                         );
-                        self.add_edge(current_node, else_node, None, false, Some(branch_line));
+                        self.add_edge(
+                            current_node,
+                            else_node,
+                            None,
+                            else_is_early_return,
+                            Some(branch_line),
+                        );
 
                         // Compile then block
                         let then_end =
@@ -438,6 +466,37 @@ pub fn is_terminating_expr(expr: &syn::Expr) -> bool {
 /// callers can fall back to treating the statement as an ordinary flat
 /// (non-branching) call — this function can only ever add a branch that
 /// wasn't there before, never remove information.
+/// Returns true when `stmts`'s LAST statement unconditionally returns
+/// `Err(..)` (`return Err(x)`, `return Err(x.into())`, or `return err!(x)`).
+/// Earlier statements (e.g. a `msg!(...)` log before the return) are not
+/// otherwise inspected — only the block's final, unconditional exit
+/// matters. Anything more complex than a plain trailing return (a nested
+/// branch as the last statement, a bare `return;`, a value other than
+/// `Err`) is conservatively NOT recognized: an under-claim, never an
+/// over-claim, matching every other check in this module.
+fn block_always_returns_err(stmts: &[syn::Stmt]) -> bool {
+    match stmts.last() {
+        Some(syn::Stmt::Expr(syn::Expr::Return(ret), _)) => {
+            ret.expr.as_deref().is_some_and(is_err_constructing_expr)
+        }
+        _ => false,
+    }
+}
+
+fn is_err_constructing_expr(expr: &syn::Expr) -> bool {
+    match expr {
+        // Err(x) / Err(x.into())
+        syn::Expr::Call(call) => matches!(
+            &*call.func,
+            syn::Expr::Path(p) if p.path.segments.last().is_some_and(|s| s.ident == "Err")
+        ),
+        // err!(x) used as the returned value: `return err!(x);`
+        syn::Expr::Macro(m) => m.mac.path.segments.last().is_some_and(|s| s.ident == "err"),
+        syn::Expr::Paren(p) => is_err_constructing_expr(&p.expr),
+        _ => false,
+    }
+}
+
 fn guard_macro_condition_node(mac: &syn::Macro) -> Option<ExpressionNode> {
     let name = mac.path.segments.last()?.ident.to_string();
 
