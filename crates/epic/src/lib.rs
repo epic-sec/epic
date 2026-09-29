@@ -10,6 +10,7 @@
 pub mod abi;
 pub mod ast;
 pub mod audit;
+pub mod callgraph;
 pub mod cfg;
 pub mod impact;
 pub mod ir_converter;
