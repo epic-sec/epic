@@ -12,6 +12,7 @@ pub mod ast;
 pub mod audit;
 pub mod callgraph;
 pub mod cfg;
+pub mod guard_summary;
 pub mod impact;
 pub mod ir_converter;
 pub mod layout;

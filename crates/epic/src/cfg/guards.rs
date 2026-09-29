@@ -616,7 +616,7 @@ pub fn extract_guards_from_accounts_struct(
 
 use std::collections::HashSet;
 
-fn is_terminating_branch(
+pub(crate) fn is_terminating_branch(
     cfg: &crate::cfg::ControlFlowGraph,
     start_node: usize,
     escape_node: usize,
@@ -692,7 +692,9 @@ fn ir_expr_to_string(expr: &epic_ir::IRExpression) -> String {
     }
 }
 
-fn extract_signer_check_from_ir_expr(expr: &epic_ir::IRExpression) -> Option<(String, bool)> {
+pub(crate) fn extract_signer_check_from_ir_expr(
+    expr: &epic_ir::IRExpression,
+) -> Option<(String, bool)> {
     match expr {
         epic_ir::IRExpression::FieldAccess { object, field } => {
             if field == "is_signer" {
