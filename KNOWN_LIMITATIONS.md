@@ -109,3 +109,34 @@ This also means the fix wasn't even clean on the case it was meant to solve: `al
 
 **Status:**  
 Not fixed, not scheduled. A correct fix requires parsing the constraint expression (e.g. via `syn`) to test for a genuine `.owner` field access on the account being declared, rather than substring-matching the raw attribute text — the same class of fix noted in `docs/` for other rules that currently rely on text heuristics over parsed structure. Given the demonstrated risk of a narrow substring change silently flipping real findings to false negatives at scale, this should not be attempted again without that structural rework in place.
+
+---
+
+### Architectural Finding: Signer-Check Dominance Is Mostly Redundant With Anchor's Type System
+
+**The finding:**  
+Interprocedural dominance analysis for signer checks (`EPIC-SEC-002`'s core mechanism, extended across three build stages — call graph, guard summaries, caller-CFG wiring) has real, measured payoff against the sealevel-attacks benchmark's synthetic cases, but essentially zero incremental payoff against real production Anchor code. The reason: Anchor's `Signer<'info>` account type already gives the same guarantee declaratively, for free, at parse time — no CFG, no dominance, no interprocedural reasoning required. Imperative signer checks worth tracing across function boundaries are rare in idiomatic Anchor code specifically *because* the type system already covers the common case. Where they do show up, it tends to be in code that has a reason to step outside the Anchor idiom (a native-style entrypoint, a shared helper written before/around the type system's guarantee) — and even then, the account in question is often *also* covered declaratively, making the imperative check and the interprocedural fact both correct and both redundant.
+
+**Four measurements, in the order they were made:**
+
+1. **Stage 2 summary survey (5 repos, before the `is_early_return` fix):** 14 raw `.is_signer` occurrences across mango-v4, marginfi, marinade, orca-whirlpools, and squads-v4, but 0 non-empty guard summaries — i.e. 0 functions where an imperative signer check could be proven to dominate every exit. After fixing a real CFG gap (hand-written `if cond { return Err }` not tagged as an early return), that number moved to exactly 2, both in marginfi's `test_transfer_hook` program.
+
+2. **Stage 3 wiring, first 5-repo sweep:** those 2 non-empty summaries' only caller, in the entire corpus, was `test_transfer_hook::process` — a native `fn process(program_id: &Pubkey, accounts: &[AccountInfo], ...)` entrypoint, not an Anchor `Context<T>` handler. It exists outside the Anchor idiom precisely because it has no `Signer<'info>` to declare in the first place. SEC-002 total across all 5 repos: unchanged (65 before, 65 after Stage 3 wiring went live).
+
+3. **`||`/`&&` decomposition fix, second 5-repo sweep:** surfaced a third non-empty summary, orca-whirlpools's `util/shared.rs::validate_owner` — a genuine imperative signer check in a genuine Anchor program. Its one directly-reachable call site (`transfer_locked_position.rs::handler`, called unconditionally) turned out to pass `position_authority`, which is declared `Signer<'info>` in the `Accounts` struct — already provably safe by the existing declarative path before any of this session's work existed. The new interprocedural fact was correct and changed nothing: SEC-002 total unchanged again, byte-identical output before/after.
+
+4. **Sealevel scorecard, class 0 (`signer-authorization`):** the benchmark's own synthetic "insecure" fixture had to reach for a bare `AccountInfo` with no `Signer<'info>` wrapper and a hand-rolled `.is_signer` read to construct a missing-signer-check scenario at all — and even that fixture is a false negative for an unrelated reason (SEC-002's write-only mutation gate doesn't trigger on a read-only misuse, see the note above in this file). The benchmark couldn't find a *write-triggering* gap in the declarative-Signer idiom to exploit; it had to step outside that idiom entirely.
+
+**Why this happened:**  
+`Signer<'info>` is a static, structural guarantee checked by Anchor's own macro-generated deserialization code before the handler body ever runs. A CFG/dominance approach re-derives, at much greater engineering cost (three build stages, ~400 lines, a call graph, bottom-up summarization, conservative depth/recursion handling), a guarantee the type system already gives for zero cost when the account is declared correctly. The three build stages were not wasted — the mechanism is sound, verified via fixtures, and does the right thing when it applies — there just isn't much surface area left for it to apply to in code that already uses Anchor idiomatically.
+
+**Where the payoff actually is:**  
+The account-safety properties Anchor's type system does *not* give you for free are exactly the ones with no declarative equivalent:
+- **Discriminator/type confusion** (`EPIC-SEC-004`-adjacent territory) — Anchor's `Account<'info, T>` checks the discriminator, but hand-rolled `AccountLoader`/zero-copy paths and cross-program account aliasing are not covered by any attribute.
+- **Arithmetic correctness** (overflow/underflow/precision loss in balance and share-price math) — no Anchor type expresses "this multiplication won't overflow" or "this division order avoids precision loss."
+- **Post-CPI staleness** (`EPIC-SEC-003`'s territory) — whether cached account data was re-read after a CPI that could have reloaded/mutated it underneath the caller. No type-level annotation exists for "this reference might now be stale."
+
+None of these have a `Signer<'info>`-equivalent shortcut. A handler can be entirely correct about signers and owners via the type system alone and still be exploitable through any of the three above — which is exactly the gap dominance analysis *can't* close by being pointed at signer checks harder, but where the same interprocedural machinery (call graph + summaries + wiring) built for this feature would have a real, non-redundant target if retargeted at one of these properties instead.
+
+**Status:**  
+Not a bug — the interprocedural guard analysis feature works as built and is kept (correct beats redundant). This is a note for scoping the *next* build: further investment in signer-check dominance specifically has a demonstrated low ceiling against real Anchor code; the same machinery pointed at discriminator confusion, arithmetic, or post-CPI staleness has not been tried and has no declarative-type-system shortcut competing with it.
