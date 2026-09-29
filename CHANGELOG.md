@@ -4,6 +4,30 @@ All notable changes to the EPIC project will be documented in this file. This pr
 
 ---
 
+## [0.4.0] - 2026-09-29
+
+This release changes finding output for `EPIC-SEC-002` and SARIF output in
+general. If anything downstream parses SARIF `results[]` and doesn't expect
+an optional `codeFlows` key, or inspects `EPIC-SEC-002` diagnostics and
+doesn't expect the new `witness` field, check compatibility before upgrading
+an automated pipeline.
+
+### Added
+*   **Witness paths for `EPIC-SEC-002` dominance findings.** A finding used to be an unproven assertion — "privileged write lacks signer verification." It now carries the concrete proof: the check that was found (if any) and a control-flow path from function entry to the flagged write that bypasses it. `RuleDiagnostic` gained a `witness: Option<Witness>` field (`None` for every other rule; this release does not extend witnesses beyond SEC-002).
+*   Three distinct cases, no longer collapsed into one boolean: **Dominates** (nothing to report), **Bypassed** (a signer check exists somewhere in the function but does not dominate the flagged write — witness attached, showing the check's location and the bypassing path), **NotFound** (no signer check anywhere in the function — reported as `witness.check: None`, no fabricated path).
+*   **SARIF `codeFlows`/`threadFlows`** on any finding that carries a witness path — a real structured flow entry, not text appended to the message.
+*   `CFGEdge` gained a `line: Option<usize>` field (source line of the branch/early-return statement), the one piece of CFG provenance the witness feature needed that didn't already exist. Populated at every real branch site (`if`, `?`-propagation, `require!`/`assert!`-family desugar) and left `None` on structural merge edges.
+
+### Measured, reported honestly
+*   Across the 5-protocol sweep corpus, all 65 `EPIC-SEC-002` findings are `NotFound` cases — zero currently carry a witness. Independently corroborated: zero `require!`/`assert!(...is_signer...)` calls exist anywhere in the corpus. The witness machinery is verified correct against the synthetic `dominance-bypass`/`dominance-safe` fixture pair (purpose-built to exercise the `Bypassed` case) and against SARIF's `codeFlows` schema, but production code hasn't yet produced a first real `Bypassed` finding to point to. Also checked the 35-variant sealevel-attacks benchmark corpus: `EPIC-SEC-002` doesn't fire there at all (a pre-existing, documented gap — the benchmark's signer-authorization fixture never writes anything, only logs), so it offers no witness example either.
+*   Sweep total unchanged at 224; benchmark scorecard byte-identical to 0.3.0 — this release is additive to SEC-002's output shape, not a detection change.
+
+### Fixed
+*   `crates/epic/src/sarif.rs`'s `semanticVersion` field was hardcoded to `"0.2.0"` and had silently gone stale through the 0.3.0 release. Now derived from `env!("CARGO_PKG_VERSION")` at compile time so this can't recur.
+*   Updated the `solana-epic` → `epic-sec` GitHub org rename across `git remote`, the workspace `Cargo.toml` `repository` field, README/CONTRIBUTING/install docs, GitHub Actions `uses:` references, and the SARIF `informationUri`. Deliberately left the `@solana-epic` npm scope and `security@solana-epic.org` contact email untouched — different namespaces a GitHub org rename doesn't move on its own, and the former lives only in dead scripts from the abandoned npm release pipeline.
+
+---
+
 ## [0.3.0] - 2026-09-11
 
 This release changes finding output. If you have anything depending on exact
