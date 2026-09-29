@@ -125,7 +125,7 @@ pub fn generate_sarif(diagnostics: &[RuleDiagnostic]) -> String {
                 "tool": {
                     "driver": {
                         "name": "EPIC Engine",
-                        "informationUri": "https://github.com/solana-epic/epic",
+                        "informationUri": "https://github.com/epic-sec/epic",
                         "semanticVersion": "0.2.0",
                         "rules": rules
                     }

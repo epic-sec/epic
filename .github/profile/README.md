@@ -30,8 +30,8 @@ npm install -g @solana-epic/cli
 
 ## Repositories
 
-*   **[epic](https://github.com/solana-epic/epic)** — Core CLI, compiler-model layout diffing engine, and GitHub Action integration.
-*   **[epic-web](https://github.com/solana-epic/epic-web)** — Dashboard interface for tracking upgrade history and deployment readiness metrics.
+*   **[epic](https://github.com/epic-sec/epic)** — Core CLI, compiler-model layout diffing engine, and GitHub Action integration.
+*   **[epic-web](https://github.com/epic-sec/epic-web)** — Dashboard interface for tracking upgrade history and deployment readiness metrics.
 
 ## Roadmap
 

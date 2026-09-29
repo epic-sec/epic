@@ -6,9 +6,9 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@solana-epic/cli"><img src="https://img.shields.io/npm/v/@solana-epic/cli/beta.svg?style=flat-square&color=blue" alt="npm version" /></a>
-  <a href="https://github.com/solana-epic/epic/releases"><img src="https://img.shields.io/github/v/release/solana-epic/epic.svg?include_prereleases&style=flat-square&color=orange" alt="GitHub release" /></a>
-  <a href="https://github.com/solana-epic/epic/actions"><img src="https://img.shields.io/github/actions/workflow/status/solana-epic/epic/test.yml?branch=main&style=flat-square" alt="GitHub Actions status" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/solana-epic/epic.svg?style=flat-square" alt="license" /></a>
+  <a href="https://github.com/epic-sec/epic/releases"><img src="https://img.shields.io/github/v/release/epic-sec/epic.svg?include_prereleases&style=flat-square&color=orange" alt="GitHub release" /></a>
+  <a href="https://github.com/epic-sec/epic/actions"><img src="https://img.shields.io/github/actions/workflow/status/epic-sec/epic/test.yml?branch=main&style=flat-square" alt="GitHub Actions status" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/epic-sec/epic.svg?style=flat-square" alt="license" /></a>
 </p>
 
 ---
@@ -190,7 +190,7 @@ jobs:
           path: new
 
       - name: EPIC Upgrade Check
-        uses: solana-epic/epic/github-action@main
+        uses: epic-sec/epic/github-action@main
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           old_path: ./old

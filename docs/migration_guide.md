@@ -56,7 +56,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run EPIC
-        uses: solana-epic/epic/github-action@main
+        uses: epic-sec/epic/github-action@main
         with:
           path: '.'
           format: 'sarif'

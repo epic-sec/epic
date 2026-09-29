@@ -26,7 +26,7 @@ Before you start, make sure you have installed:
 Clone the repository and install all node dependencies. We use npm workspaces to manage monorepo packages:
 
 ```bash
-git clone https://github.com/solana-epic/epic.git
+git clone https://github.com/epic-sec/epic.git
 cd epic
 
 # Install monorepo dependencies and link local workspaces

@@ -20,7 +20,7 @@ Extract the binary and place it in your `$PATH`.
 
 ## Option 3: Build from Source
 ```bash
-git clone https://github.com/solana-epic/epic.git
+git clone https://github.com/epic-sec/epic.git
 cd epic
 cargo install --path crates/epic
 ```

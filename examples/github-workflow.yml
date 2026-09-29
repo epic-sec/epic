@@ -26,7 +26,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: EPIC Upgrade Check
-        uses: solana-epic/epic/github-action@main
+        uses: epic-sec/epic/github-action@main
         with:
           old_path: src-old
           new_path: src-new
