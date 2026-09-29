@@ -672,7 +672,7 @@ fn get_account_from_owner_field_ir(expr: &epic_ir::IRExpression) -> Option<Strin
     None
 }
 
-fn ir_expr_to_string(expr: &epic_ir::IRExpression) -> String {
+pub(crate) fn ir_expr_to_string(expr: &epic_ir::IRExpression) -> String {
     match expr {
         epic_ir::IRExpression::Variable(name) => name.clone(),
         epic_ir::IRExpression::Literal(val) => val.clone(),

@@ -14,6 +14,7 @@ pub mod callgraph;
 pub mod cfg;
 pub mod guard_summary;
 pub mod impact;
+pub mod interprocedural_guards;
 pub mod ir_converter;
 pub mod layout;
 pub mod report;

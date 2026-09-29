@@ -592,7 +592,9 @@ impl SignerValidationRule {
 
 /// Finds the branching predecessor of `check_node` and renders the check
 /// that led to it: the raw `require!`/`assert!` text when the branch came
-/// from a guard macro, otherwise the branch condition itself.
+/// from a guard macro, the branch condition when one exists, otherwise (a
+/// guard established by a `?`-checkpointed call, which has neither) the
+/// call statement living at `check_node` itself.
 fn render_check(cfg: &crate::cfg::ControlFlowGraph, check_node: usize) -> Option<WitnessCheck> {
     let branch_node = cfg.edges.iter().find(|e| e.to == check_node)?.from;
     let node = cfg.nodes.get(&branch_node)?;
@@ -606,14 +608,70 @@ fn render_check(cfg: &crate::cfg::ControlFlowGraph, check_node: usize) -> Option
         }
     }
 
-    let cond_edge = cfg
+    if let Some(cond_edge) = cfg
         .edges
         .iter()
-        .find(|e| e.from == branch_node && e.condition.is_some())?;
-    Some(WitnessCheck {
-        line: cond_edge.line.unwrap_or(0),
-        text: expr_to_string(cond_edge.condition.as_ref().unwrap()),
+        .find(|e| e.from == branch_node && e.condition.is_some())
+    {
+        return Some(WitnessCheck {
+            line: cond_edge.line.unwrap_or(0),
+            text: expr_to_string(cond_edge.condition.as_ref().unwrap()),
+        });
+    }
+
+    render_call_statement(cfg, check_node)
+}
+
+/// Renders the call expression of the (guard-summary-backed) statement
+/// living at `check_node`, e.g. `validate(ctx.accounts.authority)`. Used
+/// when the guard came from a `?`-checkpointed function call rather than a
+/// `require!`/`if` branch, so there is no condition text to fall back on.
+fn render_call_statement(
+    cfg: &crate::cfg::ControlFlowGraph,
+    check_node: usize,
+) -> Option<WitnessCheck> {
+    let node = cfg.nodes.get(&check_node)?;
+    node.statements.iter().find_map(|stmt| {
+        let expr = match &stmt.kind {
+            StatementKind::Expr(expr) | StatementKind::Semi(expr) => expr,
+            _ => return None,
+        };
+        let text = render_call_expr(expr)?;
+        Some(WitnessCheck {
+            line: stmt.line_number,
+            text,
+        })
     })
+}
+
+/// Unwraps `?`/`&`/`*` and renders a bare function or method call as
+/// `name(args)` / `object.name(args)`. Returns `None` for anything else.
+fn render_call_expr(expr: &ExpressionNode) -> Option<String> {
+    match &expr.kind {
+        ExpressionKind::Try(inner)
+        | ExpressionKind::Reference {
+            expression: inner, ..
+        }
+        | ExpressionKind::Dereference(inner) => render_call_expr(inner),
+        ExpressionKind::MethodCall {
+            object,
+            method,
+            arguments,
+        } => {
+            let args = arguments
+                .iter()
+                .map(expr_to_string)
+                .collect::<Vec<_>>()
+                .join(", ");
+            match &object.kind {
+                // A bare function call, e.g. `validate(x)`, is lowered with
+                // an `Unresolved` receiver — render it without the `.`.
+                ExpressionKind::Unresolved => Some(format!("{}({})", method, args)),
+                _ => Some(format!("{}.{}({})", expr_to_string(object), method, args)),
+            }
+        }
+        _ => None,
+    }
 }
 
 /// Renders a node-id path (from `find_bypassing_path`) into human-readable

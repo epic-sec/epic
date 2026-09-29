@@ -1,10 +1,13 @@
 use crate::ast::ParameterNode;
+use crate::callgraph::build_call_graph;
 use crate::cfg::guards::{
     extract_guards_from_accounts_struct, extract_imperative_checks_ir, FactProvenance, GuardFact,
     InstructionAnalysisContext, SymbolId,
 };
 use crate::cfg::ssa::SSAComputer;
 use crate::cfg::CFGBuilder;
+use crate::guard_summary::SummaryComputer;
+use crate::interprocedural_guards::extract_interprocedural_guards;
 use crate::rules::{AnalysisContext, ProgramMetadata, RuleDiagnostic, RuleEngine};
 use crate::types::{StructDef, TypeDef, TypeRef, TypeRegistry};
 use crate::Workspace;
@@ -359,6 +362,13 @@ pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
     let mut rule_engine = RuleEngine::new();
     crate::rules::register_standard_rules(&mut rule_engine);
 
+    // Interprocedural guard analysis (stages 1-3): a crate-wide call graph,
+    // built once and reused across every instruction handler below, plus a
+    // single memoized SummaryComputer so each function's guard summary is
+    // computed at most once regardless of how many callers ask for it.
+    let call_graph = build_call_graph(root_path);
+    let mut summary_computer = SummaryComputer::new(&call_graph);
+
     fn collect_let_variables(stmts: &[syn::Stmt], vars: &mut Vec<String>) {
         for stmt in stmts {
             match stmt {
@@ -449,6 +459,21 @@ pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
                 extract_imperative_checks_ir(&cfg, &symbol_table, &raw_fn.file_path);
 
             guard_facts.append(&mut ir_imperative_facts);
+
+            // Interprocedural guards (stage 3): a call from this handler to
+            // a function with a non-empty guard summary becomes a
+            // GuardFact::Signer here, in the exact same shape a
+            // require!-derived fact already takes.
+            let caller_id = format!("{}::{}", raw_fn.file_path, raw_fn.name);
+            let mut interprocedural_facts = extract_interprocedural_guards(
+                &caller_id,
+                &cfg,
+                &call_graph,
+                &mut summary_computer,
+                &symbol_table,
+                &raw_fn.file_path,
+            );
+            guard_facts.append(&mut interprocedural_facts);
 
             // Compute SSA-lite variables and infer type propagation
             let mut ssa_computer = SSAComputer::new(&workspace.registry, &cfg);
