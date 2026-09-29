@@ -111,6 +111,31 @@ pub fn print_diagnostics_report(path: &str, diagnostics: &[RuleDiagnostic]) {
                 diag.location.line.to_string().yellow(),
                 diag.location.column.to_string().yellow()
             );
+
+            if let Some(witness) = &diag.witness {
+                match &witness.check {
+                    Some(check) => {
+                        println!();
+                        println!(
+                            "        Check found at:  {}:{}  {}",
+                            diag.location.file.cyan(),
+                            check.line.to_string().yellow(),
+                            check.text
+                        );
+                        let path = witness
+                            .path
+                            .iter()
+                            .map(|s| s.label.as_str())
+                            .collect::<Vec<_>>()
+                            .join(" → ");
+                        println!("        Bypassing path:  {}", path);
+                    }
+                    None => {
+                        println!();
+                        println!("        Check found at:  no signer check found in this function");
+                    }
+                }
+            }
         }
     }
     println!();

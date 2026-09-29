@@ -1,17 +1,28 @@
 use crate::ast::{
-    ExpressionKind, InferenceResult, InferenceScope, StatementKind, StatementNode,
+    ExpressionKind, ExpressionNode, InferenceResult, InferenceScope, StatementKind, StatementNode,
     TypeInferenceEngine,
 };
 use crate::cfg::guards::{FactConfidence, GuardFact, InstructionAnalysisContext, SymbolId};
 use crate::cfg::ssa::{SSANodeState, SSAVariable};
 use crate::rules::{
-    AnalysisContext, DominanceChecker, FindingLocation, Rule, RuleDiagnostic, RuleSeverity,
-    SymbolResolver,
+    find_bypassing_path, AnalysisContext, DominanceChecker, FindingLocation, Rule, RuleDiagnostic,
+    RuleSeverity, SymbolResolver, Witness, WitnessCheck, WitnessStep,
 };
 use crate::types::TypeRegistry;
 use std::collections::HashMap;
 
 pub struct SignerValidationRule;
+
+/// What `find_signer_check` found for a given authority-like symbol.
+enum SignerCheckResult {
+    /// A signer check exists and dominates the flagged location — nothing to report.
+    Dominates,
+    /// A signer check exists somewhere in the function but does not dominate
+    /// the flagged location. Carries the check's own CFG node.
+    Bypassed { check_node: usize },
+    /// No signer check for this account was found anywhere in the function.
+    NotFound,
+}
 
 impl Rule for SignerValidationRule {
     fn id(&self) -> &'static str {
@@ -278,7 +289,11 @@ impl SignerValidationRule {
         sym
     }
 
-    fn has_dominating_signer_check(
+    /// Looks for a `GuardFact::Signer` for `sym` and classifies what it finds:
+    /// a dominating check (nothing to report), a check that exists but does
+    /// not dominate `node_id`/`stmt_idx` (witness needed), or no check at all
+    /// (no witness to show).
+    fn find_signer_check(
         &self,
         sym: SymbolId,
         node_id: usize,
@@ -286,25 +301,31 @@ impl SignerValidationRule {
         context: &InstructionAnalysisContext,
         dom_checker: &DominanceChecker,
         parent_map: &HashMap<SymbolId, SymbolId>,
-    ) -> bool {
-        context.guard_facts.iter().any(|(fact, prov)| {
+    ) -> SignerCheckResult {
+        let mut bypassed = None;
+        for (fact, prov) in &context.guard_facts {
             if let GuardFact::Signer(account) = fact {
                 if let Some(acc_sym) = account.symbol_id() {
                     let root_acc_sym = self.trace_to_root(acc_sym, parent_map);
                     if root_acc_sym == sym {
                         let fact_node = prov.node_id.unwrap_or(0);
                         let fact_stmt = prov.statement_index;
-                        return dom_checker.dominates(
-                            fact_node,
-                            fact_stmt,
-                            node_id,
-                            Some(stmt_idx),
-                        );
+                        if dom_checker.dominates(fact_node, fact_stmt, node_id, Some(stmt_idx)) {
+                            return SignerCheckResult::Dominates;
+                        }
+                        // Keep the first non-dominating check found; that's
+                        // enough for a witness even if several exist.
+                        if bypassed.is_none() {
+                            bypassed = Some(fact_node);
+                        }
                     }
                 }
             }
-            false
-        })
+        }
+        match bypassed {
+            Some(check_node) => SignerCheckResult::Bypassed { check_node },
+            None => SignerCheckResult::NotFound,
+        }
     }
 
     fn check_statements_recursive(
@@ -481,15 +502,23 @@ impl SignerValidationRule {
                         // For each authority-like account, check if its signer validation dominates this write.
                         for (auth_name, auth_sym) in authority_like_symbols {
                             let root_auth_sym = self.trace_to_root(*auth_sym, parent_map);
-                            if !self.has_dominating_signer_check(
+                            let check_result = self.find_signer_check(
                                 root_auth_sym,
                                 node_id,
                                 0, // check dominance against node 0 (conservative & safe)
                                 instruction_context,
                                 dom_checker,
                                 parent_map,
-                            ) && reported_symbols.insert(root_auth_sym)
+                            );
+                            if !matches!(check_result, SignerCheckResult::Dominates)
+                                && reported_symbols.insert(root_auth_sym)
                             {
+                                let witness = self.build_witness(
+                                    &check_result,
+                                    &instruction_context.cfg,
+                                    node_id,
+                                    stmt.line_number,
+                                );
                                 diagnostics.push(RuleDiagnostic {
                                         rule_id: self.id().to_string(),
                                         severity: RuleSeverity::Critical,
@@ -497,6 +526,7 @@ impl SignerValidationRule {
                                             "Privileged instruction mutation lacks signer verification for authority-like account '{}'.",
                                             auth_name
                                         ),
+                                        witness,
                                         location: FindingLocation {
                                             file: instruction_context.file_path.clone(),
                                             line: stmt.line_number,
@@ -513,5 +543,171 @@ impl SignerValidationRule {
                 }
             }
         }
+    }
+
+    /// Builds the witness for a non-dominating finding: the check that was
+    /// found (if any) and a concrete bypassing path from entry to the write.
+    fn build_witness(
+        &self,
+        check_result: &SignerCheckResult,
+        cfg: &crate::cfg::ControlFlowGraph,
+        write_node: usize,
+        write_line: usize,
+    ) -> Option<Witness> {
+        let check_node = match check_result {
+            SignerCheckResult::Dominates => return None,
+            // No check exists anywhere in the function: there is nothing to
+            // show a bypassing path around, so there's no path to show.
+            SignerCheckResult::NotFound => {
+                return Some(Witness {
+                    check: None,
+                    path: Vec::new(),
+                })
+            }
+            SignerCheckResult::Bypassed { check_node, .. } => *check_node,
+        };
+
+        let check = render_check(cfg, check_node);
+        let path = match find_bypassing_path(cfg, check_node, write_node) {
+            Some(p) => p,
+            None => {
+                // This should be unreachable: find_signer_check already
+                // proved this check doesn't dominate write_node, which
+                // guarantees a bypassing path exists. Surfacing this loudly
+                // rather than silently dropping the witness.
+                eprintln!(
+                    "EPIC-SEC-002 internal error: no bypassing path found from entry to node {} avoiding check node {} — dominance computation and path search disagree",
+                    write_node, check_node
+                );
+                Vec::new()
+            }
+        };
+
+        Some(Witness {
+            check,
+            path: render_path(cfg, &path, write_line),
+        })
+    }
+}
+
+/// Finds the branching predecessor of `check_node` and renders the check
+/// that led to it: the raw `require!`/`assert!` text when the branch came
+/// from a guard macro, otherwise the branch condition itself.
+fn render_check(cfg: &crate::cfg::ControlFlowGraph, check_node: usize) -> Option<WitnessCheck> {
+    let branch_node = cfg.edges.iter().find(|e| e.to == check_node)?.from;
+    let node = cfg.nodes.get(&branch_node)?;
+
+    if let Some(last) = node.statements.last() {
+        if let StatementKind::MacroCall { name, raw_args } = &last.kind {
+            return Some(WitnessCheck {
+                line: last.line_number,
+                text: format!("{}!({})", name, raw_args),
+            });
+        }
+    }
+
+    let cond_edge = cfg
+        .edges
+        .iter()
+        .find(|e| e.from == branch_node && e.condition.is_some())?;
+    Some(WitnessCheck {
+        line: cond_edge.line.unwrap_or(0),
+        text: expr_to_string(cond_edge.condition.as_ref().unwrap()),
+    })
+}
+
+/// Renders a node-id path (from `find_bypassing_path`) into human-readable
+/// steps, labeling each hop with its line and, for a branch, the condition
+/// and which edge (true/false) was taken.
+fn render_path(
+    cfg: &crate::cfg::ControlFlowGraph,
+    path: &[usize],
+    write_line: usize,
+) -> Vec<WitnessStep> {
+    let mut steps = Vec::with_capacity(path.len());
+    for (i, &node) in path.iter().enumerate() {
+        if i == 0 {
+            let line = cfg
+                .nodes
+                .get(&node)
+                .and_then(|n| n.statements.first())
+                .map(|s| s.line_number)
+                .unwrap_or(0);
+            steps.push(WitnessStep {
+                line,
+                label: format!("entry (bb{})", node),
+            });
+            continue;
+        }
+
+        if i == path.len() - 1 {
+            steps.push(WitnessStep {
+                line: write_line,
+                label: format!("write at line {} (bb{})", write_line, node),
+            });
+            continue;
+        }
+
+        let prev = path[i - 1];
+        let edge = cfg.edges.iter().find(|e| e.from == prev && e.to == node);
+        match edge {
+            Some(e) if e.condition.is_some() => steps.push(WitnessStep {
+                line: e.line.unwrap_or(0),
+                label: format!(
+                    "bb{} (branch at line {}, true: {})",
+                    node,
+                    e.line.unwrap_or(0),
+                    expr_to_string(e.condition.as_ref().unwrap())
+                ),
+            }),
+            Some(e) => {
+                // The "else"/fallthrough side of a branch: find the sibling
+                // edge that carries the condition, for context.
+                let sibling = cfg
+                    .edges
+                    .iter()
+                    .find(|se| se.from == prev && se.to != node && se.condition.is_some());
+                match sibling {
+                    Some(se) => steps.push(WitnessStep {
+                        line: e.line.unwrap_or(0),
+                        label: format!(
+                            "bb{} (branch at line {}, false: {})",
+                            node,
+                            se.line.unwrap_or(0),
+                            expr_to_string(se.condition.as_ref().unwrap())
+                        ),
+                    }),
+                    None => steps.push(WitnessStep {
+                        line: e.line.unwrap_or(0),
+                        label: format!("bb{}", node),
+                    }),
+                }
+            }
+            None => steps.push(WitnessStep {
+                line: 0,
+                label: format!("bb{}", node),
+            }),
+        }
+    }
+    steps
+}
+
+fn expr_to_string(expr: &ExpressionNode) -> String {
+    match &expr.kind {
+        ExpressionKind::Identifier(name) => name.clone(),
+        ExpressionKind::Literal(val) => val.clone(),
+        ExpressionKind::FieldAccess { object, field } => {
+            format!("{}.{}", expr_to_string(object), field)
+        }
+        ExpressionKind::MethodCall { object, method, .. } => {
+            format!("{}.{}()", expr_to_string(object), method)
+        }
+        ExpressionKind::Reference { expression, .. } => expr_to_string(expression),
+        ExpressionKind::Dereference(expression) => expr_to_string(expression),
+        ExpressionKind::Try(expression) => expr_to_string(expression),
+        ExpressionKind::BinaryOp { op, lhs, rhs } => {
+            format!("{} {} {}", expr_to_string(lhs), op, expr_to_string(rhs))
+        }
+        _ => "".to_string(),
     }
 }

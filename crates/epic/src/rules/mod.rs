@@ -14,7 +14,7 @@ pub mod epic_sec_pda;
 pub mod epic_sec_token;
 pub mod resolver;
 
-pub use dominance::DominanceChecker;
+pub use dominance::{find_bypassing_path, DominanceChecker};
 pub use epic_sec_001::OwnerValidationRule;
 pub use epic_sec_002::SignerValidationRule;
 pub use epic_sec_003::MissingPostCpiReloadRule;
@@ -54,6 +54,37 @@ pub struct RuleDiagnostic {
     pub location: FindingLocation,
     pub confidence: FactConfidence,
     pub target_symbol: SymbolId,
+    /// Concrete proof for a dominance-based finding: the check that was
+    /// found (if any) and a control-flow path from entry to the finding
+    /// that bypasses it. `None` when the rule doesn't support witnesses, or
+    /// when there was no dominating check to compare against at all.
+    #[serde(default)]
+    pub witness: Option<Witness>,
+}
+
+/// A concrete counter-example proving a dominance finding: either the check
+/// exists somewhere but doesn't dominate the flagged location, or no check
+/// exists at all.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Witness {
+    /// The non-dominating check that was found, if any. `None` means no
+    /// check for this account/condition was found anywhere in the function.
+    pub check: Option<WitnessCheck>,
+    /// Concrete path from function entry to the flagged location that does
+    /// not pass through the check.
+    pub path: Vec<WitnessStep>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct WitnessCheck {
+    pub line: usize,
+    pub text: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct WitnessStep {
+    pub line: usize,
+    pub label: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

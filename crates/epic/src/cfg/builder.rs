@@ -49,6 +49,7 @@ impl CFGBuilder {
         to: usize,
         condition: Option<ExpressionNode>,
         is_early_return: bool,
+        line: Option<usize>,
     ) {
         let ir_condition = condition
             .as_ref()
@@ -59,6 +60,7 @@ impl CFGBuilder {
             condition,
             ir_condition,
             is_early_return,
+            line,
         });
     }
 
@@ -110,10 +112,20 @@ impl CFGBuilder {
                         self.add_node(merge_node);
 
                         let cond = convert_expr(&expr_if.cond);
+                        let branch_line = {
+                            use syn::spanned::Spanned;
+                            expr_if.span().start().line
+                        };
 
                         // Branch edges
-                        self.add_edge(current_node, then_node, Some(cond.clone()), false);
-                        self.add_edge(current_node, else_node, None, false);
+                        self.add_edge(
+                            current_node,
+                            then_node,
+                            Some(cond.clone()),
+                            false,
+                            Some(branch_line),
+                        );
+                        self.add_edge(current_node, else_node, None, false, Some(branch_line));
 
                         // Compile then block
                         let then_end =
@@ -137,10 +149,10 @@ impl CFGBuilder {
 
                         // P0 Correctness Fix: Do not connect return / terminal exit nodes to the merge node
                         if !self.graph.exit_nodes.contains(&then_end) {
-                            self.add_edge(then_end, merge_node, None, false);
+                            self.add_edge(then_end, merge_node, None, false, None);
                         }
                         if !self.graph.exit_nodes.contains(&else_end) {
-                            self.add_edge(else_end, merge_node, None, false);
+                            self.add_edge(else_end, merge_node, None, false, None);
                         }
 
                         current_node = merge_node;
@@ -171,6 +183,10 @@ impl CFGBuilder {
                         find_tries(expr, &mut tries);
 
                         if !tries.is_empty() {
+                            let try_line = {
+                                use syn::spanned::Spanned;
+                                stmt.span().start().line
+                            };
                             for _ in tries {
                                 let early_return_node = self.new_node_id();
                                 let sequential_node = self.new_node_id();
@@ -178,8 +194,20 @@ impl CFGBuilder {
                                 self.add_node(early_return_node);
                                 self.add_node(sequential_node);
 
-                                self.add_edge(current_node, early_return_node, None, true);
-                                self.add_edge(current_node, sequential_node, None, false);
+                                self.add_edge(
+                                    current_node,
+                                    early_return_node,
+                                    None,
+                                    true,
+                                    Some(try_line),
+                                );
+                                self.add_edge(
+                                    current_node,
+                                    sequential_node,
+                                    None,
+                                    false,
+                                    Some(try_line),
+                                );
 
                                 self.graph.exit_nodes.push(early_return_node);
                                 current_node = sequential_node;
@@ -201,6 +229,10 @@ impl CFGBuilder {
                     }
 
                     if !tries.is_empty() {
+                        let try_line = {
+                            use syn::spanned::Spanned;
+                            stmt.span().start().line
+                        };
                         for _ in tries {
                             let early_return_node = self.new_node_id();
                             let sequential_node = self.new_node_id();
@@ -208,8 +240,20 @@ impl CFGBuilder {
                             self.add_node(early_return_node);
                             self.add_node(sequential_node);
 
-                            self.add_edge(current_node, early_return_node, None, true);
-                            self.add_edge(current_node, sequential_node, None, false);
+                            self.add_edge(
+                                current_node,
+                                early_return_node,
+                                None,
+                                true,
+                                Some(try_line),
+                            );
+                            self.add_edge(
+                                current_node,
+                                sequential_node,
+                                None,
+                                false,
+                                Some(try_line),
+                            );
 
                             self.graph.exit_nodes.push(early_return_node);
                             current_node = sequential_node;
@@ -229,6 +273,7 @@ impl CFGBuilder {
                     // validated-symbol detection) keeps seeing it exactly as
                     // before.
                     let converted = convert_stmt(stmt);
+                    let macro_line = converted.line_number;
                     let ir_instrs = crate::ir_converter::convert_statement_node_to_ir(&converted);
                     {
                         let node = self.graph.nodes.get_mut(&current_node).unwrap();
@@ -261,8 +306,14 @@ impl CFGBuilder {
                         self.add_node(early_return_node);
                         self.add_node(sequential_node);
 
-                        self.add_edge(current_node, early_return_node, Some(negated_cond), true);
-                        self.add_edge(current_node, sequential_node, None, false);
+                        self.add_edge(
+                            current_node,
+                            early_return_node,
+                            Some(negated_cond),
+                            true,
+                            Some(macro_line),
+                        );
+                        self.add_edge(current_node, sequential_node, None, false, Some(macro_line));
 
                         self.graph.exit_nodes.push(early_return_node);
                         current_node = sequential_node;

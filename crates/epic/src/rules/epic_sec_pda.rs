@@ -848,6 +848,7 @@ impl Rule for PdaDerivationRule {
                         },
                         confidence: FactConfidence::Asserted,
                         target_symbol: field_sym,
+                        witness: None,
                     });
                 }
             }
@@ -918,6 +919,7 @@ impl Rule for PdaDerivationRule {
                         },
                         confidence: FactConfidence::Asserted,
                         target_symbol: account.symbol_id().unwrap_or(SymbolId(0)),
+                        witness: None,
                     });
                 }
             }

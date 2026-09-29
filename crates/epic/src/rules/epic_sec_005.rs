@@ -215,6 +215,7 @@ impl Rule for ArbitraryCpiTargetRule {
                                         },
                                         confidence: FactConfidence::Asserted,
                                         target_symbol: root_sym,
+                                        witness: None,
                                     });
                                 }
                             }

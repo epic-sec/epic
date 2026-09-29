@@ -446,6 +446,7 @@ impl OwnerValidationRule {
                                         },
                                         confidence: FactConfidence::Asserted,
                                         target_symbol: root_sym,
+                                        witness: None,
                                     });
                         }
                     }

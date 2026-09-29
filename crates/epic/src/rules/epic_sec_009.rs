@@ -96,6 +96,7 @@ impl Rule for TokenMintRule {
                                 },
                                 confidence: FactConfidence::Asserted,
                                 target_symbol: field_sym,
+                                witness: None,
                             });
                         }
                     }

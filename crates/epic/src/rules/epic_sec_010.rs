@@ -99,6 +99,7 @@ impl Rule for VaultAuthorityRule {
                                 },
                                 confidence: FactConfidence::Asserted,
                                 target_symbol: field_sym,
+                                witness: None,
                             });
                         }
                     }

@@ -359,6 +359,7 @@ impl PdaSeedCollisionRule {
                     },
                     confidence: FactConfidence::Asserted,
                     target_symbol: SymbolId(0), // generic symbol ID
+                    witness: None,
                 });
             }
         }

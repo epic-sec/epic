@@ -65,7 +65,7 @@ pub fn generate_sarif(diagnostics: &[RuleDiagnostic]) -> String {
             // Calculate startLine ensuring it is >= 1 as required by SARIF
             let start_line = if d.location.line == 0 { 1 } else { d.location.line };
 
-            json!({
+            let mut result = json!({
                 "ruleId": d.rule_id,
                 "level": level,
                 "message": {
@@ -84,7 +84,36 @@ pub fn generate_sarif(diagnostics: &[RuleDiagnostic]) -> String {
                         }
                     }
                 ]
-            })
+            });
+
+            // Witness path -> a single-threadFlow codeFlow: the concrete
+            // control-flow steps from entry to the flagged location that
+            // bypass the (non-dominating or missing) check.
+            if let Some(witness) = &d.witness {
+                if !witness.path.is_empty() {
+                    let flow_locations: Vec<Value> = witness
+                        .path
+                        .iter()
+                        .map(|step| {
+                            let line = if step.line == 0 { 1 } else { step.line };
+                            json!({
+                                "location": {
+                                    "physicalLocation": {
+                                        "artifactLocation": { "uri": d.location.file },
+                                        "region": { "startLine": line }
+                                    },
+                                    "message": { "text": step.label }
+                                }
+                            })
+                        })
+                        .collect();
+                    result["codeFlows"] = json!([
+                        { "threadFlows": [ { "locations": flow_locations } ] }
+                    ]);
+                }
+            }
+
+            result
         })
         .collect();
 

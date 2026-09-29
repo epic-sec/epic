@@ -111,6 +111,7 @@ impl Rule for TokenAccountRule {
                                 },
                                 confidence: FactConfidence::Asserted,
                                 target_symbol: field_sym,
+                                witness: None,
                             });
                         } else if !has_mint {
                             diagnostics.push(RuleDiagnostic {
@@ -129,6 +130,7 @@ impl Rule for TokenAccountRule {
                                 },
                                 confidence: FactConfidence::Asserted,
                                 target_symbol: field_sym,
+                                witness: None,
                             });
                         } else if !has_authority {
                             diagnostics.push(RuleDiagnostic {
@@ -147,6 +149,7 @@ impl Rule for TokenAccountRule {
                                 },
                                 confidence: FactConfidence::Asserted,
                                 target_symbol: field_sym,
+                                witness: None,
                             });
                         }
                     }

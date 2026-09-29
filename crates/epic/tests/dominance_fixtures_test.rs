@@ -31,6 +31,44 @@ fn test_dominance_bypass_fires_exactly_one_sec002_finding() {
          finding, got: {:?}",
         sec002_findings
     );
+
+    let witness = sec002_findings[0]
+        .witness
+        .as_ref()
+        .expect("a check exists (the require!) so the finding must carry a witness");
+    let check = witness
+        .check
+        .as_ref()
+        .expect("the require! was found, so this is not a no-check-at-all case");
+    assert_eq!(
+        check.line, 20,
+        "check should be located at the require! line"
+    );
+    assert!(
+        check.text.contains("require") && check.text.contains("is_signer"),
+        "check text should read back the require!(...is_signer...) call, got: {}",
+        check.text
+    );
+
+    let path_text = witness
+        .path
+        .iter()
+        .map(|s| s.label.as_str())
+        .collect::<Vec<_>>()
+        .join(" -> ");
+    assert!(
+        path_text.contains("false"),
+        "bypassing path must go through the false branch of `some_condition`, got: {}",
+        path_text
+    );
+    assert!(
+        witness
+            .path
+            .last()
+            .is_some_and(|s| s.label.contains("write")),
+        "path must end at the write, got: {}",
+        path_text
+    );
 }
 
 #[test]

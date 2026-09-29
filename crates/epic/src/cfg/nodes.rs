@@ -26,6 +26,10 @@ pub struct CFGEdge {
     #[serde(default)]
     pub ir_condition: Option<epic_ir::IRExpression>,
     pub is_early_return: bool,
+    /// Source line of the branch/early-return statement this edge came from.
+    /// `None` for structural merge edges that don't represent a decision.
+    #[serde(default)]
+    pub line: Option<usize>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]

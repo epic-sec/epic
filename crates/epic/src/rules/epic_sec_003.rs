@@ -235,6 +235,7 @@ impl Rule for MissingPostCpiReloadRule {
                                 },
                                 confidence: FactConfidence::Asserted,
                                 target_symbol: acc_sym,
+                                witness: None,
                             });
                         }
                     }

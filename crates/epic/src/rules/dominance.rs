@@ -1,5 +1,51 @@
 use crate::cfg::ControlFlowGraph;
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap, HashSet, VecDeque};
+
+/// Finds a concrete path of node ids from the CFG's entry to `target_node`
+/// that never passes through `avoid_node`.
+///
+/// This is the witness for a dominance finding: when `avoid_node` (a check)
+/// does not dominate `target_node` (a vulnerable write), such a path is
+/// guaranteed to exist — that is exactly what non-dominance means. A `None`
+/// return means the dominance computation and this search disagree, which is
+/// a bug in one of them, not a legitimate "no path" case; callers should
+/// surface that loudly rather than silently show no witness.
+pub fn find_bypassing_path(
+    cfg: &ControlFlowGraph,
+    avoid_node: usize,
+    target_node: usize,
+) -> Option<Vec<usize>> {
+    let entry = cfg.entry_node;
+    if entry == avoid_node {
+        return None;
+    }
+
+    let mut came_from: HashMap<usize, usize> = HashMap::new();
+    let mut visited: HashSet<usize> = HashSet::new();
+    let mut queue: VecDeque<usize> = VecDeque::new();
+    visited.insert(entry);
+    queue.push_back(entry);
+
+    while let Some(node) = queue.pop_front() {
+        if node == target_node {
+            let mut path = vec![node];
+            let mut cur = node;
+            while let Some(&prev) = came_from.get(&cur) {
+                path.push(prev);
+                cur = prev;
+            }
+            path.reverse();
+            return Some(path);
+        }
+        for edge in &cfg.edges {
+            if edge.from == node && edge.to != avoid_node && visited.insert(edge.to) {
+                came_from.insert(edge.to, node);
+                queue.push_back(edge.to);
+            }
+        }
+    }
+    None
+}
 
 #[derive(Debug, Clone)]
 pub struct DominanceChecker {
