@@ -62,6 +62,7 @@ fn test_token_account_rule() {
         cfg: ControlFlowGraph::default(),
         symbol_table,
         account_field_ids: std::collections::HashSet::new(),
+        param_ids: std::collections::HashSet::new(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
         context_struct_name: "TestAccounts".to_string(),

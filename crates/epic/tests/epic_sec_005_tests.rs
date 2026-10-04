@@ -101,6 +101,7 @@ fn test_arbitrary_cpi_target_rule() {
         cfg,
         symbol_table,
         account_field_ids: Default::default(),
+        param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
     };

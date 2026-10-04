@@ -222,6 +222,7 @@ fn build_context_full(
         cfg,
         symbol_table,
         account_field_ids,
+        param_ids: Default::default(),
         file_path,
         context_var_name: "ctx".to_string(),
         context_struct_name: "TestAccounts".to_string(),

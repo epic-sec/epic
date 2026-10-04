@@ -122,6 +122,7 @@ fn test_adjacent_variable_unsafe() {
         cfg,
         symbol_table: HashMap::new(),
         account_field_ids: Default::default(),
+        param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
     };
@@ -275,6 +276,7 @@ fn test_safe_separated_fixed_length() {
         cfg,
         symbol_table: HashMap::new(),
         account_field_ids: Default::default(),
+        param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
     };
@@ -413,6 +415,7 @@ fn test_safe_separated_literal_delimiter() {
         cfg,
         symbol_table: HashMap::new(),
         account_field_ids: Default::default(),
+        param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
     };
@@ -549,6 +552,7 @@ fn test_epic_advantage_fixed_hash() {
         cfg,
         symbol_table: HashMap::new(),
         account_field_ids: Default::default(),
+        param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
     };

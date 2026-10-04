@@ -141,6 +141,7 @@ fn test_owner_validation_safe_vs_unsafe() {
         cfg,
         symbol_table,
         account_field_ids: Default::default(),
+        param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
     };
@@ -313,6 +314,7 @@ fn test_owner_validation_wdg_transitive() {
         cfg,
         symbol_table,
         account_field_ids: Default::default(),
+        param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
     };
@@ -453,6 +455,7 @@ fn test_post_cpi_reload_rule() {
         cfg,
         symbol_table,
         account_field_ids: Default::default(),
+        param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
     };
@@ -588,6 +591,7 @@ fn run_sec002(
         cfg,
         symbol_table,
         account_field_ids,
+        param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
     };

@@ -421,6 +421,26 @@ pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
                 }
             }
 
+            // Assign SymbolIds for the handler's own parameters (e.g.
+            // `amount: u64`), excluding the `Context<T>` argument itself —
+            // the other root EPIC-SEC-ARITH traces a value back to, besides
+            // an account field.
+            let mut param_ids = std::collections::HashSet::new();
+            for param in &raw_fn.signature {
+                if param.name == raw_fn.context_var_name {
+                    continue;
+                }
+                if let std::collections::hash_map::Entry::Vacant(e) =
+                    symbol_table.entry(param.name.clone())
+                {
+                    e.insert(SymbolId(next_symbol_id));
+                    param_ids.insert(SymbolId(next_symbol_id));
+                    next_symbol_id += 1;
+                } else if let Some(&existing) = symbol_table.get(&param.name) {
+                    param_ids.insert(existing);
+                }
+            }
+
             // Cache account struct guard facts keyed by the struct's ABSOLUTE registry path
             // (e.g. "marginfi::instructions::deposit::Deposit"), NOT its bare name.
             // Using the bare name caused a cross-module collision bug: two Anchor Accounts
@@ -487,6 +507,7 @@ pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
                 cfg: cfg.clone(),
                 symbol_table: symbol_table.clone(),
                 account_field_ids,
+                param_ids,
                 file_path: raw_fn.file_path.clone(),
                 context_var_name: raw_fn.context_var_name.clone(),
                 context_struct_name: raw_fn.context_struct_name.clone(),

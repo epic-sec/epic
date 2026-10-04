@@ -160,6 +160,13 @@ pub struct InstructionAnalysisContext {
     /// struct fields. Local let-bindings, parameters, and seed arrays are NOT included.
     #[serde(default)]
     pub account_field_ids: std::collections::HashSet<SymbolId>,
+    /// The subset of symbol_table IDs that are the instruction handler's own
+    /// parameters (e.g. `amount: u64`), excluding the `Context<T>` argument
+    /// itself. Alongside `account_field_ids`, this is the other root a value
+    /// can trace back to as "untrusted instruction input" — needed by
+    /// EPIC-SEC-ARITH's provenance check.
+    #[serde(default)]
+    pub param_ids: std::collections::HashSet<SymbolId>,
     #[serde(default)]
     pub file_path: String,
     #[serde(default = "default_context_var")]
@@ -176,7 +183,7 @@ fn default_context_var() -> String {
 
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
-enum ParsedAttributeMeta {
+pub(crate) enum ParsedAttributeMeta {
     Mut,
     Signer,
     Owner(syn::Expr),
@@ -227,7 +234,7 @@ fn preprocess_anchor_attribute_string(body: &str) -> String {
     result
 }
 
-fn parse_anchor_attribute_string(attr_str: &str) -> Vec<ParsedAttributeMeta> {
+pub(crate) fn parse_anchor_attribute_string(attr_str: &str) -> Vec<ParsedAttributeMeta> {
     let mut results = Vec::new();
 
     // Normalize string: Remove starting #[account( and ending )
