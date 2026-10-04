@@ -30,6 +30,21 @@ bottom).
 **Description**: CPI calls must validate the target program statically or imperatively to prevent calls to arbitrary malicious programs.
 **Mitigation**: Use `Program<'info, T>` for static checking or enforce `require_keys_eq` on the target program's key.
 
+## EPIC-SEC-006: Duplicate Mutable Accounts
+**Severity**: High
+**Description**: Two `Accounts` struct fields of the same program-defined `#[account]` type with no constraint proving they can't be the same pubkey. A caller passing the same account for both can corrupt program state or bypass logic that assumes two distinct accounts. Cleared by either a struct-level `constraint = a.key() != b.key()` or an equivalent early-return guard in the handler body (`if a.key() == b.key() { return Err(..) }`) — a presence check, not a dominance proof. PDA fields are skipped (seeds already make same-type PDAs structurally distinct in the common case; seed collision itself is `EPIC-SEC-004`'s job).
+**Mitigation**: Add `constraint = account_a.key() != account_b.key()` to one of the fields, or an equivalent check in the handler.
+
+## EPIC-SEC-007: Unsafe Manual Account Close
+**Severity**: Critical
+**Description**: An account manually drained of lamports (`**account.lamports.borrow_mut() = 0`) with neither Anchor's `close = <dest>` constraint nor a manual `CLOSED_ACCOUNT_DISCRIMINATOR` write (as a write, or as a read gating the drain on "already closed"). Zeroing lamports — even zeroing all data bytes too — doesn't stop the account from being revived later in the same transaction by refunding its rent before the runtime purges it; only the discriminator sentinel reliably marks it closed. Reasons per-instruction only: a correctly-closed account with no *other* instruction providing a permissionless recovery path if revived is a known false-negative, not covered by this rule (see `benchmarks/sealevel/RESULTS.md`, class 9 note).
+**Mitigation**: Prefer `#[account(mut, close = destination)]` over a manual close.
+
+## EPIC-SEC-ARITH: Unchecked Arithmetic on Untrusted Input
+**Severity**: Critical
+**Description**: Raw `+`/`-`/`*` on a value tracing back to an instruction parameter or account data, with no bound dominating every path reaching it. A bound is a `checked_*`/`saturating_*`/`wrapping_*` call, or a `require!`/`assert!`/hand-written `if` early-return mentioning the value, on every path — and the comparison must resolve to the *exact same field/method path* as the operand to count; a comparison on `x.owner` is never credited as a bound on `x.balance` (see `KNOWN_LIMITATIONS.md` for the measured reason this is required, not optional). Distinguishes `Bypassed` (a bound exists but doesn't dominate — carries a witness path, like `EPIC-SEC-002`) from `NotFound` (no bound anywhere). Loop counters, index computations, `.len()` results, and constants are never candidates — provenance tracing follows a shallow `let`-alias chain (notably `let x = &mut ctx.accounts.y;`) back through its full resolved path, and anything it can't classify this way is left untraced rather than guessed at, which also means it's never credited as a bound for anything else.
+**Mitigation**: Use `checked_add`/`checked_sub`/`checked_mul` (or `saturating_*`/`wrapping_*` if that's the intended semantics) instead of a raw operator, or add an unconditional `require!`/`assert!` bound on the value before every use.
+
 ## EPIC-SEC-PDA: PDA Derivation and Bump Canonicality
 **Severity**: Critical (Warning for a downgraded sub-case)
 **Description**: Flags accounts used as a PDA (via `find_program_address`/`create_program_address`, or in a signer-seeds array for `invoke_signed`/`CpiContext::new_with_signer`) that lack a `seeds = [...], bump` derivation constraint, and separately flags caller-supplied (non-canonical) bump values. A manual `.key()` comparison against a `find_program_address` result is downgraded to Warning rather than Critical, since that derivation is unconditionally canonical; a comparison against `create_program_address` stays Critical, since it blindly trusts its bump argument.

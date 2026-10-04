@@ -35,13 +35,13 @@ Legend:
 | 3 | type-cosplay | *(none)* | NOT COVERED | NOT FLAGGED | NOT FLAGGED |
 | 4 | initialization | *(none)* | NOT COVERED | NOT FLAGGED | NOT FLAGGED |
 | 5 | arbitrary-cpi | EPIC-SEC-005 | **TRUE POSITIVE** (CRITICAL) | NOT FLAGGED (correct) | NOT FLAGGED for SEC-005; SEC-TOKEN fires ×2, see note‡ |
-| 6 | duplicate-mutable-accounts | *(none)* | NOT COVERED | NOT FLAGGED | NOT FLAGGED |
+| 6 | duplicate-mutable-accounts | EPIC-SEC-006 | **TRUE POSITIVE** (HIGH) | NOT FLAGGED (correct) | NOT FLAGGED (correct) |
 | 7 | bump-seed-canonicalization | EPIC-SEC-PDA | **TRUE POSITIVE** (CRITICAL) | **FLAGGED — WARNING** (not clean — see note§) | NOT FLAGGED |
 | 8 | pda-sharing | *(none)* | NOT COVERED | NOT FLAGGED | NOT FLAGGED |
-| 9 | closing-accounts | *(none)* | NOT COVERED (all 5 variants: insecure, insecure-still, insecure-still-still, secure, recommended — all NOT FLAGGED) | — | — |
+| 9 | closing-accounts | EPIC-SEC-007 | **TRUE POSITIVE** (CRITICAL) on `insecure`/`insecure-still`; **FALSE NEGATIVE** on `insecure-still-still` (see note¶) | NOT FLAGGED (correct) | NOT FLAGGED (correct) |
 | 10 | sysvar-address-checking | *(none)* | NOT COVERED | NOT FLAGGED | NOT FLAGGED |
 
-**Score: 2 TRUE POSITIVE / 2 FALSE NEGATIVE / 7 NOT COVERED / 0 FALSE POSITIVE
+**Score: 4 TRUE POSITIVE / 3 FALSE NEGATIVE / 5 NOT COVERED / 0 FALSE POSITIVE
 / 1 FLAGGED — WARNING (class 7's secure variant).**
 Zero full-severity false positives is expected, not impressive — most
 classes have no rule to false-positive with in the first place. The
@@ -91,6 +91,54 @@ suppressing the WARNING entirely for a canonically-verified account. Until
 that's done, `secure` on this class will keep showing up as "1 finding" in
 EPIC's own output, not zero.
 
+**¶ Class 9, `insecure-still-still` is a false negative for a subtler reason
+than the other two insecure variants.** `insecure` and `insecure-still` never
+write `CLOSED_ACCOUNT_DISCRIMINATOR` at all — EPIC-SEC-007 catches both.
+`insecure-still-still` and `secure` have near-identical `close()` handlers:
+both zero lamports, zero every data byte, and correctly write
+`CLOSED_ACCOUNT_DISCRIMINATOR` — the actual sentinel that marks the account
+closed in a way nothing else can be confused with (zeroing data alone, as
+`insecure-still-still` was originally assumed to do while this rule was being
+designed, turned out on inspection to already write the discriminator too;
+the real difference is elsewhere). What `secure` adds, that
+`insecure-still-still` lacks, is a second, permissionless `force_defund`
+instruction: if an attacker resurrects the account later in the same
+transaction by refunding its rent, anyone can call `force_defund` to sweep
+the revived lamports back out, gated on the discriminator still reading as
+closed. `insecure-still-still` has no such backstop — a correctly-closed
+account with no permissionless recovery path if it's revived.
+EPIC-SEC-007 only reasons per-instruction (does *this* handler drain
+lamports safely?), not over "does the program provide a recovery
+instruction for this closed-account shape elsewhere?" — a different,
+harder, whole-program question. Not fixed; a correct fix would need to
+reason across instructions, which no other EPIC rule currently does either.
+
+Measuring class 9 directly also surfaced and fixed a real bug during
+development: the rule's discriminator-mention check originally only
+scanned statement bodies, missing `if discriminator != CLOSED_ACCOUNT_DISCRIMINATOR
+{ return Err(..) }`-style conditions, which live on CFG edges, not in any
+node's statement list. That blind spot produced a false positive on
+`secure`'s own `force_defund` instruction (which reads the discriminator as
+a precondition gate, never writes it) before the edge-condition scan was
+added.
+
+**EPIC-SEC-006 measured against the 5-protocol production sweep, not just
+this benchmark.** The attribute-only check (a `constraint = a.key() !=
+b.key()` on either field) alone produced a real false positive on
+orca-whirlpools' `two_hop_swap.rs`: `whirlpool_one`/`whirlpool_two` share no
+struct-level constraint, but the handler opens with
+`if whirlpool_one.key() == whirlpool_two.key() { return Err(DuplicateTwoHopPool) }`
+— a correct, deliberate guard, just written imperatively instead of
+declaratively. EPIC-SEC-006 now also checks for exactly this shape (any CFG
+edge tagged `is_early_return` whose branch condition is an `==` comparison
+naming both fields) before flagging a pair. With that check in place, the
+5-protocol sweep (mango-v4, marginfi, marinade, orca-whirlpools, squads-v4)
+produces zero EPIC-SEC-006 and zero EPIC-SEC-007 findings — both rules are
+proven correct against this benchmark's fixtures but have not yet found a
+true positive in real audited code, the same honest result already on
+record for the interprocedural guard-dominance work (see
+`KNOWN_LIMITATIONS.md`).
+
 ## The SEC-001 / SEC-002 mutation-gate decision (classes 0 and 2)
 
 Both false negatives above share the same root cause: SEC-001 and SEC-002
@@ -124,13 +172,14 @@ narrower anchor than "any use" — e.g. specifically data-content access
 (deserialization, field reads) as opposed to identity-only or
 pass-through use — not a full revert of this decision.
 
-## Classes with no covering rule (1, 3, 4, 6, 8, 9, 10)
+## Classes with no covering rule (1, 3, 4, 8, 10)
 
-These seven classes are not bugs in an existing rule — there is currently
+These five classes are not bugs in an existing rule — there is currently
 no rule in EPIC that targets account-data-matching, type-cosplay,
-(re)initialization guards, duplicate mutable accounts, PDA-sharing, account
-closing, or sysvar address checking. None of `EPIC-SEC-001/002/003/004/005`,
-`EPIC-SEC-PDA`, `EPIC-SEC-009/010`, or `EPIC-SEC-TOKEN` claim to cover any
-of them. This benchmark run is the honest record of that: 7 of 11 classes
-are simply out of scope for the current rule set, not silently missed by
-one that claims to handle them.
+(re)initialization guards, PDA-sharing, or sysvar address checking. None of
+`EPIC-SEC-001/002/003/004/005/006/007`, `EPIC-SEC-PDA`, `EPIC-SEC-009/010`, or
+`EPIC-SEC-TOKEN` claim to cover any of them. This benchmark run is the
+honest record of that: 5 of 11 classes are simply out of scope for the
+current rule set, not silently missed by one that claims to handle them.
+(Classes 6 and 9 — duplicate-mutable-accounts and closing-accounts — moved
+out of this list with `EPIC-SEC-006`/`EPIC-SEC-007`; see the notes above.)

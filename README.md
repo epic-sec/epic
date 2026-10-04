@@ -21,7 +21,7 @@ That lets EPIC answer a question a text-matching linter can't: not just *"does a
 
 When `EPIC-SEC-002` (signer verification) reports a finding, it doesn't just assert a bypass — it attaches a **witness**: the concrete control-flow path from function entry to the flagged write, and, when a check exists at all, where it sits relative to that path. SARIF output carries this as a real `codeFlows` entry, not text appended to a message.
 
-**Current state:** v0.4.0, `cargo install epic`, 7 rules, 224 findings across a pinned 5-protocol production sweep (Marginfi, Mango-v4, Orca Whirlpools, Squads-v4, Marinade), and a vendored, pinned, publicly checked-in scorecard against the `coral-xyz/sealevel-attacks` benchmark (2 of 11 vulnerability classes caught — see [Benchmarks](#benchmarks) below, false negatives and coverage gaps included, not just the wins).
+**Current state:** v0.4.0, `cargo install epic`, 10 rules, 248 findings across a pinned 5-protocol production sweep (Marginfi, Mango-v4, Orca Whirlpools, Squads-v4, Marinade), and a vendored, pinned, publicly checked-in scorecard against the `coral-xyz/sealevel-attacks` benchmark (4 of 11 vulnerability classes caught — see [Benchmarks](#benchmarks) below, false negatives and coverage gaps included, not just the wins).
 
 ---
 
@@ -115,7 +115,7 @@ graph TD
 4. **SSA-lite Versioner**: each reassignment gets a new version, so dataflow tracking doesn't get confused by shadowing.
 5. **Dominance Analysis Engine**: computes which blocks dominate which — the mechanism behind "does this check actually guard this write."
 6. **GuardFacts Layer**: extracts security-relevant facts (owner checks, signer checks, constraints) from AST and CFG and propagates them through dominance intervals.
-7. **Rules Engine**: evaluates the 7 rules against dominance graphs, type paths, and GuardFacts.
+7. **Rules Engine**: evaluates the 10 rules against dominance graphs, type paths, and GuardFacts.
 8. **Output**: human-readable, JSON, or SARIF (with `codeFlows` for witness-carrying findings).
 
 Full detail: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
@@ -134,7 +134,7 @@ Published deliberately including the misses: 7 of the 11 classes (account-data-m
 
 ### Real-world sweep
 
-224 findings across a pinned 5-protocol production corpus: Marginfi, Mango-v4, Orca Whirlpools, Squads-v4, Marinade. A 6th protocol (metaplex-mpl) was measured and dropped from the corpus — it's a Shank-based native program, not Anchor, and its results were dominated by a naming collision rather than real signal (see Known Limitations).
+248 findings across a pinned 5-protocol production corpus: Marginfi, Mango-v4, Orca Whirlpools, Squads-v4, Marinade. A 6th protocol (metaplex-mpl) was measured and dropped from the corpus — it's a Shank-based native program, not Anchor, and its results were dominated by a naming collision rather than real signal (see Known Limitations).
 
 ---
 
