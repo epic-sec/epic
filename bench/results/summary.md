@@ -34,12 +34,13 @@
 
 | Protocol | Findings |
 |---|---|
-| squads-v4 | 0 |
+| squads-v4 | 1 |
 
 ### squads-v4 — per rule
 
 | Rule | Count |
 |---|---|
+| EPIC-SEC-005 | 1 |
 
 ## Coverage
 
@@ -54,7 +55,7 @@ them apart.
 | orca-whirlpools | 129 | 129 | 129 |
 | squads-mpl | 33 | 33 | 31 |
 | marinade | 29 | 29 | 29 |
-| squads-v4 | 71 | 37 | 36 |
+| squads-v4 | 71 | 71 | 67 |
 
 ### Unresolved / partially analyzed handlers, by protocol
 
@@ -93,51 +94,20 @@ them apart.
 - create_transaction (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs): PartiallyAnalyzed — ["MatchExpression"]
 - execute_instruction (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs): PartiallyAnalyzed — ["LoopDetected"]
 
-**squads-v4** (35 not fully analyzed):
+**squads-v4** (4 not fully analyzed):
 
-- transaction_buffer_extend (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_buffer_extend.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- vault_transaction_create_from_buffer (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/vault_transaction_create_from_buffer.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- proposal_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- batch_add_transaction (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/batch_add_transaction.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- proposal_approve (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- proposal_reject (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- proposal_cancel (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- proposal_cancel_v2 (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- multisig_remove_spending_limit (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_remove_spending_limit.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- batch_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/batch_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- transaction_buffer_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_buffer_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- program_config_init (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config_init.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- transaction_buffer_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_buffer_close.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- config_transaction_execute (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/config_transaction_execute.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- vault_transaction_execute (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/vault_transaction_execute.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- multisig_add_spending_limit (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_add_spending_limit.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- batch_execute_transaction (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/batch_execute_transaction.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- multisig_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- program_config_set_authority (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- program_config_set_multisig_creation_fee (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- program_config_set_treasury (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- multisig_add_member (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- multisig_remove_member (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- multisig_change_threshold (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- multisig_set_time_lock (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- multisig_set_config_authority (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- multisig_set_rent_collector (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- spending_limit_use (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/spending_limit_use.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- proposal_activate (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_activate.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- vault_transaction_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/vault_transaction_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- config_transaction_accounts_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- config_transaction_execute (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/config_transaction_execute.rs): PartiallyAnalyzed — ["LoopDetected","MatchExpression"]
+- config_transaction_accounts_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs): PartiallyAnalyzed — ["MatchExpression"]
 - vault_transaction_accounts_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs): PartiallyAnalyzed — ["MatchExpression"]
-- vault_batch_transaction_account_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- batch_accounts_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
-- config_transaction_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/config_transaction_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- batch_accounts_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs): PartiallyAnalyzed — ["MatchExpression"]
 
 ## Timing / peak memory
 
 | Protocol | Wall time | Peak RSS |
 |---|---|---|
-| marginfi | 1.24s | 108304KB |
-| mango-v4 | 1.12s | 123104KB |
-| orca-whirlpools | 0.80s | 127840KB |
-| squads-mpl | 0.06s | 8944KB |
-| marinade | 0.05s | 10848KB |
-| squads-v4 | 0.08s | 14736KB |
+| marginfi | 1.21s | 108608KB |
+| mango-v4 | 1.16s | 122560KB |
+| orca-whirlpools | 0.84s | 127872KB |
+| squads-mpl | 0.06s | 8976KB |
+| marinade | 0.06s | 10608KB |
+| squads-v4 | 0.11s | 15792KB |

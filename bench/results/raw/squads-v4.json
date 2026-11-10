@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "rule_id": "EPIC-SEC-005",
+    "severity": "Critical",
+    "message": "Arbitrary CPI target program validation missing for program account 'system_program'. The program must be validated via static types (Program<'info, T>) or imperative checks (require!) dominating the invocation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/vault_transaction_create_from_buffer.rs",
+      "line": 90,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": 3
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  }
+]

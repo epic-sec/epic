@@ -1,287 +1,387 @@
 {
   "total_handlers": 71,
-  "resolved_to_struct": 37,
-  "fully_analyzed": 36,
+  "resolved_to_struct": 71,
+  "fully_analyzed": 67,
   "files_failed_to_parse": [],
   "handlers": [
     {
       "name": "transaction_buffer_extend",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_buffer_extend.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "vault_transaction_create_from_buffer",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/vault_transaction_create_from_buffer.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "proposal_create",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_create.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
+      }
     },
     {
       "name": "batch_add_transaction",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/batch_add_transaction.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "proposal_approve",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "proposal_reject",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "proposal_cancel",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "proposal_cancel_v2",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
+      }
     },
     {
       "name": "multisig_remove_spending_limit",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_remove_spending_limit.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "batch_create",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/batch_create.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "transaction_buffer_create",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_buffer_create.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "program_config_init",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config_init.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "transaction_buffer_close",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_buffer_close.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "config_transaction_execute",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/config_transaction_execute.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected",
+          "MatchExpression"
+        ]
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 2
+      }
     },
     {
       "name": "vault_transaction_execute",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/vault_transaction_execute.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
+      }
     },
     {
       "name": "multisig_add_spending_limit",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_add_spending_limit.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
+      }
     },
     {
       "name": "batch_execute_transaction",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/batch_execute_transaction.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "multisig_create",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_create.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 2
+      }
     },
     {
       "name": "program_config_set_authority",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "program_config_set_multisig_creation_fee",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "program_config_set_treasury",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "multisig_add_member",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 2
+      }
     },
     {
       "name": "multisig_remove_member",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "multisig_change_threshold",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "multisig_set_time_lock",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "multisig_set_config_authority",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "multisig_set_rent_collector",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 2
+      }
     },
     {
       "name": "spending_limit_use",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/spending_limit_use.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 6
+      }
     },
     {
       "name": "proposal_activate",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_activate.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 1,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "vault_transaction_create",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/vault_transaction_create.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "config_transaction_accounts_close",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
+      }
     },
     {
       "name": "vault_transaction_accounts_close",
@@ -302,28 +402,40 @@
       "name": "vault_batch_transaction_account_close",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "batch_accounts_close",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
+      }
     },
     {
       "name": "config_transaction_create",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/config_transaction_create.rs",
       "status": {
-        "status": "Unresolved",
-        "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
+        "status": "FullyAnalyzed"
       },
-      "mutation": null
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
+      }
     },
     {
       "name": "program_config_init",
