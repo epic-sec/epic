@@ -1,0 +1,911 @@
+{
+  "total_handlers": 129,
+  "resolved_to_struct": 129,
+  "fully_analyzed": 129,
+  "files_failed_to_parse": [],
+  "handlers": [
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_reward.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/update_fees_and_rewards.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/transfer_locked_position.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/open_bundled_position.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_pool.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/swap.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/close_bundled_position.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/open_position_with_metadata.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/decrease_liquidity.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/collect_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/open_position_with_token_extensions.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/increase_liquidity.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_protocol_fee_rate.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_fee_rate.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_position_bundle.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/two_hop_swap.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_reward_authority_by_super_authority.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/reset_position_range.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_fee_authority.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/collect_reward.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/close_position.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/collect_protocol_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/set_config_extension_authority.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/initialize_reward.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/set_token_badge_authority.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/initialize_pool.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/swap.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/decrease_liquidity.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/collect_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/increase_liquidity.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/two_hop_swap.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/collect_reward.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/collect_protocol_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/initialize_token_badge.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/set_token_badge_attribute.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/initialize_config_extension.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/set_reward_emissions.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/delete_token_badge.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_preset_adaptive_fee_constants.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/initialize_adaptive_fee_tier.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/initialize_pool_with_adaptive_fee.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_default_base_fee_rate.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_initialize_pool_authority.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_fee_rate_by_delegated_fee_authority.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_adaptive_fee_constants.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_delegated_fee_authority.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_position_bundle_with_metadata.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/delete_position_bundle.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_default_fee_rate.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_default_protocol_fee_rate.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/migrate_repurpose_reward_authority_space.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_collect_protocol_fees_authority.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_config_feature_flag.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_reward_emissions_super_authority.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_reward_authority.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_reward_emissions.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/lock_position.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_fee_tier.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_tick_array.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_dynamic_tick_array.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/open_position.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_config.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handler",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/close_position_with_token_extensions.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_config",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_pool",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_tick_array",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_dynamic_tick_array",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_fee_tier",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_reward",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_reward_emissions",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "open_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "open_position_with_metadata",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "increase_liquidity",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "decrease_liquidity",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "update_fees_and_rewards",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "collect_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "collect_reward",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "collect_protocol_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "swap",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "close_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_default_fee_rate",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_default_protocol_fee_rate",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_fee_rate",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_protocol_fee_rate",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_fee_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_collect_protocol_fees_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_reward_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_reward_authority_by_super_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_reward_emissions_super_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "two_hop_swap",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_position_bundle",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_position_bundle_with_metadata",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "delete_position_bundle",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "open_bundled_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "close_bundled_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "open_position_with_token_extensions",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "close_position_with_token_extensions",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lock_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "reset_position_range",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "transfer_locked_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_adaptive_fee_tier",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_default_base_fee_rate",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_delegated_fee_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_initialize_pool_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_preset_adaptive_fee_constants",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_pool_with_adaptive_fee",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_fee_rate_by_delegated_fee_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_adaptive_fee_constants",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_config_feature_flag",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "migrate_repurpose_reward_authority_space",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "collect_fees_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "collect_protocol_fees_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "collect_reward_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "decrease_liquidity_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "increase_liquidity_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "increase_liquidity_by_token_amounts_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_pool_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_reward_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_reward_emissions_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "swap_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "two_hop_swap_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "reposition_liquidity_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_config_extension",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_config_extension_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_token_badge_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_token_badge",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "delete_token_badge",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_token_badge_attribute",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "idl_include",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    }
+  ]
+}

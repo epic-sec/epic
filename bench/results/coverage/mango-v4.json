@@ -1,0 +1,1331 @@
+{
+  "total_handlers": 181,
+  "resolved_to_struct": 181,
+  "fully_analyzed": 164,
+  "files_failed_to_parse": [],
+  "handlers": [
+    {
+      "name": "perp_cancel_all_orders_by_side",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_cancel_all_orders_by_side.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "group_change_insurance_fund",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/group_change_insurance_fund.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_withdraw.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_cancel_order_by_client_order_id",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_cancel_order_by_client_order_id.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "group_withdraw_insurance_fund",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/group_withdraw_insurance_fund.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_settle_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_settle_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_deregister",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_deregister.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected"
+        ]
+      }
+    },
+    {
+      "name": "perp_update_funding",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_update_funding.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_cancel_order_by_client_order_id",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_cancel_order_by_client_order_id.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "alt_extend",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/alt_extend.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_register",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_register.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_add_bank",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_add_bank.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "flash_loan_swap_begin",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/flash_loan.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "flash_loan_end",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/flash_loan.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected",
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "perp_cancel_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_cancel_order.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_place_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_place_order.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression",
+          "LoopDetected"
+        ]
+      }
+    },
+    {
+      "name": "health_region_begin",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/health_region.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected",
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "health_region_end",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/health_region.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_cancel_all_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_cancel_all_orders.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "group_edit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/group_edit.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_buyback_fees_with_mngo",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_buyback_fees_with_mngo.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected"
+        ]
+      }
+    },
+    {
+      "name": "token_charge_collateral_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_charge_collateral_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "ix_gate_set",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/ix_gate_set.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected"
+        ]
+      }
+    },
+    {
+      "name": "benchmark",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/benchmark.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_conditional_swap_cancel",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_conditional_swap_cancel.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_conditional_swap_create",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_conditional_swap_create.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_update_index_and_rate",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_update_index_and_rate.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected",
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "token_conditional_swap_start",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_conditional_swap_start.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "group_create",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/group_create.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_force_close_unmatched",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_force_close_unmatched.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "stub_oracle_set",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/stub_oracle_set.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "stub_oracle_set_test",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/stub_oracle_set.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_liq_negative_pnl_or_bankruptcy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_liq_negative_pnl_or_bankruptcy.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_close_open_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_close_open_orders.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_close_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_close_market.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_edit_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_edit_market.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_liq_with_token",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_liq_with_token.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "admin_perp_withdraw_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/admin_perp_withdraw_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_settle_pnl",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_settle_pnl.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_toggle_freeze",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_toggle_freeze.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_consume_events",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_consume_events.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected",
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "serum3_deregister_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_deregister_market.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_liq_force_cancel_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_liq_force_cancel_orders.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_conditional_swap_trigger",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_conditional_swap_trigger.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_register_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_register_market.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_force_close_borrows_with_token",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_force_close_borrows_with_token.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_close",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_close.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected"
+        ]
+      }
+    },
+    {
+      "name": "stub_oracle_create",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/stub_oracle_create.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_deposit.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_deposit_into_existing",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_deposit.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_liq_bankruptcy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_liq_bankruptcy.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected"
+        ]
+      }
+    },
+    {
+      "name": "account_edit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_edit.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "perp_liq_force_cancel_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_liq_force_cancel_orders.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "alt_set",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/alt_set.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_edit_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_edit_market.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_settle_unmatched",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_settle_unmatched.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "stub_oracle_close",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/stub_oracle_close.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "admin_token_withdraw_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/admin_token_withdraw_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_create_open_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_create_open_orders.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_force_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_force_withdraw.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "compute_account_data",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/compute_account_data.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_deactivate_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_deactivate_position.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_expand",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_expand.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_register_trustless",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_register_trustless.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "group_close",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/group_close.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "health_check",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/health_check.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "sequence_check",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/sequence_check.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_place_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_place_order.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_edit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_edit.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected"
+        ]
+      }
+    },
+    {
+      "name": "serum3_cancel_all_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_cancel_all_orders.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_size_migration",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_size_migration.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_liq_base_or_positive_pnl",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_liq_base_or_positive_pnl.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_cancel_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_cancel_order.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_force_close_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_force_close_position.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_create_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_create_market.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "admin_token_withdraw_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "admin_perp_withdraw_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "group_create",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "group_edit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "group_withdraw_insurance_fund",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "group_change_insurance_fund",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "ix_gate_set",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "group_close",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_register",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_register_trustless",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_edit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_add_bank",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_deregister",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_update_index_and_rate",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_update_index_and_rate_resilient",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_create",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_create_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_expand",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_expand_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_size_migration",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_edit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_toggle_freeze",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_close",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "account_buyback_fees_with_mngo",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "sequence_check",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "health_check",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "stub_oracle_create",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "stub_oracle_close",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "stub_oracle_set",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "stub_oracle_set_test",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_deposit_into_existing",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "flash_loan_begin",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "flash_loan_swap_begin",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "flash_loan_end",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "flash_loan_end_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "health_region_begin",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "health_region_end",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_register_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_edit_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_deregister_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_create_open_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_close_open_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_place_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_place_order_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_cancel_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_cancel_order_by_client_order_id",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_cancel_all_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_settle_funds",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_settle_funds_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "serum3_liq_force_cancel_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "liq_token_with_token",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "liq_token_bankruptcy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_liq_with_token",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_force_close_borrows_with_token",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_liq_bankruptcy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_force_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_create_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_edit_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_close_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_deactivate_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_place_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "perp_place_order_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "perp_place_order_pegged",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "perp_place_order_pegged_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "perp_cancel_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_cancel_order_by_client_order_id",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_cancel_all_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_cancel_all_orders_by_side",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_consume_events",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_update_funding",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_settle_pnl",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_settle_unmatched",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_force_close_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_force_close_unmatched",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_settle_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_liq_base_or_positive_pnl",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_liq_force_cancel_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_liq_negative_pnl_or_bankruptcy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "perp_liq_negative_pnl_or_bankruptcy_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_conditional_swap_create",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_conditional_swap_create_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_conditional_swap_create_premium_auction",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_conditional_swap_create_linear_auction",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_conditional_swap_cancel",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_conditional_swap_trigger",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_conditional_swap_trigger_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_conditional_swap_start",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "token_charge_collateral_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "alt_set",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "alt_extend",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "compute_account_data",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "openbook_v2_register_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "openbook_v2_edit_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "openbook_v2_deregister_market",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "openbook_v2_create_open_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "openbook_v2_close_open_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "openbook_v2_place_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "openbook_v2_place_taker_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "openbook_v2_cancel_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "openbook_v2_settle_funds",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "openbook_v2_liq_force_cancel_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "openbook_v2_cancel_all_orders",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "benchmark",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "margin_trade",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/margin-trade/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    }
+  ]
+}

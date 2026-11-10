@@ -41,13 +41,103 @@
 | Rule | Count |
 |---|---|
 
+## Coverage
+
+A 0-finding protocol with low coverage is not the same as a
+0-finding protocol with full coverage — this table is what tells
+them apart.
+
+| Protocol | Handlers | Resolved | Fully analyzed |
+|---|---|---|---|
+| marginfi | 213 | 213 | 206 |
+| mango-v4 | 181 | 181 | 164 |
+| orca-whirlpools | 129 | 129 | 129 |
+| squads-mpl | 33 | 33 | 31 |
+| marinade | 29 | 29 | 29 |
+| squads-v4 | 71 | 37 | 36 |
+
+### Unresolved / partially analyzed handlers, by protocol
+
+**marginfi** (7 not fully analyzed):
+
+- lending_pool_configure_bank_emode (/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/config_bank_emode.rs): PartiallyAnalyzed — ["LoopDetected"]
+- place_order (/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/order.rs): PartiallyAnalyzed — ["MatchExpression"]
+- set_keeper_close_flags (/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/order.rs): PartiallyAnalyzed — ["MatchExpression"]
+- start_execute_order (/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/order.rs): PartiallyAnalyzed — ["MatchExpression"]
+- end_execute_order (/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/order.rs): PartiallyAnalyzed — ["MatchExpression"]
+- sync_indexer_flags (/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/sync_indexer_flags.rs): PartiallyAnalyzed — ["LoopDetected"]
+- lending_account_pulse_health (/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/pulse_health.rs): PartiallyAnalyzed — ["MatchExpression"]
+
+**mango-v4** (17 not fully analyzed):
+
+- token_deregister (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_deregister.rs): PartiallyAnalyzed — ["LoopDetected"]
+- flash_loan_end (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/flash_loan.rs): PartiallyAnalyzed — ["LoopDetected","MatchExpression"]
+- serum3_place_order (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_place_order.rs): PartiallyAnalyzed — ["MatchExpression","LoopDetected"]
+- health_region_begin (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/health_region.rs): PartiallyAnalyzed — ["LoopDetected","MatchExpression"]
+- account_buyback_fees_with_mngo (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_buyback_fees_with_mngo.rs): PartiallyAnalyzed — ["LoopDetected"]
+- ix_gate_set (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/ix_gate_set.rs): PartiallyAnalyzed — ["LoopDetected"]
+- token_update_index_and_rate (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_update_index_and_rate.rs): PartiallyAnalyzed — ["LoopDetected","MatchExpression"]
+- perp_consume_events (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_consume_events.rs): PartiallyAnalyzed — ["LoopDetected","MatchExpression"]
+- account_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_close.rs): PartiallyAnalyzed — ["LoopDetected"]
+- token_liq_bankruptcy (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_liq_bankruptcy.rs): PartiallyAnalyzed — ["LoopDetected"]
+- account_edit (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_edit.rs): PartiallyAnalyzed — ["MatchExpression"]
+- health_check (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/health_check.rs): PartiallyAnalyzed — ["MatchExpression"]
+- token_edit (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_edit.rs): PartiallyAnalyzed — ["LoopDetected"]
+- perp_place_order (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs): PartiallyAnalyzed — ["MatchExpression"]
+- perp_place_order_v2 (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs): PartiallyAnalyzed — ["MatchExpression"]
+- perp_place_order_pegged (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs): PartiallyAnalyzed — ["MatchExpression"]
+- perp_place_order_pegged_v2 (/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/lib.rs): PartiallyAnalyzed — ["MatchExpression"]
+
+**squads-mpl** (2 not fully analyzed):
+
+- create_transaction (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs): PartiallyAnalyzed — ["MatchExpression"]
+- execute_instruction (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs): PartiallyAnalyzed — ["LoopDetected"]
+
+**squads-v4** (35 not fully analyzed):
+
+- transaction_buffer_extend (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_buffer_extend.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- vault_transaction_create_from_buffer (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/vault_transaction_create_from_buffer.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- proposal_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- batch_add_transaction (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/batch_add_transaction.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- proposal_approve (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- proposal_reject (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- proposal_cancel (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- proposal_cancel_v2 (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_vote.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- multisig_remove_spending_limit (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_remove_spending_limit.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- batch_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/batch_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- transaction_buffer_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_buffer_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- program_config_init (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config_init.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- transaction_buffer_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_buffer_close.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- config_transaction_execute (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/config_transaction_execute.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- vault_transaction_execute (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/vault_transaction_execute.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- multisig_add_spending_limit (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_add_spending_limit.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- batch_execute_transaction (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/batch_execute_transaction.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- multisig_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- program_config_set_authority (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- program_config_set_multisig_creation_fee (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- program_config_set_treasury (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/program_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- multisig_add_member (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- multisig_remove_member (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- multisig_change_threshold (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- multisig_set_time_lock (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- multisig_set_config_authority (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- multisig_set_rent_collector (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/multisig_config.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- spending_limit_use (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/spending_limit_use.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- proposal_activate (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/proposal_activate.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- vault_transaction_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/vault_transaction_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- config_transaction_accounts_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- vault_transaction_accounts_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs): PartiallyAnalyzed — ["MatchExpression"]
+- vault_batch_transaction_account_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- batch_accounts_close (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/transaction_accounts_close.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+- config_transaction_create (/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/instructions/config_transaction_create.rs): Unresolved — Context<Self> — no enclosing impl-type tracking to resolve it
+
 ## Timing / peak memory
 
 | Protocol | Wall time | Peak RSS |
 |---|---|---|
-| marginfi | 1.26s | 108784KB |
-| mango-v4 | 1.13s | 121552KB |
-| orca-whirlpools | 0.89s | 127248KB |
-| squads-mpl | 0.05s | 9040KB |
-| marinade | 0.05s | 10624KB |
-| squads-v4 | 0.08s | 14576KB |
+| marginfi | 1.27s | 108912KB |
+| mango-v4 | 1.16s | 122912KB |
+| orca-whirlpools | 0.86s | 127376KB |
+| squads-mpl | 0.06s | 8912KB |
+| marinade | 0.06s | 10736KB |
+| squads-v4 | 0.08s | 14656KB |

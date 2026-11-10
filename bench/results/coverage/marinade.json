@@ -1,0 +1,211 @@
+{
+  "total_handlers": 29,
+  "resolved_to_struct": 29,
+  "fully_analyzed": 29,
+  "files_failed_to_parse": [],
+  "handlers": [
+    {
+      "name": "initialize",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "change_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "add_validator",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "remove_validator",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_validator_score",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "config_validator_system",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "deposit_stake_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "liquid_unstake",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "add_liquidity",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "remove_liquidity",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "config_lp",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "config_marinade",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "order_unstake",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "claim",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "stake_reserve",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "update_active",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "update_deactivated",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "deactivate_stake",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "emergency_unstake",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "partial_unstake",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "merge_stakes",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "create_canonical_stake",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "pause",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "resume",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "withdraw_stake_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "realloc_validator_list",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "realloc_stake_list",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "finalize_delinquent_upgrade",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    }
+  ]
+}

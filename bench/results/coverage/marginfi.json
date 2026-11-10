@@ -1,0 +1,1520 @@
+{
+  "total_handlers": 213,
+  "resolved_to_struct": 213,
+  "fully_analyzed": 206,
+  "files_failed_to_parse": [],
+  "handlers": [
+    {
+      "name": "swap_like_jup",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/instructions/swap_like_jupiter.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handle_bankruptcy_via_cpi",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/instructions/handle_bankruptcy.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "do_nothing",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/instructions/do_nothing.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "create_marginfi_account_pda_via_cpi",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/instructions/pda_account_creation.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "init_pool_auth",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/instructions/init_pool_auth.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "start_liquidation_via_cpi",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/instructions/start_liquidate.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "do_nothing",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "init_pool_auth",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "swap_like_jupiter",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "write",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "create_marginfi_account_pda_via_cpi",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "start_liquidation_via_cpi",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "handle_bankruptcy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "kamino_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/withdraw.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "kamino_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/deposit.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "kamino_harvest_reward",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/harvest_reward.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "kamino_init_obligation",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/init_obligation.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_kamino",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/add_pool.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "juplend_init_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/init_position.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "juplend_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/withdraw.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "juplend_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/deposit.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_juplend",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/add_pool.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_fee_state_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/init_global_fee_state_v2.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_fee_state",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/init_global_fee_state.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_with_seed",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/add_pool_with_seed.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "write_bank_metadata",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/write_bank_metadata.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "write_bank_metadata_pre_init",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/write_bank_metadata.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "panic_unpause",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/panic_unpause.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "edit_fee_state",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/edit_global_fee.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "panic_unpause_permissionless",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/panic_unpause_permissionless.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "configure_bank_rate_limits",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/configure_rate_limits.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "configure_group_rate_limits",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/configure_rate_limits.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_staked_settings",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/init_staked_settings.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "configure",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/configure.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_pulse_bank_price_cache",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/pulse_bank_price_cache.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "update_group_rate_limiter",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/update_group_rate_limiter.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_backfill_bank_is_t22_flag",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/backfill_bank_is_t22_flag.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_accrue_bank_interest",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/accrue_bank_interest.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_handle_bankruptcy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/handle_bankruptcy.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_group",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/initialize.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_clone_bank",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/clone_bank.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "config_group_fee",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/config_group_fee.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_configure_bank",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/configure_bank.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_emissions_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/configure_bank.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_collect_bank_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_withdraw_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_withdraw_insurance",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_update_fees_destination_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_withdraw_fees_permissionless",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_configure_bank_emode",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/config_bank_emode.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected"
+        ]
+      }
+    },
+    {
+      "name": "disable_staked_oracles",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/on_ramp_transition.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "enable_staked_oracle_onramp",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/on_ramp_transition.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_configure_bank_oracle",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/config_bank_oracle.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "propagate_staked_settings",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/propagate_staked_settings.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "init_bank_metadata",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/init_bank_metadata.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_clone_emode",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/emode_clone.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "super_admin_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/super_admin_withdraw.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "update_deleverage_withdrawals",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/update_deleverage_withdrawals.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_permissionless",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/add_pool_permissionless.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "super_admin_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/super_admin_deposit.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "propagate_fee",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/propagate_fee_state.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "edit_staked_settings",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/edit_stake_settings.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_set_fixed_oracle_price",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/set_fixed_oracle_price.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "panic_pause",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/panic_pause.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_close_bank",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/close_bank.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_configure_bank_interest_only",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/configure_bank_lite.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_configure_bank_limits_only",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/configure_bank_lite.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_force_tokenless_repay_complete",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/configure_bank_lite.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "copy_fee_state_to_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/copy_fee_state_to_v2.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/add_pool.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_backfill_staked_bank_validator_vote_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/backfill_staked_bank_validator_vote_account.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "configure_deleverage_withdrawal_limit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/configure_withdrawal_limit.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "drift_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/withdraw.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "drift_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/deposit.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "drift_harvest_reward",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/harvest_reward.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "drift_claim_bad_debt",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/claim_bad_debt.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "drift_init_user",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/init_user.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_drift",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/add_pool.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "place_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/order.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "close_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/order.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "keeper_close_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/order.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_keeper_close_flags",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/order.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "start_execute_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/order.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "end_execute_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/order.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "admin_close_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/admin_close.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "sync_indexer_flags",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/sync_indexer_flags.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected"
+        ]
+      }
+    },
+    {
+      "name": "close_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/close.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/withdraw.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_pulse_health",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/pulse_health.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "close_liquidation_record",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/close_liquid_record.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_repay",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/repay.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/initialize.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_account_pda",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/initialize.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "initialize_liquidation_record",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/init_liquid_record.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/deposit.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "end_liquidation",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/liquidate_end.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "end_deleverage",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/liquidate_end.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_borrow",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/borrow.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_purge_delev_balance",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/purge_delev_balance.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_update_emissions_destination_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/emissions.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "start_liquidation",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/liquidate_start.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "start_deleverage",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/liquidate_start.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_start_flashloan",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/flashloan.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_end_flashloan",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/flashloan.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_close_balance",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/close_balance.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_account_freeze",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/freeze.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "transfer_to_new_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/transfer_account.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "transfer_to_new_account_pda",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/transfer_account.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_liquidate",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/liquidate.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "solend_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/withdraw.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "solend_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/deposit.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "solend_init_obligation",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/init_obligation.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_solend",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/add_pool.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_group_initialize",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_group_configure",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_with_seed",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_clone_bank",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_permissionless",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_backfill_bank_is_t22_flag",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_backfill_staked_bank_validator_vote_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "disable_staked_oracles",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "enable_staked_oracle_onramp",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_configure_bank",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_configure_bank_interest_only",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_configure_bank_limits_only",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_force_tokenless_repay_complete",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_configure_bank_oracle",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_set_fixed_oracle_price",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_configure_bank_emode",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_clone_emode",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_emissions_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_handle_bankruptcy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "super_admin_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "super_admin_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_initialize",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_init_liq_record",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_close_liq_record",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_initialize_pda",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_place_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_close_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_keeper_close_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_set_keeper_close_flags",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_start_execute_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_end_execute_order",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_repay",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_borrow",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_close_balance",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_liquidate",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_start_flashloan",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_end_flashloan",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_update_emissions_destination_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_accrue_bank_interest",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_collect_bank_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_withdraw_fees",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_withdraw_fees_permissionless",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_update_fees_destination_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_withdraw_insurance",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_close_bank",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "transfer_to_new_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "transfer_to_new_account_pda",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_set_freeze",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "marginfi_account_close",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "admin_close_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_account_pulse_health",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "sync_indexer_flags",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_pulse_bank_price_cache",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "init_global_fee_state",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "init_global_fee_state_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "copy_fee_state_to_v2",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "edit_global_fee_state",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "propagate_fee_state",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "config_group_fee",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "init_staked_settings",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "edit_staked_settings",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "propagate_staked_settings",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "start_liquidation",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "end_liquidation",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "start_deleverage",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "end_deleverage",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "panic_pause",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "panic_unpause",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "panic_unpause_permissionless",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "init_bank_metadata",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "write_bank_metadata",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "write_bank_metadata_pre_init",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "configure_deleverage_withdrawal_limit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "update_deleverage_withdrawals",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "configure_bank_rate_limits",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "configure_group_rate_limits",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "update_group_rate_limiter",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "purge_deleverage_balance",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "kamino_init_obligation",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "kamino_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "kamino_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_kamino",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "kamino_harvest_reward",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_drift",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "drift_init_user",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "drift_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "drift_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "drift_harvest_reward",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "drift_claim_bad_debt",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_solend",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "solend_init_obligation",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "solend_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "solend_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "lending_pool_add_bank_juplend",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "juplend_init_position",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "juplend_deposit",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "juplend_withdraw",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    }
+  ]
+}

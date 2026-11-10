@@ -1,0 +1,245 @@
+{
+  "total_handlers": 33,
+  "resolved_to_struct": 33,
+  "fully_analyzed": 31,
+  "files_failed_to_parse": [],
+  "handlers": [
+    {
+      "name": "create_validator_manager",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/validator/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "create_managed_validator",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/validator/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "create",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "add_member",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "remove_member",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "remove_member_and_change_threshold",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "add_member_and_change_threshold",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "change_threshold",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "add_authority",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "create_transaction",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "MatchExpression"
+        ]
+      }
+    },
+    {
+      "name": "activate_transaction",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "add_instruction",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "approve_transaction",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "reject_transaction",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "cancel_transaction",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "execute_transaction",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "execute_instruction",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/squads-mpl/src/lib.rs",
+      "status": {
+        "status": "PartiallyAnalyzed",
+        "boundary_warnings": [
+          "LoopDetected"
+        ]
+      }
+    },
+    {
+      "name": "create_manager",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "add_user",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "change_role",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "create_proxy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "add_proxy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "activate_proxy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "approve_proxy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "reject_proxy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "execute_tx_proxy",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "create_program_manager",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/program-manager/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "create_managed_program",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/program-manager/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "create_program_upgrade",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/program-manager/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "close_managed_program_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/program-manager/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "close_upgrade_account",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/program-manager/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "set_as_executed",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/program-manager/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    },
+    {
+      "name": "track_meta",
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/txmeta/src/lib.rs",
+      "status": {
+        "status": "FullyAnalyzed"
+      }
+    }
+  ]
+}
