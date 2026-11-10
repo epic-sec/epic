@@ -9,6 +9,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -16,6 +21,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 5,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -23,6 +33,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -30,6 +45,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -37,6 +57,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 2,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -44,6 +69,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -51,6 +81,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -58,6 +93,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -65,6 +105,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -72,6 +117,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -79,6 +129,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -86,6 +141,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 4,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -93,6 +153,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 13,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -100,6 +165,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 2,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -107,6 +177,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 3,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -114,6 +189,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 3,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -121,6 +201,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 2,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -128,6 +213,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 7,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -135,6 +225,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 3,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -142,6 +237,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 2,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -149,6 +249,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 2,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -156,6 +261,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -163,6 +273,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -170,6 +285,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -177,6 +297,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -184,6 +309,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -191,6 +321,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -198,6 +333,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -205,6 +345,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 2,
+        "unresolved_delegate_calls": 0
       }
     }
   ]

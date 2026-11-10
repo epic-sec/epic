@@ -10,7 +10,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "vault_transaction_create_from_buffer",
@@ -18,7 +19,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "proposal_create",
@@ -26,7 +28,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "batch_add_transaction",
@@ -34,7 +37,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "proposal_approve",
@@ -42,7 +46,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "proposal_reject",
@@ -50,7 +55,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "proposal_cancel",
@@ -58,7 +64,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "proposal_cancel_v2",
@@ -66,7 +73,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "multisig_remove_spending_limit",
@@ -74,7 +82,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "batch_create",
@@ -82,7 +91,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "transaction_buffer_create",
@@ -90,7 +100,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "program_config_init",
@@ -98,7 +109,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "transaction_buffer_close",
@@ -106,7 +118,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "config_transaction_execute",
@@ -114,7 +127,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "vault_transaction_execute",
@@ -122,7 +136,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "multisig_add_spending_limit",
@@ -130,7 +145,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "batch_execute_transaction",
@@ -138,7 +154,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "multisig_create",
@@ -146,7 +163,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "program_config_set_authority",
@@ -154,7 +172,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "program_config_set_multisig_creation_fee",
@@ -162,7 +181,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "program_config_set_treasury",
@@ -170,7 +190,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "multisig_add_member",
@@ -178,7 +199,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "multisig_remove_member",
@@ -186,7 +208,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "multisig_change_threshold",
@@ -194,7 +217,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "multisig_set_time_lock",
@@ -202,7 +226,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "multisig_set_config_authority",
@@ -210,7 +235,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "multisig_set_rent_collector",
@@ -218,7 +244,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "spending_limit_use",
@@ -226,7 +253,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "proposal_activate",
@@ -234,7 +262,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "vault_transaction_create",
@@ -242,7 +271,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "config_transaction_accounts_close",
@@ -250,7 +280,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "vault_transaction_accounts_close",
@@ -260,6 +291,11 @@
         "boundary_warnings": [
           "MatchExpression"
         ]
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -268,7 +304,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "batch_accounts_close",
@@ -276,7 +313,8 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "config_transaction_create",
@@ -284,13 +322,19 @@
       "status": {
         "status": "Unresolved",
         "reason": "Context<Self> — no enclosing impl-type tracking to resolve it"
-      }
+      },
+      "mutation": null
     },
     {
       "name": "program_config_init",
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -298,6 +342,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -305,6 +354,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -312,6 +366,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -319,6 +378,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -326,6 +390,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -333,6 +402,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -340,6 +414,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -347,6 +426,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -354,6 +438,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -361,6 +450,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -368,6 +462,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -375,6 +474,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -382,6 +486,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -389,6 +498,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -396,6 +510,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -403,6 +522,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -410,6 +534,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -417,6 +546,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -424,6 +558,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -431,6 +570,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -438,6 +582,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -445,6 +594,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -452,6 +606,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -459,6 +618,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -466,6 +630,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -473,6 +642,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -480,6 +654,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -487,6 +666,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -494,6 +678,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -501,6 +690,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -508,6 +702,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -515,6 +714,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -522,6 +726,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -529,6 +738,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -536,6 +750,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-v4/programs/squads_multisig_program/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     }
   ]

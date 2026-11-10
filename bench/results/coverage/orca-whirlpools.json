@@ -9,6 +9,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_reward.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 2
       }
     },
     {
@@ -16,6 +21,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/update_fees_and_rewards.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -23,6 +33,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/transfer_locked_position.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 3
       }
     },
     {
@@ -30,6 +45,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/open_bundled_position.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -37,6 +57,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_pool.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 4
       }
     },
     {
@@ -44,6 +69,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/swap.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -51,6 +81,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/close_bundled_position.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -58,6 +93,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/open_position_with_metadata.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -65,6 +105,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/decrease_liquidity.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 3
       }
     },
     {
@@ -72,6 +117,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/collect_fees.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -79,6 +129,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/open_position_with_token_extensions.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -86,6 +141,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/increase_liquidity.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 4
       }
     },
     {
@@ -93,6 +153,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_protocol_fee_rate.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -100,6 +165,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_fee_rate.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -107,6 +177,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_position_bundle.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -114,6 +189,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/two_hop_swap.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 2
       }
     },
     {
@@ -121,6 +201,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_reward_authority_by_super_authority.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -128,6 +213,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/reset_position_range.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 5,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -135,6 +225,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_fee_authority.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -142,6 +237,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/collect_reward.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -149,6 +249,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/close_position.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -156,6 +261,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/collect_protocol_fees.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 2,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -163,6 +273,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/set_config_extension_authority.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -170,6 +285,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/initialize_reward.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 2
       }
     },
     {
@@ -177,6 +297,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/set_token_badge_authority.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -184,6 +309,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/initialize_pool.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 4
       }
     },
     {
@@ -191,6 +321,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/swap.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -198,6 +333,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/decrease_liquidity.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 3
       }
     },
     {
@@ -205,6 +345,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/collect_fees.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -212,6 +357,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/increase_liquidity.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 4
       }
     },
     {
@@ -219,6 +369,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/two_hop_swap.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 2
       }
     },
     {
@@ -226,6 +381,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/collect_reward.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -233,6 +393,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/collect_protocol_fees.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 2,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -240,6 +405,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/initialize_token_badge.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 3,
+        "unresolved_delegate_calls": 2
       }
     },
     {
@@ -247,6 +417,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/set_token_badge_attribute.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -254,6 +429,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/initialize_config_extension.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 3,
+        "unresolved_delegate_calls": 2
       }
     },
     {
@@ -261,6 +441,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/set_reward_emissions.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -268,6 +453,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/v2/delete_token_badge.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -275,6 +465,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_preset_adaptive_fee_constants.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 7,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -282,6 +477,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/initialize_adaptive_fee_tier.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 3,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -289,6 +489,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/initialize_pool_with_adaptive_fee.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 6
       }
     },
     {
@@ -296,6 +501,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_default_base_fee_rate.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -303,6 +513,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_initialize_pool_authority.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -310,6 +525,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_fee_rate_by_delegated_fee_authority.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -317,6 +537,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_adaptive_fee_constants.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -324,6 +549,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/adaptive_fee/set_delegated_fee_authority.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -331,6 +561,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_position_bundle_with_metadata.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -338,6 +573,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/delete_position_bundle.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -345,6 +585,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_default_fee_rate.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -352,6 +597,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_default_protocol_fee_rate.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -359,6 +609,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/migrate_repurpose_reward_authority_space.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -366,6 +621,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_collect_protocol_fees_authority.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -373,6 +633,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_config_feature_flag.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -380,6 +645,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_reward_emissions_super_authority.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -387,6 +657,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_reward_authority.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -394,6 +669,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/set_reward_emissions.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 1,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -401,6 +681,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/lock_position.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 4,
+        "unresolved_delegate_calls": 2
       }
     },
     {
@@ -408,6 +693,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_fee_tier.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 2,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -415,6 +705,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_tick_array.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -422,6 +717,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_dynamic_tick_array.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 5
       }
     },
     {
@@ -429,6 +729,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/open_position.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -436,6 +741,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/initialize_config.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -443,6 +753,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/close_position_with_token_extensions.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 1
       }
     },
     {
@@ -450,6 +765,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -457,6 +777,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -464,6 +789,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -471,6 +801,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -478,6 +813,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -485,6 +825,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -492,6 +837,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -499,6 +849,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -506,6 +861,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -513,6 +873,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -520,6 +885,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -527,6 +897,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -534,6 +909,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -541,6 +921,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -548,6 +933,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -555,6 +945,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -562,6 +957,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -569,6 +969,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -576,6 +981,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -583,6 +993,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -590,6 +1005,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -597,6 +1017,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -604,6 +1029,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -611,6 +1041,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -618,6 +1053,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -625,6 +1065,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -632,6 +1077,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -639,6 +1089,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -646,6 +1101,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -653,6 +1113,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -660,6 +1125,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -667,6 +1137,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -674,6 +1149,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -681,6 +1161,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -688,6 +1173,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -695,6 +1185,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -702,6 +1197,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -709,6 +1209,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -716,6 +1221,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -723,6 +1233,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -730,6 +1245,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -737,6 +1257,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -744,6 +1269,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -751,6 +1281,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -758,6 +1293,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -765,6 +1305,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -772,6 +1317,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -779,6 +1329,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -786,6 +1341,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -793,6 +1353,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -800,6 +1365,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -807,6 +1377,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -814,6 +1389,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -821,6 +1401,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -828,6 +1413,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -835,6 +1425,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -842,6 +1437,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -849,6 +1449,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -856,6 +1461,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -863,6 +1473,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -870,6 +1485,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -877,6 +1497,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -884,6 +1509,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -891,6 +1521,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -898,6 +1533,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     },
     {
@@ -905,6 +1545,11 @@
       "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/lib.rs",
       "status": {
         "status": "FullyAnalyzed"
+      },
+      "mutation": {
+        "visible_writes": 0,
+        "reachable_via_resolved_delegate": 0,
+        "unresolved_delegate_calls": 0
       }
     }
   ]

@@ -135,9 +135,9 @@ them apart.
 
 | Protocol | Wall time | Peak RSS |
 |---|---|---|
-| marginfi | 1.27s | 108912KB |
-| mango-v4 | 1.16s | 122912KB |
-| orca-whirlpools | 0.86s | 127376KB |
-| squads-mpl | 0.06s | 8912KB |
-| marinade | 0.06s | 10736KB |
-| squads-v4 | 0.08s | 14656KB |
+| marginfi | 1.24s | 108304KB |
+| mango-v4 | 1.12s | 123104KB |
+| orca-whirlpools | 0.80s | 127840KB |
+| squads-mpl | 0.06s | 8944KB |
+| marinade | 0.05s | 10848KB |
+| squads-v4 | 0.08s | 14736KB |
