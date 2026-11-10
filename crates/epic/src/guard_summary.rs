@@ -28,7 +28,7 @@ pub type GuardSummary = HashSet<String>;
 
 /// Builds a CFG for an arbitrary function body, not just an instruction
 /// handler's — the same builder, just pointed at a helper's statements.
-fn build_cfg(stmts: &[syn::Stmt]) -> ControlFlowGraph {
+pub(crate) fn build_cfg(stmts: &[syn::Stmt]) -> ControlFlowGraph {
     let mut builder = CFGBuilder::new();
     let _ = builder.compile_statements(stmts, 0);
     builder.graph
@@ -43,7 +43,7 @@ fn build_cfg(stmts: &[syn::Stmt]) -> ControlFlowGraph {
 /// an exit the check must dominate. For a first version that's the
 /// conservative direction to be wrong in: such a function may look less
 /// guaranteed than it actually is, never more.
-fn ok_exit_nodes(cfg: &ControlFlowGraph) -> Vec<usize> {
+pub(crate) fn ok_exit_nodes(cfg: &ControlFlowGraph) -> Vec<usize> {
     let early_return_targets: HashSet<usize> = cfg
         .edges
         .iter()
@@ -64,7 +64,7 @@ fn ok_exit_nodes(cfg: &ControlFlowGraph) -> Vec<usize> {
 /// struct, only bare parameter names, and
 /// `extract_signer_check_from_ir_expr` already falls back to the bare
 /// identifier when there's no `ctx.accounts.` prefix to strip.
-fn direct_signer_checks(cfg: &ControlFlowGraph) -> HashMap<String, usize> {
+pub(crate) fn direct_signer_checks(cfg: &ControlFlowGraph) -> HashMap<String, usize> {
     let mut result = HashMap::new();
     for edge in &cfg.edges {
         let Some(cond) = &edge.ir_condition else {
@@ -112,7 +112,7 @@ fn bare_identifier(expr: &syn::Expr) -> Option<String> {
 /// direct statement/node backreference from stage 1, and a call's own
 /// source line is rarely shared with an unrelated statement in the same
 /// function.
-fn find_call_node(cfg: &ControlFlowGraph, call: &CallSite) -> Option<usize> {
+pub(crate) fn find_call_node(cfg: &ControlFlowGraph, call: &CallSite) -> Option<usize> {
     let mut node_ids: Vec<usize> = cfg.nodes.keys().copied().collect();
     node_ids.sort_unstable();
     for node_id in node_ids {

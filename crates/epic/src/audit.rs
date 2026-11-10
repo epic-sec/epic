@@ -268,8 +268,17 @@ pub fn find_struct_for_context<'a>(
     candidates.into_iter().next()
 }
 
-/// Recursively discovers all programs, compiles CFG & SSA, extracts GuardFacts, and executes rules.
-pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
+/// Recursively discovers all programs, compiles CFG & SSA, extracts GuardFacts, and
+/// invokes `visit` once per `Context<T>`-taking instruction handler found.
+///
+/// This is the whole analysis front-end minus the rule engine. `run_audit` is a thin
+/// wrapper that runs rules over each context; anything else that needs the same
+/// per-instruction view (e.g. a measurement pass over the sweep corpus) goes through
+/// here rather than rebuilding the pipeline.
+pub fn for_each_analysis_context(
+    root_path: &str,
+    mut visit: impl FnMut(&AnalysisContext),
+) -> anyhow::Result<()> {
     let root = Path::new(root_path);
     let mut workspace = Workspace::new();
     let mut raw_functions = Vec::new();
@@ -357,10 +366,6 @@ pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
             }
         }
     }
-
-    let mut diagnostics = Vec::new();
-    let mut rule_engine = RuleEngine::new();
-    crate::rules::register_standard_rules(&mut rule_engine);
 
     // Interprocedural guard analysis (stages 1-3): a crate-wide call graph,
     // built once and reused across every instruction handler below, plus a
@@ -531,11 +536,22 @@ pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
                 rule_registry: Vec::new(),
             };
 
-            // Run rules using RuleEngine
-            let findings = rule_engine.run_all(&analysis_context);
-            diagnostics.extend(findings);
+            visit(&analysis_context);
         }
     }
+
+    Ok(())
+}
+
+/// Runs every registered rule over every instruction handler under `root_path`.
+pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
+    let mut rule_engine = RuleEngine::new();
+    crate::rules::register_standard_rules(&mut rule_engine);
+
+    let mut diagnostics = Vec::new();
+    for_each_analysis_context(root_path, |ctx| {
+        diagnostics.extend(rule_engine.run_all(ctx));
+    })?;
 
     // Final safety-net deduplication pass: drop exact duplicate diagnostics on
     // (rule_id, file, line, column, target_symbol / message)

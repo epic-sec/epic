@@ -23,6 +23,7 @@ pub mod sarif;
 pub mod types;
 pub mod ui;
 pub mod workspace;
+pub mod write_summary;
 
 pub use abi::{compare_workspaces, format_diff_results, ChangeType, DiffResult, Severity};
 pub use ast::{
@@ -31,8 +32,8 @@ pub use ast::{
     TypeInferenceEngine,
 };
 pub use audit::{
-    extract_context_struct_name, find_struct_for_context, run_audit, RawFunction,
-    RawFunctionVisitor,
+    extract_context_struct_name, find_struct_for_context, for_each_analysis_context, run_audit,
+    RawFunction, RawFunctionVisitor,
 };
 pub use cfg::{
     extract_guards_from_accounts_struct, CFGBoundaryWarning, CFGBuilder, CFGEdge, CFGNode,
