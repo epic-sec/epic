@@ -94,7 +94,7 @@ fn get_expr_write_target_ir(&self, expr: &IRExpression) -> Option<IRExpression> 
 
 Searched for privileged plain-assignment patterns (`.(authority|owner|admin|signer|initializer)\s*=[^=]`) in actual instruction source files:
 
-### squads-v4
+### squads-mpl
 - **0 instances** of plain privileged field assignment in instruction bodies.
 - `ctx.accounts.transaction.executed_index = ...` exists but `executed_index` is not an authority-like name.
 

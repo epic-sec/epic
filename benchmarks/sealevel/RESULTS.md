@@ -132,7 +132,7 @@ struct-level constraint, but the handler opens with
 declaratively. EPIC-SEC-006 now also checks for exactly this shape (any CFG
 edge tagged `is_early_return` whose branch condition is an `==` comparison
 naming both fields) before flagging a pair. With that check in place, the
-5-protocol sweep (mango-v4, marginfi, marinade, orca-whirlpools, squads-v4)
+5-protocol sweep (mango-v4, marginfi, marinade, orca-whirlpools, squads-mpl)
 produces zero EPIC-SEC-006 and zero EPIC-SEC-007 findings — both rules are
 proven correct against this benchmark's fixtures but have not yet found a
 true positive in real audited code, the same honest result already on
@@ -151,7 +151,7 @@ This was not an oversight. Widening the gate from "write" to "any
 privileged use" (reads, call-argument passes, logged references) was
 implemented and measured against all 6 real protocols in this project's
 audit sweep at the time (mango-v4, marginfi, marinade, metaplex-mpl,
-orca-whirlpools, squads-v4 — metaplex-mpl was later dropped from the
+orca-whirlpools, squads-mpl — metaplex-mpl was later dropped from the
 sweep corpus; see `KNOWN_LIMITATIONS.md`, current corpus is 5 protocols).
 It fixed both benchmark classes, but at an unacceptable cost:
 100+ new findings on real protocol code, the overwhelming majority on

@@ -21,7 +21,7 @@ That lets EPIC answer a question a text-matching linter can't: not just *"does a
 
 When `EPIC-SEC-002` (signer verification) reports a finding, it doesn't just assert a bypass — it attaches a **witness**: the concrete control-flow path from function entry to the flagged write, and, when a check exists at all, where it sits relative to that path. SARIF output carries this as a real `codeFlows` entry, not text appended to a message.
 
-**Current state:** v0.4.0, `cargo install epic`, 10 rules, 248 findings across a pinned 5-protocol production sweep (Marginfi, Mango-v4, Orca Whirlpools, Squads-v4, Marinade), and a vendored, pinned, publicly checked-in scorecard against the `coral-xyz/sealevel-attacks` benchmark (4 of 11 vulnerability classes caught — see [Benchmarks](#benchmarks) below, false negatives and coverage gaps included, not just the wins).
+**Current state:** v0.4.0, `cargo install epic`, 10 rules, 248 findings across a pinned 5-protocol production sweep (Marginfi, Mango-v4, Orca Whirlpools, Squads-mpl, Marinade), deterministically reproducible end to end via `bench/corpus.toml` + `scripts/sweep.sh`, and a vendored, pinned, publicly checked-in scorecard against the `coral-xyz/sealevel-attacks` benchmark (4 of 11 vulnerability classes caught — see [Benchmarks](#benchmarks) below, false negatives and coverage gaps included, not just the wins).
 
 ---
 
@@ -134,7 +134,11 @@ Published deliberately including the misses: 7 of the 11 classes (account-data-m
 
 ### Real-world sweep
 
-248 findings across a pinned 5-protocol production corpus: Marginfi, Mango-v4, Orca Whirlpools, Squads-v4, Marinade. A 6th protocol (metaplex-mpl) was measured and dropped from the corpus — it's a Shank-based native program, not Anchor, and its results were dominated by a naming collision rather than real signal (see Known Limitations).
+248 findings across a pinned 5-protocol production corpus: Marginfi, Mango-v4, Orca Whirlpools, Squads-mpl, Marinade. A 6th protocol (metaplex-mpl) was measured and dropped from the corpus — it's a Shank-based native program, not Anchor, and its results were dominated by a naming collision rather than real signal (see Known Limitations).
+
+**Deterministic as of this release.** A run-to-run nondeterminism bug (fixed below) meant mango-v4's count floated 54-57 depending on `HashMap` iteration order; 248 was only reachable when it happened to land on 57, roughly 1 run in 5. Every run now produces 248, confirmed byte-for-byte across repeated full sweeps and a from-scratch reclone of all 5 repos. Pins and the sweep script are checked in (`bench/corpus.toml`, `scripts/sweep.sh`) so this is independently reproducible, not just asserted.
+
+**Naming correction:** this corpus's "Squads-v4" entry was never Squads V4 — the pinned repo is `Squads-Protocol/squads-mpl` (program name `squads_mpl`), a different, older Squads program. Renamed here; see Known Limitations for detail and for the real Squads V4's separately-tracked result.
 
 ---
 

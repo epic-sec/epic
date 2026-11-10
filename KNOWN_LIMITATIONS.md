@@ -15,7 +15,7 @@ EPIC uses high-precision static analysis and abstract interpretation to detect s
 Direct, plain field reassignments on structs without an intermediate `let` binding or explicit borrow call (for example, `account.field = value;`) are not currently evaluated as write triggers by `EPIC-SEC-002`.
 
 **Verification & Real-World Impact:**  
-An empirical audit across 5 production Solana codebases (Marginfi, Mango-v4, Orca Whirlpools, Squads-v4, Marinade) confirmed that this scope boundary does **not** result in missed vulnerabilities:
+An empirical audit across 5 production Solana codebases (Marginfi, Mango-v4, Orca Whirlpools, Squads-mpl, Marinade) confirmed that this scope boundary does **not** result in missed vulnerabilities:
 - Every instance of direct field reassignment in the audited codebases operates on accounts already declared as `Signer<'info>` within Anchor context structs (which are automatically validated by EPIC's structural constraint analyzer).
 - Remaining instances occur within initialization-only code paths where authority checks are enforced declaratively.
 
@@ -27,7 +27,7 @@ Extending `EPIC-SEC-002` expression tracing to cover direct assignments is scope
 ### Sweep Corpus Scope: metaplex-mpl Excluded (Not an Anchor Program)
 
 **Behavior:**  
-`metaplex-foundation/mpl-token-metadata` (pinned commit `349e061053c6fc5b6b815e03e896e4db57012893`) was previously included in EPIC's real-world sweep corpus as a 6th protocol alongside Marginfi, Mango-v4, Orca Whirlpools, Squads-v4, and Marinade. It has been removed. The current sweep corpus is these 5 protocols.
+`metaplex-foundation/mpl-token-metadata` (pinned commit `349e061053c6fc5b6b815e03e896e4db57012893`) was previously included in EPIC's real-world sweep corpus as a 6th protocol alongside Marginfi, Mango-v4, Orca Whirlpools, Squads-mpl, and Marinade. It has been removed. The current sweep corpus is these 5 protocols.
 
 **Root Cause:**  
 Verified directly against the pinned commit: zero `anchor-lang` dependency in any `Cargo.toml`, zero `#[program]`, zero `#[derive(Accounts)]` anywhere in the tree. It's a Shank-based native Solana program (`shank = "0.3.0"` in `token-metadata/program/Cargo.toml`, account structs use `#[derive(..., ShankAccount)]`), not Anchor.
@@ -38,6 +38,22 @@ Compounding this, Metaplex's naming convention — `AccountInfo` parameters suff
 
 **Decision:**  
 Dropped from the sweep corpus rather than corrected in place — the results are not representative of EPIC's accuracy on the Anchor programs it targets, and presenting them alongside 5 genuinely-Anchor protocols would overstate or understate accuracy depending on which way the collision cuts. Re-baselined sweep total and per-rule breakdown live in `benchmarks/sealevel/RESULTS.md` and session history; current 5-protocol total should be treated as the reference number going forward, not any prior 6-protocol figure.
+
+---
+
+### Sweep Corpus Naming Correction: "Squads-v4" Was Squads-mpl, Not Squads V4
+
+**Behavior:**  
+The sweep corpus entry previously labeled "Squads-v4" throughout this file, the README, and `CHANGELOG.md` was never Squads V4. The pinned repository is `Squads-Protocol/squads-mpl` (program name `squads_mpl` per its own `Cargo.toml`) — a different, older Squads program. Renamed to "squads-mpl" everywhere in this release; the 5-protocol sweep total (248) is unaffected, since it was always measuring this repo, just under the wrong label.
+
+**The real Squads V4, measured separately:**  
+`Squads-Protocol/v4` (pinned at current head for this measurement, see `bench/corpus.toml`, `role = "supplementary"`) is tracked as its own entry, audited and reported, but never folded into the 5-protocol sweep total — it has no historical baseline to reconcile against.
+
+**Result: 0 findings — not a clean pass.** 20 of its 23 instruction files define the handler's real logic as `impl StructName { pub fn handler(ctx: Context<Self>, ...) }`, delegated to from a one-line wrapper in the `#[program]` module. EPIC's context-struct resolution (`get_context_generic_type` in `audit.rs`) reads `Context<Self>` literally — it has no enclosing-`impl`-type tracking, so it resolves the generic argument to the string `"Self"`, looks for an Accounts struct literally named `Self`, finds none, and every rule that depends on resolving that struct (effectively all of them) sees nothing to check. This isn't specific to Squads V4: it's any Anchor program that defines instruction bodies as methods on their own `Accounts` struct rather than inline in the `#[program]` module, a real and not-uncommon organizational idiom. Confirmed by direct test: patching all 20 `Context<Self>` occurrences to their resolved concrete type (e.g. `Context<ProgramConfigInit>`) in a local copy raises the count from 0 to 3 `EPIC-SEC-005` findings.
+
+**On inspection, those 3 are themselves very likely false positives from a second, unrelated bug** in `EPIC-SEC-005`'s own struct-resolution heuristic (`find_context_struct`), which re-derives the Accounts struct name by title-casing the *instruction function's* name rather than using the already-resolved struct name — and fails when a handler's method name doesn't match its struct name 1:1 (e.g. `multisig_create` vs. the actual struct `MultisigCreateV2`), or when the field's type is wrapped (`Option<Program<'info, System>>`, which `is_program_symbol`'s type-string check doesn't unwrap). Neither of EPIC's two bugs here is fixed as of this writing — this section records the finding, not a fix.
+
+**Status:** Both gaps (missing `impl`-type tracking for `Context<Self>`, and `find_context_struct`'s name-matching/`Option<T>`-unwrapping) are open. Not fixed in this release; recorded here so the real Squads V4's "0 findings" is never read as "clean."
 
 ---
 
@@ -119,7 +135,7 @@ Interprocedural dominance analysis for signer checks (`EPIC-SEC-002`'s core mech
 
 **Four measurements, in the order they were made:**
 
-1. **Stage 2 summary survey (5 repos, before the `is_early_return` fix):** 14 raw `.is_signer` occurrences across mango-v4, marginfi, marinade, orca-whirlpools, and squads-v4, but 0 non-empty guard summaries — i.e. 0 functions where an imperative signer check could be proven to dominate every exit. After fixing a real CFG gap (hand-written `if cond { return Err }` not tagged as an early return), that number moved to exactly 2, both in marginfi's `test_transfer_hook` program.
+1. **Stage 2 summary survey (5 repos, before the `is_early_return` fix):** 14 raw `.is_signer` occurrences across mango-v4, marginfi, marinade, orca-whirlpools, and squads-mpl, but 0 non-empty guard summaries — i.e. 0 functions where an imperative signer check could be proven to dominate every exit. After fixing a real CFG gap (hand-written `if cond { return Err }` not tagged as an early return), that number moved to exactly 2, both in marginfi's `test_transfer_hook` program.
 
 2. **Stage 3 wiring, first 5-repo sweep:** those 2 non-empty summaries' only caller, in the entire corpus, was `test_transfer_hook::process` — a native `fn process(program_id: &Pubkey, accounts: &[AccountInfo], ...)` entrypoint, not an Anchor `Context<T>` handler. It exists outside the Anchor idiom precisely because it has no `Signer<'info>` to declare in the first place. SEC-002 total across all 5 repos: unchanged (65 before, 65 after Stage 3 wiring went live).
 
