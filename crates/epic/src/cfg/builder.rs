@@ -514,8 +514,15 @@ fn guard_macro_condition_node(mac: &syn::Macro) -> Option<ExpressionNode> {
     };
 
     match name.as_str() {
-        "require" | "assert" => args.first().map(|a| convert_expr(a)),
-        "require_eq" | "require_keys_eq" | "assert_eq" if args.len() >= 2 => {
+        // `check!(cond, err)` is marginfi's own `require!`-equivalent
+        // (`programs/marginfi/src/macros.rs`: `if !($cond) { return
+        // Err(..) }`) — same shape, different name. Anchor programs
+        // routinely wrap `require!` in a project-local macro like this one;
+        // GUARD_MACRO_NAMES below is the single list to extend when the
+        // next project's own name shows up, rather than a match arm to
+        // find and edit.
+        _ if GUARD_MACRO_NAMES.contains(&name.as_str()) => args.first().map(|a| convert_expr(a)),
+        "require_eq" | "require_keys_eq" | "assert_eq" | "check_eq" if args.len() >= 2 => {
             Some(binary("==", args[0], args[1]))
         }
         "require_neq" | "require_keys_neq" | "assert_ne" if args.len() >= 2 => {
@@ -526,6 +533,20 @@ fn guard_macro_condition_node(mac: &syn::Macro) -> Option<ExpressionNode> {
         _ => None,
     }
 }
+
+/// Macro names recognized as `require!`/`assert!`-shaped: `if !(cond) {
+/// return Err(..) }`, taking the bare condition as their first argument.
+/// `require_eq`/`require_neq`/etc. have their own arms above (they take
+/// two value args, not one condition) — this list is only the
+/// single-condition family.
+///
+/// `check` covers marginfi's own guard macro
+/// (`programs/marginfi/src/macros.rs`), measured to never produce a CFG
+/// branch edge before this fix — `lending_pool_backfill_staked_bank_validator_vote_account`'s
+/// six `check!`/`check_eq!` calls were structurally invisible to dominance
+/// analysis. Add a project's own macro name here, not a new match arm, if
+/// the next one turns up the same gap.
+const GUARD_MACRO_NAMES: &[&str] = &["require", "assert", "check"];
 
 pub fn find_tries(expr: &syn::Expr, list: &mut Vec<syn::ExprTry>) {
     match expr {
