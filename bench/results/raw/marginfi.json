@@ -1,0 +1,1130 @@
+[
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'pool_a' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/instructions/swap_like_jupiter.rs",
+      "line": 15,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'pool_b' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/instructions/swap_like_jupiter.rs",
+      "line": 18,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'source_a' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/instructions/swap_like_jupiter.rs",
+      "line": 21,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'destination_b' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/instructions/swap_like_jupiter.rs",
+      "line": 24,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'insurance_vault_authority'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/mocks/src/instructions/handle_bankruptcy.rs",
+      "line": 43,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 7,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'lending_market_authority'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/withdraw.rs",
+      "line": 86,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 10,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'destination_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/withdraw.rs",
+      "line": 337,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `-` on 'integration_acc_2.load.deposits.deposited_amount', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/withdraw.rs",
+      "line": 202,
+      "column": 0,
+      "node_id": 55,
+      "statement_index": 1
+    },
+    "confidence": "Asserted",
+    "target_symbol": 8,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'lending_market_authority'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/deposit.rs",
+      "line": 52,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 10,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'signer_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/deposit.rs",
+      "line": 52,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'signer_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/deposit.rs",
+      "line": 185,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `-` on 'integration_acc_2.load.deposits.deposited_amount', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/deposit.rs",
+      "line": 83,
+      "column": 0,
+      "node_id": 25,
+      "statement_index": 1
+    },
+    "confidence": "Asserted",
+    "target_symbol": 8,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'farm_vaults_authority'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/harvest_reward.rs",
+      "line": 21,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 12,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'reserve_liquidity_supply' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/init_obligation.rs",
+      "line": 133,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 12,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'reserve_destination_deposit_collateral' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/kamino/init_obligation.rs",
+      "line": 144,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 14,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'lending_admin'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/init_position.rs",
+      "line": 41,
+      "column": 0,
+      "node_id": 6,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 10,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'signer_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/init_position.rs",
+      "line": 41,
+      "column": 0,
+      "node_id": 6,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'bank' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/init_position.rs",
+      "line": 46,
+      "column": 0,
+      "node_id": 10,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'lending_admin'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/withdraw.rs",
+      "line": 58,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 12,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'destination_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/withdraw.rs",
+      "line": 382,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'lending_admin'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/deposit.rs",
+      "line": 44,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 12,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'signer_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/deposit.rs",
+      "line": 44,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'signer_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/juplend/deposit.rs",
+      "line": 176,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-004",
+    "severity": "High",
+    "message": "Potential PDA cryptographic seed collision risk. Adjacent variable-length seeds 'bank.group.as_ref()' and 'bank.mint.as_ref()' can merge ambiguously. Insert a fixed-length seed or literal delimiter between them.",
+    "location": {
+      "file": "ctx",
+      "line": 19,
+      "column": 0,
+      "node_id": 3,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 0,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Warning",
+    "message": "Account 'bank' is manually verified against a canonical `find_program_address` result rather than declared via `#[account(seeds = [...], bump)]`. This is not a vulnerability, but the declarative form is easier to audit and lets Anchor compute the bump for you.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/write_bank_metadata.rs",
+      "line": 101,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Warning",
+    "message": "Account 'bank' is manually verified against a canonical `find_program_address` result rather than declared via `#[account(seeds = [...], bump)]`. This is not a vulnerability, but the declarative form is easier to audit and lets Anchor compute the bump for you.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/backfill_bank_is_t22_flag.rs",
+      "line": 67,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 1,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'bank' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/handle_bankruptcy.rs",
+      "line": 190,
+      "column": 0,
+      "node_id": 30,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'bank' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "line": 110,
+      "column": 0,
+      "node_id": 18,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'liquidity_vault_authority' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "line": 110,
+      "column": 0,
+      "node_id": 18,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'liquidity_vault' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "line": 110,
+      "column": 0,
+      "node_id": 18,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'fee_ata' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "line": 247,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 8,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'dst_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "line": 326,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'dst_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "line": 406,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "Medium",
+    "message": "Token account 'destination_account' missing authority constraint",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/collect_bank_fees.rs",
+      "line": 448,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-004",
+    "severity": "High",
+    "message": "Potential PDA cryptographic seed collision risk. Adjacent variable-length seeds 'bank.group.as_ref()' and 'bank.mint.as_ref()' can merge ambiguously. Insert a fixed-length seed or literal delimiter between them.",
+    "location": {
+      "file": "ctx",
+      "line": 25,
+      "column": 0,
+      "node_id": 9,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 0,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'bank' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/super_admin_withdraw.rs",
+      "line": 127,
+      "column": 0,
+      "node_id": 37,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'destination_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/super_admin_withdraw.rs",
+      "line": 163,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'admin_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/super_admin_deposit.rs",
+      "line": 43,
+      "column": 0,
+      "node_id": 11,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'bank' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_group/super_admin_deposit.rs",
+      "line": 92,
+      "column": 0,
+      "node_id": 27,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'drift_signer'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/withdraw.rs",
+      "line": 60,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 20,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'destination_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/withdraw.rs",
+      "line": 387,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 8,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'signer_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/deposit.rs",
+      "line": 49,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 8,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'signer_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/deposit.rs",
+      "line": 198,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 8,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'drift_signer'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/harvest_reward.rs",
+      "line": 34,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 11,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "Medium",
+    "message": "Token account 'from' missing authority constraint",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/claim_bad_debt.rs",
+      "line": 125,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 9,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'signer_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/drift/init_user.rs",
+      "line": 30,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'bank' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/withdraw.rs",
+      "line": 192,
+      "column": 0,
+      "node_id": 42,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'destination_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/withdraw.rs",
+      "line": 303,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'signer_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/repay.rs",
+      "line": 54,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'bank' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/repay.rs",
+      "line": 144,
+      "column": 0,
+      "node_id": 21,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'signer_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/deposit.rs",
+      "line": 48,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'bank' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/deposit.rs",
+      "line": 126,
+      "column": 0,
+      "node_id": 38,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'bank' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/borrow.rs",
+      "line": 175,
+      "column": 0,
+      "node_id": 31,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'destination_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/borrow.rs",
+      "line": 294,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'new_authority'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/transfer_account.rs",
+      "line": 53,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'new_authority'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/marginfi_account/transfer_account.rs",
+      "line": 188,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'lending_market_authority'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/withdraw.rs",
+      "line": 78,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 10,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'destination_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/withdraw.rs",
+      "line": 343,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'reserve_liquidity_supply' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/withdraw.rs",
+      "line": 387,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 13,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'reserve_collateral_supply' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/withdraw.rs",
+      "line": 397,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 15,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'lending_market_authority'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/deposit.rs",
+      "line": 54,
+      "column": 0,
+      "node_id": 4,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 10,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'signer_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/deposit.rs",
+      "line": 54,
+      "column": 0,
+      "node_id": 4,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'signer_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/deposit.rs",
+      "line": 185,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'reserve_liquidity_supply' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/deposit.rs",
+      "line": 229,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 13,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'reserve_collateral_supply' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/deposit.rs",
+      "line": 239,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 15,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'lending_market_authority'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/init_obligation.rs",
+      "line": 21,
+      "column": 0,
+      "node_id": 4,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 8,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'signer_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/init_obligation.rs",
+      "line": 21,
+      "column": 0,
+      "node_id": 4,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'bank' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/init_obligation.rs",
+      "line": 30,
+      "column": 0,
+      "node_id": 10,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'reserve_liquidity_supply' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/init_obligation.rs",
+      "line": 108,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 11,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'reserve_collateral_supply' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marginfi/programs/marginfi/src/instructions/solend/init_obligation.rs",
+      "line": 118,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 13,
+    "witness": null
+  }
+]

@@ -1,0 +1,1030 @@
+[
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'withdraw_destination' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/group_change_insurance_fund.rs",
+      "line": 20,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/token_withdraw.rs",
+      "line": 46,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 7,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `-` on 'account.load_full_mut.token_position_mut_by_raw_index.native', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_withdraw.rs",
+      "line": 153,
+      "column": 0,
+      "node_id": 64,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'destination' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/group_withdraw_insurance_fund.rs",
+      "line": 19,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'dust_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/token_deregister.rs",
+      "line": 26,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `+` on 'account.load_full_mut.token_position_mut_by_raw_index.native', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/flash_loan.rs",
+      "line": 456,
+      "column": 0,
+      "node_id": 41,
+      "statement_index": 2
+    },
+    "confidence": "Asserted",
+    "target_symbol": 1,
+    "witness": {
+      "check": {
+        "line": 458,
+        "text": "!(native_after_change < 1 || native_after_change <= native)"
+      },
+      "path": [
+        {
+          "line": 267,
+          "label": "entry (bb0)"
+        },
+        {
+          "line": 267,
+          "label": "bb2"
+        },
+        {
+          "line": 274,
+          "label": "bb4"
+        },
+        {
+          "line": 277,
+          "label": "bb6"
+        },
+        {
+          "line": 286,
+          "label": "bb8"
+        },
+        {
+          "line": 312,
+          "label": "bb10"
+        },
+        {
+          "line": 326,
+          "label": "bb12"
+        },
+        {
+          "line": 329,
+          "label": "bb14"
+        },
+        {
+          "line": 336,
+          "label": "bb16"
+        },
+        {
+          "line": 339,
+          "label": "bb18"
+        },
+        {
+          "line": 344,
+          "label": "bb20"
+        },
+        {
+          "line": 0,
+          "label": "bb21"
+        },
+        {
+          "line": 394,
+          "label": "bb25"
+        },
+        {
+          "line": 399,
+          "label": "bb27"
+        },
+        {
+          "line": 405,
+          "label": "bb29"
+        },
+        {
+          "line": 414,
+          "label": "bb31"
+        },
+        {
+          "line": 420,
+          "label": "bb33"
+        },
+        {
+          "line": 431,
+          "label": "bb35"
+        },
+        {
+          "line": 439,
+          "label": "bb36 (branch at line 439: native.is_positive())"
+        },
+        {
+          "line": 0,
+          "label": "bb38"
+        },
+        {
+          "line": 448,
+          "label": "bb39 (branch at line 448: change.amount < 0 && flash_loan_type == FlashLoanType::Swap)"
+        },
+        {
+          "line": 456,
+          "label": "arithmetic at line 456 (bb41)"
+        }
+      ]
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'market_vault_signer'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_place_order.rs",
+      "line": 34,
+      "column": 0,
+      "node_id": 4,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 14,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'payer_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/serum3_place_order.rs",
+      "line": 95,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 16,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `*` on 'mngo_bank.load_mut.oracle_price.min', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_buyback_fees_with_mngo.rs",
+      "line": 91,
+      "column": 0,
+      "node_id": 32,
+      "statement_index": 1
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `*` on 'perp_market.load_mut.oracle_price', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_force_close_unmatched.rs",
+      "line": 34,
+      "column": 0,
+      "node_id": 12,
+      "statement_index": 2
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `*` on 'perp_market.load_mut.base_lot_size', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_force_close_unmatched.rs",
+      "line": 34,
+      "column": 0,
+      "node_id": 12,
+      "statement_index": 2
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/admin_perp_withdraw_fees.rs",
+      "line": 35,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `-` on 'perp_market.load_mut.fees_settled.floor.to_num', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/admin_perp_withdraw_fees.rs",
+      "line": 11,
+      "column": 0,
+      "node_id": 4,
+      "statement_index": 2
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `-` on 'perp_market.load_mut.fees_withdrawn', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/admin_perp_withdraw_fees.rs",
+      "line": 11,
+      "column": 0,
+      "node_id": 4,
+      "statement_index": 2
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `*` on 'account_a.load_full_mut.perp_position_mut.base_position_native.abs', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_settle_pnl.rs",
+      "line": 162,
+      "column": 0,
+      "node_id": 42,
+      "statement_index": 16
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `*` on 'perp_market.load.oracle_price', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_settle_pnl.rs",
+      "line": 162,
+      "column": 0,
+      "node_id": 42,
+      "statement_index": 16
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `*` on 'account_a.load_full_mut.perp_position_mut.unsettled_pnl', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_settle_pnl.rs",
+      "line": 163,
+      "column": 0,
+      "node_id": 42,
+      "statement_index": 17
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `*` on 'settle_bank.load_mut.oracle_price', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_settle_pnl.rs",
+      "line": 163,
+      "column": 0,
+      "node_id": 42,
+      "statement_index": 17
+    },
+    "confidence": "Asserted",
+    "target_symbol": 8,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `-` on 'account_a.load_full_mut.perp_position_mut.apply_pnl_settle_limit.min.min.max', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_settle_pnl.rs",
+      "line": 188,
+      "column": 0,
+      "node_id": 50,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `-` on 'perp_market.load.compute_settle_fee', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_settle_pnl.rs",
+      "line": 188,
+      "column": 0,
+      "node_id": 50,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'market_vault_signer'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/serum3_liq_force_cancel_orders.rs",
+      "line": 20,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 12,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'quote_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/serum3_liq_force_cancel_orders.rs",
+      "line": 61,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 14,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'base_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/serum3_liq_force_cancel_orders.rs",
+      "line": 65,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 16,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `*` on 'max_liab_transfer.min.min.max', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_force_close_borrows_with_token.rs",
+      "line": 92,
+      "column": 0,
+      "node_id": 28,
+      "statement_index": 2
+    },
+    "confidence": "Asserted",
+    "target_symbol": 15,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/token_deposit.rs",
+      "line": 79,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 7,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/token_deposit.rs",
+      "line": 40,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'quote_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/token_liq_bankruptcy.rs",
+      "line": 44,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/admin_token_withdraw_fees.rs",
+      "line": 28,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `-` on 'bank.load_mut.collected_fees_native.floor.to_num', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/admin_token_withdraw_fees.rs",
+      "line": 11,
+      "column": 0,
+      "node_id": 4,
+      "statement_index": 2
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `-` on 'bank.load_mut.fees_withdrawn', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/admin_token_withdraw_fees.rs",
+      "line": 11,
+      "column": 0,
+      "node_id": 4,
+      "statement_index": 2
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'alternate_owner_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_force_withdraw.rs",
+      "line": 12,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 7,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'owner_ata_token_account'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/token_force_withdraw.rs",
+      "line": 12,
+      "column": 0,
+      "node_id": 2,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'alternate_owner_token_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/token_force_withdraw.rs",
+      "line": 51,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 7,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'account' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_expand.rs",
+      "line": 55,
+      "column": 0,
+      "node_id": 19,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `-` on 'account.as_ref.lamports', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_expand.rs",
+      "line": 29,
+      "column": 0,
+      "node_id": 7,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'account' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_size_migration.rs",
+      "line": 71,
+      "column": 0,
+      "node_id": 17,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `-` on 'account.as_ref.lamports', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/account_size_migration.rs",
+      "line": 52,
+      "column": 0,
+      "node_id": 12,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `*` on 'perp_market.load_mut.oracle_price', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_force_close_position.rs",
+      "line": 43,
+      "column": 0,
+      "node_id": 20,
+      "statement_index": 1
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `*` on 'account_a.load_full_mut.perp_position_mut.base_position_lots.min.max', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_force_close_position.rs",
+      "line": 43,
+      "column": 0,
+      "node_id": 20,
+      "statement_index": 1
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `*` on 'perp_market.load_mut.base_lot_size', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/instructions/perp_force_close_position.rs",
+      "line": 43,
+      "column": 0,
+      "node_id": 20,
+      "statement_index": 1
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'quote_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/serum3_settle_funds.rs",
+      "line": 55,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 12,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'base_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/serum3_settle_funds.rs",
+      "line": 59,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 14,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'market_base_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/openbook_v2_place_order.rs",
+      "line": 54,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 11,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'market_quote_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/openbook_v2_place_order.rs",
+      "line": 58,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 12,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'payer_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/openbook_v2_place_order.rs",
+      "line": 69,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 15,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'market_quote_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/openbook_v2_place_take_order.rs",
+      "line": 66,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 12,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'payer_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/openbook_v2_place_take_order.rs",
+      "line": 78,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 15,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'quote_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/openbook_v2_settle_funds.rs",
+      "line": 62,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 12,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'base_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/openbook_v2_settle_funds.rs",
+      "line": 68,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 14,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'market_base_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/openbook_v2_liq_force_cancel_orders.rs",
+      "line": 55,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 10,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'market_quote_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/openbook_v2_liq_force_cancel_orders.rs",
+      "line": 58,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 11,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'quote_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/openbook_v2_liq_force_cancel_orders.rs",
+      "line": 67,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 14,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'base_vault' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/mango-v4/src/accounts_ix/openbook_v2_liq_force_cancel_orders.rs",
+      "line": 71,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 16,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'deposit_account_owner'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/margin-trade/src/lib.rs",
+      "line": 33,
+      "column": 0,
+      "node_id": 3,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'withdraw_account_owner'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/margin-trade/src/lib.rs",
+      "line": 33,
+      "column": 0,
+      "node_id": 3,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 1,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'withdraw_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/margin-trade/src/lib.rs",
+      "line": 61,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "High",
+    "message": "Token account 'deposit_account' missing both mint and authority constraints",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/mango-v4/programs/margin-trade/src/lib.rs",
+      "line": 64,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  }
+]

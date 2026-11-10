@@ -1,0 +1,233 @@
+[
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'delegate'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "line": 49,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'creator' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "line": 80,
+      "column": 0,
+      "node_id": 5,
+      "statement_index": 2
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Warning",
+    "message": "Account 'delegate' is manually verified against a canonical `find_program_address` result rather than declared via `#[account(seeds = [...], bump)]`. This is not a vulnerability, but the declarative form is easier to audit and lets Anchor compute the bump for you.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/account.rs",
+      "line": 219,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 4,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'delegate'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "line": 93,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-003",
+    "severity": "Critical",
+    "message": "State access to 'creator' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "line": 124,
+      "column": 0,
+      "node_id": 5,
+      "statement_index": 1
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Warning",
+    "message": "Account 'delegate' is manually verified against a canonical `find_program_address` result rather than declared via `#[account(seeds = [...], bump)]`. This is not a vulnerability, but the declarative form is easier to audit and lets Anchor compute the bump for you.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/account.rs",
+      "line": 289,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-ARITH",
+    "severity": "Critical",
+    "message": "Unchecked `+` on 'incoming_instruction.get_max_size', which traces back to instruction input or account data, with no bound established on every path reaching it. A silent overflow/underflow here is not caught at runtime unless this is a checked/saturating/wrapping operation.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "line": 110,
+      "column": 0,
+      "node_id": 3,
+      "statement_index": 0
+    },
+    "confidence": "Asserted",
+    "target_symbol": 12,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'delegate'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "line": 137,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Warning",
+    "message": "Account 'delegate' is manually verified against a canonical `find_program_address` result rather than declared via `#[account(seeds = [...], bump)]`. This is not a vulnerability, but the declarative form is easier to audit and lets Anchor compute the bump for you.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/account.rs",
+      "line": 361,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'delegate'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "line": 166,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Warning",
+    "message": "Account 'delegate' is manually verified against a canonical `find_program_address` result rather than declared via `#[account(seeds = [...], bump)]`. This is not a vulnerability, but the declarative form is easier to audit and lets Anchor compute the bump for you.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/account.rs",
+      "line": 425,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'delegate'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "line": 195,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-002",
+    "severity": "Critical",
+    "message": "Privileged instruction mutation lacks signer verification for authority-like account 'delegate'.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/lib.rs",
+      "line": 222,
+      "column": 0,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": {
+      "check": null,
+      "path": []
+    }
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Warning",
+    "message": "Account 'delegate' is manually verified against a canonical `find_program_address` result rather than declared via `#[account(seeds = [...], bump)]`. This is not a vulnerability, but the declarative form is easier to audit and lets Anchor compute the bump for you.",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/squads-mpl/programs/roles/src/account.rs",
+      "line": 478,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  }
+]

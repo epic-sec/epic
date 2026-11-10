@@ -1,0 +1,272 @@
+[
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "Medium",
+    "message": "Token account 'treasury_msol_account' missing authority constraint",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/admin/initialize.rs",
+      "line": 53,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 8,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "Medium",
+    "message": "Token account 'mint_to' missing authority constraint",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/user/deposit.rs",
+      "line": 71,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 8,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "Medium",
+    "message": "Token account 'mint_to' missing authority constraint",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/user/deposit_stake_account.rs",
+      "line": 53,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 9,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Critical",
+    "message": "PDA bump for 'liq_pool_sol_leg_pda' is caller-supplied — use canonical bump derivation, not a caller-provided value. Replace `bump = state.liq_pool.bump` with bare `bump` (or store the canonical bump and load it from the account's own field).",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/liq_pool/liquid_unstake.rs",
+      "line": 32,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "Medium",
+    "message": "Token account 'get_msol_from' missing authority constraint",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/liq_pool/liquid_unstake.rs",
+      "line": 48,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Critical",
+    "message": "PDA bump for 'lp_mint_authority' is caller-supplied — use canonical bump derivation, not a caller-provided value. Replace `bump = state.liq_pool.bump` with bare `bump` (or store the canonical bump and load it from the account's own field).",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/liq_pool/add_liquidity.rs",
+      "line": 30,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "Medium",
+    "message": "Token account 'mint_to' missing authority constraint",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/liq_pool/add_liquidity.rs",
+      "line": 57,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 7,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Critical",
+    "message": "PDA bump for 'liq_pool_sol_leg_pda' is caller-supplied — use canonical bump derivation, not a caller-provided value. Replace `bump = state.liq_pool.bump` with bare `bump` (or store the canonical bump and load it from the account's own field).",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/liq_pool/remove_liquidity.rs",
+      "line": 47,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 7,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "Medium",
+    "message": "Token account 'burn_from' missing authority constraint",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/liq_pool/remove_liquidity.rs",
+      "line": 26,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "Medium",
+    "message": "Token account 'transfer_msol_to' missing authority constraint",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/liq_pool/remove_liquidity.rs",
+      "line": 36,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "Medium",
+    "message": "Token account 'burn_msol_from' missing authority constraint",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/delayed_unstake/order_unstake.rs",
+      "line": 25,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Critical",
+    "message": "PDA bump for 'reserve_pda' is caller-supplied — use canonical bump derivation, not a caller-provided value. Replace `bump = state.stake_system.bump` with bare `bump` (or store the canonical bump and load it from the account's own field).",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/crank/stake_reserve.rs",
+      "line": 54,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 5,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Critical",
+    "message": "PDA bump for 'reserve_pda' is caller-supplied — use canonical bump derivation, not a caller-provided value. Replace `bump = state.stake_system.bump` with bare `bump` (or store the canonical bump and load it from the account's own field).",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/crank/deactivate_stake.rs",
+      "line": 36,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 2,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Critical",
+    "message": "PDA bump for 'stake_deposit_authority' is caller-supplied — use canonical bump derivation, not a caller-provided value. Replace `bump = state.stake_system.bump` with bare `bump` (or store the canonical bump and load it from the account's own field).",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/management/emergency_unstake.rs",
+      "line": 43,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Critical",
+    "message": "PDA bump for 'stake_deposit_authority' is caller-supplied — use canonical bump derivation, not a caller-provided value. Replace `bump = state.stake_system.bump` with bare `bump` (or store the canonical bump and load it from the account's own field).",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/crank/merge_stakes.rs",
+      "line": 41,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Critical",
+    "message": "PDA bump for 'stake_deposit_authority' is caller-supplied — use canonical bump derivation, not a caller-provided value. Replace `bump = state.stake_system.bump` with bare `bump` (or store the canonical bump and load it from the account's own field).",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/crank/create_canonical_stake.rs",
+      "line": 42,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 6,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-PDA",
+    "severity": "Critical",
+    "message": "PDA bump for 'stake_withdraw_authority' is caller-supplied — use canonical bump derivation, not a caller-provided value. Replace `bump = state.stake_system.bump` with bare `bump` (or store the canonical bump and load it from the account's own field).",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/user/withdraw_stake_account.rs",
+      "line": 71,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 8,
+    "witness": null
+  },
+  {
+    "rule_id": "EPIC-SEC-TOKEN",
+    "severity": "Medium",
+    "message": "Token account 'burn_msol_from' missing authority constraint",
+    "location": {
+      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/marinade/programs/marinade-finance/src/instructions/user/withdraw_stake_account.rs",
+      "line": 44,
+      "column": 8,
+      "node_id": 0,
+      "statement_index": null
+    },
+    "confidence": "Asserted",
+    "target_symbol": 3,
+    "witness": null
+  }
+]
