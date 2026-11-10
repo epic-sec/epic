@@ -19,10 +19,13 @@ impl Rule for TokenAccountRule {
 
         // Use find_struct_for_context for correct, deterministic disambiguation when
         // multiple structs share the same bare name across different modules.
-        let struct_match = crate::audit::find_struct_for_context(
+        let struct_match = crate::audit::resolve_accounts_struct(
             &context.ast_graph.registry,
-            struct_name,
+            &context.program_metadata.name,
+            &instruction_context.module_path,
             &instruction_context.file_path,
+            struct_name,
+            instruction_context.impl_type.as_deref(),
         );
         let (struct_path, struct_def) = match struct_match {
             Some(pair) => pair,

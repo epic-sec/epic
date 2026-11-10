@@ -65,6 +65,8 @@ fn test_token_account_rule() {
         param_ids: std::collections::HashSet::new(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
+        impl_type: None,
+        module_path: Vec::new(),
         context_struct_name: "TestAccounts".to_string(),
     };
 

@@ -761,10 +761,13 @@ impl Rule for PdaDerivationRule {
         // Locate the context struct definition using the file-aware, deterministic helper.
         // This correctly handles same-named structs in different modules by preferring
         // the struct in the same file or directory as the instruction.
-        let struct_match = crate::audit::find_struct_for_context(
+        let struct_match = crate::audit::resolve_accounts_struct(
             &context.ast_graph.registry,
-            struct_name,
+            &context.program_metadata.name,
+            &instruction_context.module_path,
             &instruction_context.file_path,
+            struct_name,
+            instruction_context.impl_type.as_deref(),
         );
 
         // ─────────────────────────────────────────────────────────────────────

@@ -58,6 +58,13 @@ pub struct RawFunction {
     pub context_struct_name: String,
     pub program_name: String,
     pub module_path: Vec<String>,
+    /// The bare name of the type this function is defined on, for a method
+    /// inside an inherent `impl <Type> { .. }` block — `None` for a free
+    /// function, or a method inside a *trait* impl. What `Context<Self>`
+    /// actually means (`impl ProgramConfigInit { fn handler(ctx: Context<Self>, ..) }`
+    /// -> `Some("ProgramConfigInit")`), which `context_struct_name` alone
+    /// can't express — it's the literal string `"Self"` in that case.
+    pub impl_type: Option<String>,
 }
 
 // Visitor to extract raw functions from syn AST
@@ -66,6 +73,11 @@ pub struct RawFunctionVisitor {
     pub program_name: String,
     pub module_path: Vec<String>,
     pub functions: Vec<RawFunction>,
+    /// Set while visiting the body of an inherent `impl <Type> { .. }`
+    /// block; mirrors `callgraph.rs::DefinitionVisitor`'s field of the same
+    /// name exactly, since both visitors need the identical answer to the
+    /// identical question.
+    current_impl_type: Option<String>,
 }
 
 impl<'ast> Visit<'ast> for RawFunctionVisitor {
@@ -74,6 +86,13 @@ impl<'ast> Visit<'ast> for RawFunctionVisitor {
             self.functions.push(raw_fn);
         }
         syn::visit::visit_item_fn(self, i);
+    }
+
+    fn visit_item_impl(&mut self, i: &'ast syn::ItemImpl) {
+        let outer = self.current_impl_type.take();
+        self.current_impl_type = crate::callgraph::inherent_impl_type_name(i);
+        syn::visit::visit_item_impl(self, i);
+        self.current_impl_type = outer;
     }
 
     fn visit_impl_item_fn(&mut self, i: &'ast syn::ImplItemFn) {
@@ -139,6 +158,7 @@ impl RawFunctionVisitor {
                 context_struct_name,
                 program_name: self.program_name.clone(),
                 module_path: self.module_path.clone(),
+                impl_type: self.current_impl_type.clone(),
             })
         } else {
             None
@@ -268,6 +288,62 @@ pub fn find_struct_for_context<'a>(
     candidates.into_iter().next()
 }
 
+/// Resolves a handler's `Context<T>` argument to its Accounts struct — the
+/// ONE place every rule and the main pipeline should call instead of
+/// re-deriving this themselves. Supersedes direct calls to
+/// `find_struct_by_name`/`find_struct_for_context` from anywhere outside
+/// this function.
+///
+/// Handles `Context<Self>` (`context_struct_name` is then literally the
+/// string `"Self"`; substitutes `impl_type`, the enclosing inherent impl's
+/// bare name, which is what `Self` actually refers to), then tries the
+/// precise `program_name`+`module_path`+name lookup first, falling back to
+/// file-proximity disambiguation when that misses (the same two algorithms
+/// the call sites this replaces used separately — tried in sequence here
+/// is strictly more capable than either alone, never less).
+///
+/// Never falls back to guessing a struct name from the instruction's own
+/// *function* name — two rules (`EPIC-SEC-004`, `EPIC-SEC-005`) used to do
+/// exactly that (title-casing `multisig_create` to look for a struct called
+/// `MultisigCreate`), which guesses wrong whenever a handler's method name
+/// doesn't match its struct name 1:1 (the real struct is `MultisigCreateV2`).
+/// The `Context<T>` type annotation already names the struct; nothing about
+/// it needs to be guessed.
+pub fn resolve_accounts_struct<'a>(
+    registry: &'a TypeRegistry,
+    program_name: &str,
+    module_path: &[String],
+    instruction_file: &str,
+    context_struct_name: &str,
+    impl_type: Option<&str>,
+) -> Option<(&'a String, &'a StructDef)> {
+    let effective_name = if context_struct_name == "Self" {
+        impl_type?
+    } else {
+        context_struct_name
+    };
+    find_struct_by_name(registry, program_name, module_path, effective_name)
+        .or_else(|| find_struct_for_context(registry, effective_name, instruction_file))
+}
+
+/// A field's declared account type with `Box<T>`/`Option<T>`/
+/// `Account<'info, T>`/`AccountLoader<'info, T>`/`InterfaceAccount<'info, T>`
+/// unwrapped down to the bare type name (e.g. a field declared
+/// `Option<Program<'info, System>>` resolves to `"System"`) — the one place
+/// that unwrapping should live, replacing each caller's own raw string
+/// matching against the wrapped form.
+pub fn field_effective_type(field: &crate::types::FieldDef) -> String {
+    let raw = match &field.type_ref {
+        TypeRef::Custom(s) => s.clone(),
+        TypeRef::Option(inner) => match inner.as_ref() {
+            TypeRef::Custom(s) => s.clone(),
+            other => format!("{:?}", other),
+        },
+        other => format!("{:?}", other),
+    };
+    crate::ast::unpack_nested_generics(&raw)
+}
+
 /// Walks `root_path` for every `.rs` file, loads it into a `Workspace` (for
 /// struct/type layouts) and extracts every `Context<T>`-taking function via
 /// `RawFunctionVisitor`. Shared by `for_each_analysis_context` (the full
@@ -366,6 +442,7 @@ pub(crate) fn discover_raw_functions(
                     program_name: program_name.clone(),
                     module_path: module_path.clone(),
                     functions: Vec::new(),
+                    current_impl_type: None,
                 };
                 function_visitor.visit_file(&file_ast);
                 raw_functions.extend(function_visitor.functions);
@@ -420,14 +497,16 @@ pub fn for_each_analysis_context(
     // 2. Perform semantic analysis and run rule engine on each extracted raw function
     for raw_fn in raw_functions {
         // Find structural accounts definition matching generic Context argument.
-        // find_struct_by_name returns the (abs_path, StructDef) tuple — use abs_path
-        // as the struct_facts_cache key so two structs with the same bare name in
-        // different modules never share the wrong cached facts.
-        if let Some((struct_abs_path, struct_def)) = find_struct_by_name(
+        // resolve_accounts_struct returns the (abs_path, StructDef) tuple — use
+        // abs_path as the struct_facts_cache key so two structs with the same
+        // bare name in different modules never share the wrong cached facts.
+        if let Some((struct_abs_path, struct_def)) = resolve_accounts_struct(
             &workspace.registry,
             &raw_fn.program_name,
             &raw_fn.module_path,
+            &raw_fn.file_path,
             &raw_fn.context_struct_name,
+            raw_fn.impl_type.as_deref(),
         ) {
             let mut symbol_table = HashMap::new();
             let mut next_symbol_id = 1;
@@ -546,6 +625,8 @@ pub fn for_each_analysis_context(
                 file_path: raw_fn.file_path.clone(),
                 context_var_name: raw_fn.context_var_name.clone(),
                 context_struct_name: raw_fn.context_struct_name.clone(),
+                impl_type: raw_fn.impl_type.clone(),
+                module_path: raw_fn.module_path.clone(),
             };
 
             // Build full AnalysisContext

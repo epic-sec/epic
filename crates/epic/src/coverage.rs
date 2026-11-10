@@ -22,13 +22,10 @@
 //! no guard-fact extraction — coverage only needs resolution, CFG shape,
 //! and this one extra pass over each resolved handler's own statements.
 
-use crate::ast::{
-    unpack_nested_generics, ExpressionKind, ExpressionNode, StatementKind, StatementNode,
-};
-use crate::audit::{discover_raw_functions, find_struct_by_name};
+use crate::ast::{ExpressionKind, ExpressionNode, StatementKind, StatementNode};
+use crate::audit::{discover_raw_functions, field_effective_type, resolve_accounts_struct};
 use crate::callgraph::{build_call_graph, CallGraph};
 use crate::cfg::{CFGBoundaryWarning, CFGBuilder, ControlFlowGraph};
-use crate::types::TypeRef;
 use crate::write_summary::compute_write_summary;
 use serde::Serialize;
 use std::collections::HashMap;
@@ -111,17 +108,22 @@ pub fn collect_coverage(root_path: &str) -> CoverageReport {
     let mut fully_analyzed = 0;
 
     for raw_fn in &raw_functions {
-        let resolved = find_struct_by_name(
+        let resolved = resolve_accounts_struct(
             &workspace.registry,
             &raw_fn.program_name,
             &raw_fn.module_path,
+            &raw_fn.file_path,
             &raw_fn.context_struct_name,
+            raw_fn.impl_type.as_deref(),
         );
 
         let (status, mutation) = match resolved {
             None => {
                 let reason = if raw_fn.context_struct_name == "Self" {
-                    "Context<Self> — no enclosing impl-type tracking to resolve it".to_string()
+                    match &raw_fn.impl_type {
+                        None => "Context<Self> with no enclosing impl type (trait impl or free function)".to_string(),
+                        Some(t) => format!("Context<Self> resolved to impl type '{t}', but no Accounts struct named '{t}' found"),
+                    }
                 } else {
                     format!(
                         "no Accounts struct named '{}' found",
@@ -132,7 +134,11 @@ pub fn collect_coverage(root_path: &str) -> CoverageReport {
             }
             Some((_, struct_def)) => {
                 resolved_to_struct += 1;
-                let field_types = field_type_map(struct_def);
+                let field_types: HashMap<String, String> = struct_def
+                    .fields
+                    .iter()
+                    .map(|f| (f.name.clone(), field_effective_type(f)))
+                    .collect();
                 let mut cfg_builder = CFGBuilder::new();
                 match cfg_builder.compile_statements(&raw_fn.stmts, 0) {
                     Err(_) => (CoverageStatus::CfgBuildFailed, None),
@@ -175,30 +181,6 @@ pub fn collect_coverage(root_path: &str) -> CoverageReport {
         files_failed_to_parse,
         handlers,
     }
-}
-
-/// `field name -> unwrapped declared type` for every field of an Accounts
-/// struct (e.g. `vault -> "Account<'info, Vault>"` unwrapped down to
-/// `"Vault"`), the same extraction `examples/field_access_index.rs` uses —
-/// `unpack_nested_generics` already strips `Box<T>`/`Option<T>`/
-/// `Account<'info, T>`/etc, so an `Option<Program<'info, T>>`-wrapped field
-/// resolves the same as a bare one.
-fn field_type_map(struct_def: &crate::types::StructDef) -> HashMap<String, String> {
-    struct_def
-        .fields
-        .iter()
-        .map(|f| {
-            let raw = match &f.type_ref {
-                TypeRef::Custom(s) => s.clone(),
-                TypeRef::Option(inner) => match inner.as_ref() {
-                    TypeRef::Custom(s) => s.clone(),
-                    other => format!("{:?}", other),
-                },
-                other => format!("{:?}", other),
-            };
-            (f.name.clone(), unpack_nested_generics(&raw))
-        })
-        .collect()
 }
 
 /// Walks every statement in `cfg` once, classifying each write or delegate

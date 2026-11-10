@@ -125,6 +125,8 @@ fn test_adjacent_variable_unsafe() {
         param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
+        impl_type: None,
+        module_path: Vec::new(),
     };
 
     let mut engine = RuleEngine::new();
@@ -279,6 +281,8 @@ fn test_safe_separated_fixed_length() {
         param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
+        impl_type: None,
+        module_path: Vec::new(),
     };
 
     let mut engine = RuleEngine::new();
@@ -418,6 +422,8 @@ fn test_safe_separated_literal_delimiter() {
         param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
+        impl_type: None,
+        module_path: Vec::new(),
     };
 
     let mut engine = RuleEngine::new();
@@ -555,6 +561,8 @@ fn test_epic_advantage_fixed_hash() {
         param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
+        impl_type: None,
+        module_path: Vec::new(),
     };
 
     let mut engine = RuleEngine::new();

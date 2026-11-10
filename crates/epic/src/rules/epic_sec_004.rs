@@ -7,7 +7,7 @@ use crate::cfg::ssa::SSANodeState;
 use crate::rules::{
     AnalysisContext, FindingLocation, Rule, RuleDiagnostic, RuleSeverity, SymbolResolver,
 };
-use crate::types::{StructDef, TypeDef, TypeRef, TypeRegistry};
+use crate::types::{StructDef, TypeRef, TypeRegistry};
 use std::collections::HashMap;
 use std::collections::HashSet;
 use syn::visit::Visit;
@@ -556,64 +556,24 @@ impl PdaSeedCollisionRule {
         }
     }
 
+    /// Resolves via the shared `audit::resolve_accounts_struct` — the
+    /// `Context<T>` type annotation already names the struct, so unlike
+    /// this method's previous implementation, nothing here guesses a
+    /// struct name from the instruction's own *function* name (that
+    /// guessing broke whenever a handler's method name didn't match its
+    /// struct name 1:1, e.g. `multisig_create` vs. the real struct
+    /// `MultisigCreateV2`).
     fn find_context_struct<'a>(&self, context: &'a AnalysisContext) -> Option<&'a StructDef> {
-        let inst_name = &context.instruction_context.name;
-        let mut title_case = String::new();
-        let mut next_upper = true;
-        for c in inst_name.chars() {
-            if c == '_' {
-                next_upper = true;
-            } else if next_upper {
-                title_case.push(c.to_ascii_uppercase());
-                next_upper = false;
-            } else {
-                title_case.push(c);
-            }
-        }
-
-        let mut search_names = vec![title_case.clone()];
-        if title_case.starts_with("Handle") && title_case.len() > 6 {
-            search_names.push(title_case[6..].to_string());
-        }
-        if title_case.starts_with("Process") && title_case.len() > 7 {
-            search_names.push(title_case[7..].to_string());
-        }
-
-        for name in search_names {
-            if let Some((_abs_path, s)) = crate::audit::find_struct_by_name(
-                &context.ast_graph.registry,
-                &context.program_metadata.name,
-                &[],
-                &name,
-            ) {
-                return Some(s);
-            }
-        }
-
-        // Sorted fallback: iterate definitions in deterministic key order so the
-        // field-count match produces the same result across runs.
-        let mut sorted_defs: Vec<(&String, &TypeDef)> =
-            context.ast_graph.registry.definitions.iter().collect();
-        sorted_defs.sort_by_key(|(k, _)| k.as_str());
-
-        for (_, def) in sorted_defs {
-            if let TypeDef::Struct(s) = def {
-                let mut match_count = 0;
-                for field in &s.fields {
-                    if context
-                        .instruction_context
-                        .symbol_table
-                        .contains_key(&field.name)
-                    {
-                        match_count += 1;
-                    }
-                }
-                if match_count > 0 && match_count == s.fields.len() {
-                    return Some(s);
-                }
-            }
-        }
-        None
+        let ic = &context.instruction_context;
+        crate::audit::resolve_accounts_struct(
+            &context.ast_graph.registry,
+            &context.program_metadata.name,
+            &ic.module_path,
+            &ic.file_path,
+            &ic.context_struct_name,
+            ic.impl_type.as_deref(),
+        )
+        .map(|(_, s)| s)
     }
 }
 

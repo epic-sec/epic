@@ -173,6 +173,21 @@ pub struct InstructionAnalysisContext {
     pub context_var_name: String,
     #[serde(default)]
     pub context_struct_name: String,
+    /// The enclosing inherent `impl <Type>`'s bare name, when this handler
+    /// is a method rather than a free function — `None` for the ordinary
+    /// case. What `Context<Self>` actually resolves to (`context_struct_name`
+    /// is then literally the string `"Self"`); see
+    /// `audit::resolve_accounts_struct`, the one place that substitution
+    /// should happen.
+    #[serde(default)]
+    pub impl_type: Option<String>,
+    /// This handler's module path (e.g. `["instructions", "deposit"]`),
+    /// needed alongside `program_metadata.name` for
+    /// `audit::resolve_accounts_struct`'s exact-path lookup — the same
+    /// precision `for_each_analysis_context`'s own struct resolution
+    /// already had, now available to rules too.
+    #[serde(default)]
+    pub module_path: Vec<String>,
 }
 
 fn default_context_var() -> String {

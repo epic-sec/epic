@@ -8,7 +8,7 @@ use crate::rules::{
     AnalysisContext, DominanceChecker, FindingLocation, Rule, RuleDiagnostic, RuleSeverity,
     SymbolResolver,
 };
-use crate::types::{StructDef, TypeDef, TypeRef, TypeRegistry};
+use crate::types::{StructDef, TypeRegistry};
 use std::collections::HashMap;
 use std::collections::HashSet;
 
@@ -338,64 +338,24 @@ impl ArbitraryCpiTargetRule {
         None
     }
 
+    /// Resolves via the shared `audit::resolve_accounts_struct` — the
+    /// `Context<T>` type annotation already names the struct, so unlike
+    /// this method's previous implementation, nothing here guesses a
+    /// struct name from the instruction's own *function* name (that
+    /// guessing broke whenever a handler's method name didn't match its
+    /// struct name 1:1, e.g. `multisig_create` vs. the real struct
+    /// `MultisigCreateV2`).
     fn find_context_struct<'a>(&self, context: &'a AnalysisContext) -> Option<&'a StructDef> {
-        let inst_name = &context.instruction_context.name;
-        // Convert snake_case to TitleCase
-        let mut title_case = String::new();
-        let mut next_upper = true;
-        for c in inst_name.chars() {
-            if c == '_' {
-                next_upper = true;
-            } else if next_upper {
-                title_case.push(c.to_ascii_uppercase());
-                next_upper = false;
-            } else {
-                title_case.push(c);
-            }
-        }
-
-        let mut search_names = vec![title_case.clone()];
-        if title_case.starts_with("Handle") && title_case.len() > 6 {
-            search_names.push(title_case[6..].to_string());
-        }
-        if title_case.starts_with("Process") && title_case.len() > 7 {
-            search_names.push(title_case[7..].to_string());
-        }
-
-        for name in search_names {
-            if let Some((_abs_path, s)) = crate::audit::find_struct_by_name(
-                &context.ast_graph.registry,
-                &context.program_metadata.name,
-                &[],
-                &name,
-            ) {
-                return Some(s);
-            }
-        }
-
-        // Sorted fallback — deterministic key order.
-        let mut sorted_defs: Vec<(&String, &TypeDef)> =
-            context.ast_graph.registry.definitions.iter().collect();
-        sorted_defs.sort_by_key(|(k, _)| k.as_str());
-
-        for (_, def) in sorted_defs {
-            if let TypeDef::Struct(s) = def {
-                let mut match_count = 0;
-                for field in &s.fields {
-                    if context
-                        .instruction_context
-                        .symbol_table
-                        .contains_key(&field.name)
-                    {
-                        match_count += 1;
-                    }
-                }
-                if match_count > 0 && match_count == s.fields.len() {
-                    return Some(s);
-                }
-            }
-        }
-        None
+        let ic = &context.instruction_context;
+        crate::audit::resolve_accounts_struct(
+            &context.ast_graph.registry,
+            &context.program_metadata.name,
+            &ic.module_path,
+            &ic.file_path,
+            &ic.context_struct_name,
+            ic.impl_type.as_deref(),
+        )
+        .map(|(_, s)| s)
     }
 
     fn is_program_symbol(&self, sym_name: &str, struct_def: Option<&StructDef>) -> bool {
@@ -405,14 +365,18 @@ impl ArbitraryCpiTargetRule {
         }
         if let Some(s) = struct_def {
             if let Some(field) = s.fields.iter().find(|f| f.name == sym_name) {
-                if let TypeRef::Custom(t) | TypeRef::Resolved(t) = &field.type_ref {
-                    if t.starts_with("Program")
-                        || t.contains("Program<")
-                        || t.starts_with("Interface")
-                        || t.contains("Interface<")
-                    {
-                        return true;
-                    }
+                // `field_effective_type` strips `Option<T>`/`Box<T>` first, so a
+                // field declared `Option<Program<'info, System>>` matches the
+                // same as a bare `Program<'info, System>` one — it used to fall
+                // through here unmatched, since `TypeRef::Option(..)` isn't
+                // `TypeRef::Custom`/`Resolved`.
+                let t = crate::audit::field_effective_type(field);
+                if t.starts_with("Program")
+                    || t.contains("Program<")
+                    || t.starts_with("Interface")
+                    || t.contains("Interface<")
+                {
+                    return true;
                 }
             }
         }
@@ -420,16 +384,18 @@ impl ArbitraryCpiTargetRule {
     }
 
     fn is_struct_field_validated(&self, field: &crate::types::FieldDef) -> bool {
-        if let TypeRef::Custom(name) | TypeRef::Resolved(name) = &field.type_ref {
-            if name.starts_with("Program")
-                || name.contains("Program<")
-                || name.starts_with("Interface")
-                || name.contains("Interface<")
-                || name.starts_with("InterfaceAccount")
-                || name.contains("InterfaceAccount<")
-            {
-                return true;
-            }
+        // Same `Option<T>`/`Box<T>` unwrapping as `is_program_symbol` — see
+        // there for why matching the raw `TypeRef` directly misses a
+        // wrapped field.
+        let name = crate::audit::field_effective_type(field);
+        if name.starts_with("Program")
+            || name.contains("Program<")
+            || name.starts_with("Interface")
+            || name.contains("Interface<")
+            || name.starts_with("InterfaceAccount")
+            || name.contains("InterfaceAccount<")
+        {
+            return true;
         }
         for attr in &field.attrs {
             let attr_lower = attr.to_lowercase();

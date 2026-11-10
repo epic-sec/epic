@@ -104,6 +104,8 @@ fn test_arbitrary_cpi_target_rule() {
         param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
+        impl_type: None,
+        module_path: Vec::new(),
     };
 
     let mut engine = RuleEngine::new();
@@ -185,6 +187,52 @@ fn test_arbitrary_cpi_secure_fixture_is_clean() {
     assert!(
         sec005_findings.is_empty(),
         "token_program is checked against spl_token::ID dominating the invoke() call and must not be flagged, got: {:?}",
+        sec005_findings
+    );
+}
+
+#[test]
+fn test_name_mismatch_fixture_resolves_struct_correctly() {
+    // Stage 2: find_context_struct no longer title-cases the instruction's
+    // own function name to guess the struct -- it uses the shared
+    // audit::resolve_accounts_struct, reading the actual Context<T>
+    // annotation. Before the fix, "multisig_create" title-cased to
+    // "MultisigCreate" never found the real struct "MultisigCreateV2", so
+    // token_program's real `Program<'info, Token>` type was invisible and
+    // this fired as a false positive.
+    let diagnostics = epic::run_audit(&fixture_path("sec005-name-mismatch-validated"))
+        .expect("run_audit should succeed on a syntactically valid fixture");
+
+    let sec005_findings: Vec<_> = diagnostics
+        .iter()
+        .filter(|d| d.rule_id == "EPIC-SEC-005")
+        .collect();
+
+    assert!(
+        sec005_findings.is_empty(),
+        "token_program is statically typed Program<'info, Token> and must not be flagged just because the function name doesn't match the struct name, got: {:?}",
+        sec005_findings
+    );
+}
+
+#[test]
+fn test_option_wrapped_program_field_is_recognized_as_validated() {
+    // Stage 2: is_program_symbol/is_struct_field_validated now read the
+    // field's type through audit::field_effective_type, which unwraps
+    // Option<T>/Box<T> first. TypeRef::Option(..) is not TypeRef::Custom/
+    // Resolved, so before the fix an Option<Program<'info, T>>-wrapped
+    // field never matched either check's direct TypeRef pattern at all.
+    let diagnostics = epic::run_audit(&fixture_path("sec005-option-program-wrapper"))
+        .expect("run_audit should succeed on a syntactically valid fixture");
+
+    let sec005_findings: Vec<_> = diagnostics
+        .iter()
+        .filter(|d| d.rule_id == "EPIC-SEC-005")
+        .collect();
+
+    assert!(
+        sec005_findings.is_empty(),
+        "token_program is statically typed Option<Program<'info, Token>> and must not be flagged, got: {:?}",
         sec005_findings
     );
 }

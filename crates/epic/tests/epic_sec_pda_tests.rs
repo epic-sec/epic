@@ -225,6 +225,8 @@ fn build_context_full(
         param_ids: Default::default(),
         file_path,
         context_var_name: "ctx".to_string(),
+        impl_type: None,
+        module_path: Vec::new(),
         context_struct_name: "TestAccounts".to_string(),
     };
 

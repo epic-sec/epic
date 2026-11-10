@@ -144,6 +144,8 @@ fn test_owner_validation_safe_vs_unsafe() {
         param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
+        impl_type: None,
+        module_path: Vec::new(),
     };
 
     // 4. Register parameters inside resolver
@@ -317,6 +319,8 @@ fn test_owner_validation_wdg_transitive() {
         param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
+        impl_type: None,
+        module_path: Vec::new(),
     };
 
     let mut engine = RuleEngine::new();
@@ -458,6 +462,8 @@ fn test_post_cpi_reload_rule() {
         param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
+        impl_type: None,
+        module_path: Vec::new(),
     };
 
     let mut engine = RuleEngine::new();
@@ -594,6 +600,8 @@ fn run_sec002(
         param_ids: Default::default(),
         file_path: "lib.rs".to_string(),
         context_var_name: "ctx".to_string(),
+        impl_type: None,
+        module_path: Vec::new(),
     };
 
     let mut engine = RuleEngine::new();

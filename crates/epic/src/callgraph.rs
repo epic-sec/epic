@@ -139,7 +139,7 @@ struct DefinitionVisitor<'a> {
 /// name worth indexing; a trait impl's Self type is still real, but its
 /// methods are never the target of a direct `receiver.method(..)` call a
 /// handler would write by hand.
-fn inherent_impl_type_name(item: &syn::ItemImpl) -> Option<String> {
+pub(crate) fn inherent_impl_type_name(item: &syn::ItemImpl) -> Option<String> {
     if item.trait_.is_some() {
         return None;
     }

@@ -25,31 +25,22 @@ fn test_fully_analyzed_fixture_reports_full_coverage() {
 }
 
 #[test]
-fn test_context_self_delegation_is_reported_unresolved_not_hidden() {
+fn test_context_self_delegation_now_resolves_via_impl_type() {
+    // Stage 2: RawFunctionVisitor now tracks the enclosing impl type, and
+    // resolve_accounts_struct substitutes it for "Self" -- this used to be
+    // the squads-v4 blind spot (34 handlers Unresolved); both functions
+    // below now resolve to the same struct.
     let report = collect_coverage(&fixture_path("coverage-context-self"));
     assert_eq!(
         report.total_handlers, 2,
         "both the #[program] wrapper and the impl-block delegate are real functions"
     );
-    // The wrapper (`Context<Withdraw>`) resolves; the delegate
-    // (`Context<Self>`) does not.
-    assert_eq!(report.resolved_to_struct, 1);
-    assert_eq!(report.fully_analyzed, 1);
-
-    let unresolved: Vec<_> = report
+    assert_eq!(report.resolved_to_struct, 2);
+    assert_eq!(report.fully_analyzed, 2);
+    assert!(report
         .handlers
         .iter()
-        .filter(|h| matches!(h.status, CoverageStatus::Unresolved { .. }))
-        .collect();
-    assert_eq!(unresolved.len(), 1);
-    assert_eq!(unresolved[0].name, "withdraw");
-    let CoverageStatus::Unresolved { reason } = &unresolved[0].status else {
-        unreachable!()
-    };
-    assert!(
-        reason.contains("Context<Self>"),
-        "reason should name the actual gap, got: {reason}"
-    );
+        .all(|h| matches!(h.status, CoverageStatus::FullyAnalyzed)));
 }
 
 #[test]

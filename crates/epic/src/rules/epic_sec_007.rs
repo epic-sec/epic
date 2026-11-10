@@ -93,10 +93,13 @@ impl Rule for UnsafeAccountCloseRule {
         }
 
         let struct_name = &instruction_context.context_struct_name;
-        let struct_match = crate::audit::find_struct_for_context(
+        let struct_match = crate::audit::resolve_accounts_struct(
             &context.ast_graph.registry,
-            struct_name,
+            &context.program_metadata.name,
+            &instruction_context.module_path,
             &instruction_context.file_path,
+            struct_name,
+            instruction_context.impl_type.as_deref(),
         );
         let Some((struct_path, s_def)) = struct_match else {
             return diagnostics;
