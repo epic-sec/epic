@@ -106,7 +106,7 @@ impl Rule for UncheckedArithmeticRule {
         // account field or instruction parameter", never reassignment
         // history, so the simpler model is enough.
         let mut aliases: HashMap<String, String> = HashMap::new();
-        for node in ic.cfg.nodes.values() {
+        for node in ic.cfg.nodes_sorted() {
             let mut stmts = Vec::new();
             collect_statements(&node.statements, &mut stmts);
             for stmt in &stmts {
@@ -131,7 +131,7 @@ impl Rule for UncheckedArithmeticRule {
         // Keyed by resolved path, not root symbol — two different fields
         // of the same account are reported independently.
         let mut reported: HashSet<String> = HashSet::new();
-        for node in ic.cfg.nodes.values() {
+        for node in ic.cfg.nodes_sorted() {
             let mut stmts = Vec::new();
             collect_statements(&node.statements, &mut stmts);
             for (stmt_idx, stmt) in stmts.iter().enumerate() {
@@ -497,7 +497,7 @@ fn collect_bound_facts(
     }
 
     // (b) checked_*/saturating_*/wrapping_* calls, anywhere in the function.
-    for node in ic.cfg.nodes.values() {
+    for node in ic.cfg.nodes_sorted() {
         let mut stmts = Vec::new();
         collect_statements(&node.statements, &mut stmts);
         for stmt in &stmts {

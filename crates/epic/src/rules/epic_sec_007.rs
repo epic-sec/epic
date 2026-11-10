@@ -30,7 +30,7 @@ impl Rule for UnsafeAccountCloseRule {
         let context_var = &instruction_context.context_var_name;
 
         let mut all_statements: Vec<&StatementNode> = Vec::new();
-        for node in instruction_context.cfg.nodes.values() {
+        for node in instruction_context.cfg.nodes_sorted() {
             collect_statements(&node.statements, &mut all_statements);
         }
 
