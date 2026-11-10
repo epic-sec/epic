@@ -484,7 +484,13 @@ pub fn run_audit(root_path: &str) -> anyhow::Result<Vec<RuleDiagnostic>> {
             // a function with a non-empty guard summary becomes a
             // GuardFact::Signer here, in the exact same shape a
             // require!-derived fact already takes.
-            let caller_id = format!("{}::{}", raw_fn.file_path, raw_fn.name);
+            //
+            // Must be built with the exact same `function_id` the call
+            // graph itself uses to key its own `functions`/`calls` — an
+            // instruction handler is always a free function (never inside
+            // an `impl` block; Anchor's `#[program] mod` requires that), so
+            // `impl_type` is always `None` here.
+            let caller_id = crate::callgraph::function_id(&raw_fn.file_path, None, &raw_fn.name);
             let mut interprocedural_facts = extract_interprocedural_guards(
                 &caller_id,
                 &cfg,

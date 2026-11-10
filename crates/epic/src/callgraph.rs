@@ -19,14 +19,26 @@ use syn::visit::Visit;
 use walkdir::WalkDir;
 
 /// Identifies a function/method uniquely enough for single-crate, name-based
-/// call resolution: its source file plus its own name. Two functions with
-/// the same name in the same file (e.g. two inherent `impl` blocks both
-/// defining `fn new`) collide under this key — rare enough to accept for a
-/// first version, and resolution already refuses to guess across *files*.
+/// call resolution: its source file, the type of its enclosing inherent
+/// `impl` block (empty for a free function), and its own name.
+///
+/// Was file+name only, until the typed-method-resolution work (stage 1 of
+/// interprocedural writes-through-`&mut self`) measured the real cost of
+/// that: an Anchor state file routinely defines several structs with their
+/// own `impl` blocks that happen to share a method name across them —
+/// confirmed on squads-v4's `state.rs`, where `Ms::init`,
+/// `MsTransaction::init`, and `MsInstruction::init` all collided under the
+/// old file+name key, silently discarding two of the three definitions
+/// before `resolve_typed` ever got a chance to tell them apart by type.
+/// Bare-name resolution (`resolve`) happened to be unaffected in practice —
+/// it refuses "init" anyway, since other files in the crate define their
+/// own `init` too — which is exactly why this went unmeasured until a
+/// resolution path that's *supposed* to disambiguate by type needed the
+/// definitions it disambiguates between to not already be gone.
 pub type FunctionId = String;
 
-fn function_id(file_path: &str, name: &str) -> FunctionId {
-    format!("{}::{}", file_path, name)
+pub fn function_id(file_path: &str, impl_type: Option<&str>, name: &str) -> FunctionId {
+    format!("{}::{}::{}", file_path, impl_type.unwrap_or(""), name)
 }
 
 #[derive(Debug, Clone)]
@@ -39,6 +51,19 @@ pub struct FunctionInfo {
     /// positionally.
     pub params: Vec<String>,
     pub stmts: Vec<syn::Stmt>,
+    /// The bare name of the type this method is defined on, for a method
+    /// inside an inherent `impl <Type> { .. }` block (`impl<'info>
+    /// Deposit<'info> { pub fn process(&mut self, ..) }` -> `"Deposit"`).
+    /// `None` for a free function, or a method inside a *trait* impl
+    /// (`impl Accounts<'info> for Deposit<'info>` — Anchor's own derived
+    /// boilerplate, not something a handler calls directly by name).
+    ///
+    /// This is what makes `(receiver_type, method_name)` resolution
+    /// possible at all: bare-name resolution alone can't tell apart the
+    /// ~30 different `process`/`update` methods a typical Anchor program
+    /// defines, one per `Accounts` struct or per account state type — see
+    /// `CallGraph::resolve_typed`.
+    pub impl_type: Option<String>,
 }
 
 /// One direct call from `caller` to `callee`, with the call-site argument
@@ -57,6 +82,15 @@ pub struct CallSite {
 pub struct CallGraph {
     pub functions: HashMap<FunctionId, FunctionInfo>,
     pub calls: Vec<CallSite>,
+    /// `(impl_type, method_name) -> candidate FunctionIds`, the second
+    /// resolution path `resolve_typed` uses. Built once in
+    /// `build_call_graph` alongside `functions`, same ambiguity-refusing
+    /// shape as `by_name` in `CallVisitor` — ambiguous within this map
+    /// means two inherent `impl` blocks for the *same* type both define a
+    /// method of the same name (rare: `#[cfg(..)]`-gated duplicate impls),
+    /// not the ~30-way bare-name ambiguity `resolve_typed` exists to get
+    /// around.
+    by_type_method: HashMap<(String, String), Vec<FunctionId>>,
 }
 
 impl CallGraph {
@@ -71,12 +105,49 @@ impl CallGraph {
     pub fn calls_to<'a>(&'a self, callee: &'a str) -> impl Iterator<Item = &'a CallSite> {
         self.calls.iter().filter(move |c| c.callee == callee)
     }
+
+    /// Resolves `receiver_type.method_name(..)` to a single function —
+    /// `ctx.accounts.process(..)` where `receiver_type` is the handler's
+    /// own `Context<T>` struct name, or `position.update(..)` where
+    /// `receiver_type` is the account field's own declared type. Refuses
+    /// to guess on ambiguity or an unknown type, same convention as
+    /// `CallVisitor::resolve`'s bare-name path.
+    pub fn resolve_typed(&self, receiver_type: &str, method_name: &str) -> Option<&FunctionId> {
+        match self
+            .by_type_method
+            .get(&(receiver_type.to_string(), method_name.to_string()))
+        {
+            Some(candidates) if candidates.len() == 1 => candidates.first(),
+            _ => None,
+        }
+    }
 }
 
 /// Collects every free function and method definition in a file.
 struct DefinitionVisitor<'a> {
     file_path: &'a str,
     functions: Vec<FunctionInfo>,
+    /// Set while visiting the body of an inherent `impl <Type> { .. }`
+    /// block; `None` outside any impl, or inside a *trait* impl (`impl
+    /// Accounts<'info> for X` — Anchor's derived boilerplate, never
+    /// something a handler calls by name, so deliberately not tracked).
+    current_impl_type: Option<String>,
+}
+
+/// The bare type name an `impl` block is for — `impl<'info> Deposit<'info>`
+/// -> `"Deposit"`. Only inherent impls (`item.trait_.is_none()`) carry a
+/// name worth indexing; a trait impl's Self type is still real, but its
+/// methods are never the target of a direct `receiver.method(..)` call a
+/// handler would write by hand.
+fn inherent_impl_type_name(item: &syn::ItemImpl) -> Option<String> {
+    if item.trait_.is_some() {
+        return None;
+    }
+    if let syn::Type::Path(type_path) = &*item.self_ty {
+        type_path.path.segments.last().map(|s| s.ident.to_string())
+    } else {
+        None
+    }
 }
 
 impl DefinitionVisitor<'_> {
@@ -99,6 +170,7 @@ impl DefinitionVisitor<'_> {
             file_path: self.file_path.to_string(),
             params,
             stmts: stmts.to_vec(),
+            impl_type: self.current_impl_type.clone(),
         });
     }
 }
@@ -107,6 +179,13 @@ impl<'ast> Visit<'ast> for DefinitionVisitor<'_> {
     fn visit_item_fn(&mut self, i: &'ast syn::ItemFn) {
         self.record(i.sig.ident.to_string(), &i.sig, &i.block.stmts);
         syn::visit::visit_item_fn(self, i);
+    }
+
+    fn visit_item_impl(&mut self, i: &'ast syn::ItemImpl) {
+        let outer = self.current_impl_type.take();
+        self.current_impl_type = inherent_impl_type_name(i);
+        syn::visit::visit_item_impl(self, i);
+        self.current_impl_type = outer;
     }
 
     fn visit_impl_item_fn(&mut self, i: &'ast syn::ImplItemFn) {
@@ -191,10 +270,14 @@ pub fn build_call_graph(root_path: &str) -> CallGraph {
         let mut visitor = DefinitionVisitor {
             file_path: &file_path,
             functions: Vec::new(),
+            current_impl_type: None,
         };
         visitor.visit_file(&file_ast);
         for f in visitor.functions {
-            functions.insert(function_id(&f.file_path, &f.name), f);
+            functions.insert(
+                function_id(&f.file_path, f.impl_type.as_deref(), &f.name),
+                f,
+            );
         }
     }
 
@@ -202,6 +285,19 @@ pub fn build_call_graph(root_path: &str) -> CallGraph {
     let mut by_name: HashMap<String, Vec<FunctionId>> = HashMap::new();
     for (id, f) in &functions {
         by_name.entry(f.name.clone()).or_default().push(id.clone());
+    }
+
+    // (impl_type, method_name) -> candidate FunctionIds — the typed
+    // resolution path `resolve_typed` uses to get around `by_name`'s
+    // ambiguity refusal for the one-`process`/`update`-per-type idiom.
+    let mut by_type_method: HashMap<(String, String), Vec<FunctionId>> = HashMap::new();
+    for (id, f) in &functions {
+        if let Some(ty) = &f.impl_type {
+            by_type_method
+                .entry((ty.clone(), f.name.clone()))
+                .or_default()
+                .push(id.clone());
+        }
     }
 
     let mut calls = Vec::new();
@@ -217,5 +313,9 @@ pub fn build_call_graph(root_path: &str) -> CallGraph {
         calls.extend(call_visitor.calls);
     }
 
-    CallGraph { functions, calls }
+    CallGraph {
+        functions,
+        calls,
+        by_type_method,
+    }
 }
