@@ -51,3 +51,34 @@ fn test_context_self_delegation_is_reported_unresolved_not_hidden() {
         "reason should name the actual gap, got: {reason}"
     );
 }
+
+#[test]
+fn test_delegate_writes_counted_but_not_visible_to_rules() {
+    // The marinade shape: `ctx.accounts.process(..)` delegating to a
+    // `&mut self` method (no `Context<T>` param, so it's never its own
+    // RawFunction — only `resolve_typed` + `write_summary.rs` see it).
+    let report = collect_coverage(&fixture_path("coverage-mutation-visibility"));
+    assert_eq!(
+        report.total_handlers, 1,
+        "process(&mut self, ..) has no Context<T> param, so it's not a separate handler"
+    );
+    assert_eq!(report.fully_analyzed, 1);
+
+    let mutation = report.handlers[0]
+        .mutation
+        .as_ref()
+        .expect("resolved handler");
+    assert_eq!(
+        mutation.visible_writes, 0,
+        "change_authority's own body makes no direct write"
+    );
+    assert_eq!(
+        mutation.reachable_via_resolved_delegate, 2,
+        "both writes inside process() must be counted via write_summary.rs"
+    );
+    assert_eq!(mutation.unresolved_delegate_calls, 0);
+    assert!(
+        mutation.mostly_invisible(),
+        "2 reachable-but-hidden writes vs. 0 visible ones must flag as mostly invisible"
+    );
+}

@@ -336,6 +336,39 @@ fn run_coverage(path: &str, format: OutputFormat) -> anyhow::Result<()> {
                     println!("  {} ({}): {}", h.name, h.file, reason);
                 }
             }
+
+            let (mut visible, mut reachable, mut unresolved_calls) = (0usize, 0usize, 0usize);
+            let mut mostly_invisible = Vec::new();
+            for h in &report.handlers {
+                if let Some(m) = &h.mutation {
+                    visible += m.visible_writes;
+                    reachable += m.reachable_via_resolved_delegate;
+                    unresolved_calls += m.unresolved_delegate_calls;
+                    if m.mostly_invisible() {
+                        mostly_invisible.push(h);
+                    }
+                }
+            }
+            print_section_header("Mutation Visibility");
+            println!("  Writes visible to rules today:          {}", visible);
+            println!("  Writes reachable via resolved delegate: {}", reachable);
+            println!(
+                "  Unresolved delegate-shaped call sites:  {}",
+                unresolved_calls
+            );
+            if !mostly_invisible.is_empty() {
+                println!(
+                    "\n  {} handler(s) where most reachable writes are invisible to rules:",
+                    mostly_invisible.len()
+                );
+                for h in mostly_invisible {
+                    let m = h.mutation.as_ref().unwrap();
+                    println!(
+                        "    {} ({}): {} visible, {} reachable via delegate",
+                        h.name, h.file, m.visible_writes, m.reachable_via_resolved_delegate
+                    );
+                }
+            }
             print_footer();
         }
     }
