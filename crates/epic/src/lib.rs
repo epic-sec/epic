@@ -12,6 +12,7 @@ pub mod ast;
 pub mod audit;
 pub mod callgraph;
 pub mod cfg;
+pub mod coverage;
 pub mod guard_summary;
 pub mod impact;
 pub mod interprocedural_guards;
@@ -41,6 +42,7 @@ pub use cfg::{
     GuardFactLocation, GuardTarget, InstructionAnalysisContext, NodeSSAInfo, SSAComputer,
     SSANodeState, SSAVariable, SSAVersionId, SolanaProperty, SymbolId,
 };
+pub use coverage::{collect_coverage, CoverageReport, CoverageStatus, HandlerCoverage};
 pub use impact::{
     analyze_impact, format_impact_terminal, generate_aggregated_impact, ImpactAnalysis,
 };

@@ -268,20 +268,25 @@ pub fn find_struct_for_context<'a>(
     candidates.into_iter().next()
 }
 
-/// Recursively discovers all programs, compiles CFG & SSA, extracts GuardFacts, and
-/// invokes `visit` once per `Context<T>`-taking instruction handler found.
+/// Walks `root_path` for every `.rs` file, loads it into a `Workspace` (for
+/// struct/type layouts) and extracts every `Context<T>`-taking function via
+/// `RawFunctionVisitor`. Shared by `for_each_analysis_context` (the full
+/// analysis pipeline) and `collect_coverage` (a lighter pass that only
+/// needs to know what was found and whether it resolved) so file discovery
+/// and raw-function extraction can never drift between the two.
 ///
-/// This is the whole analysis front-end minus the rule engine. `run_audit` is a thin
-/// wrapper that runs rules over each context; anything else that needs the same
-/// per-instruction view (e.g. a measurement pass over the sweep corpus) goes through
-/// here rather than rebuilding the pipeline.
-pub fn for_each_analysis_context(
+/// Returns the populated workspace, every extracted raw function, and the
+/// path of every `.rs` file that failed to parse (either `Workspace::add_file`
+/// or the separate `syn::parse_str` for `RawFunctionVisitor` rejected it) —
+/// such a file's functions are silently absent from `raw_functions`, which
+/// `collect_coverage` needs to report rather than hide.
+pub(crate) fn discover_raw_functions(
     root_path: &str,
-    mut visit: impl FnMut(&AnalysisContext),
-) -> anyhow::Result<()> {
+) -> (Workspace, Vec<RawFunction>, Vec<String>) {
     let root = Path::new(root_path);
     let mut workspace = Workspace::new();
     let mut raw_functions = Vec::new();
+    let mut parse_failures = Vec::new();
 
     // 1. Walk directory recursively to find all Rust files and parse them
     for entry in WalkDir::new(root).into_iter().filter_map(|e| e.ok()) {
@@ -350,6 +355,7 @@ pub fn for_each_analysis_context(
                 Some(&file_path.to_string_lossy()),
             ) {
                 // Skip files with invalid syntax to keep scanning robust
+                parse_failures.push(file_path.to_string_lossy().into_owned());
                 continue;
             }
 
@@ -363,9 +369,27 @@ pub fn for_each_analysis_context(
                 };
                 function_visitor.visit_file(&file_ast);
                 raw_functions.extend(function_visitor.functions);
+            } else {
+                parse_failures.push(file_path.to_string_lossy().into_owned());
             }
         }
     }
+
+    (workspace, raw_functions, parse_failures)
+}
+
+/// Recursively discovers all programs, compiles CFG & SSA, extracts GuardFacts, and
+/// invokes `visit` once per `Context<T>`-taking instruction handler found.
+///
+/// This is the whole analysis front-end minus the rule engine. `run_audit` is a thin
+/// wrapper that runs rules over each context; anything else that needs the same
+/// per-instruction view (e.g. a measurement pass over the sweep corpus) goes through
+/// here rather than rebuilding the pipeline.
+pub fn for_each_analysis_context(
+    root_path: &str,
+    mut visit: impl FnMut(&AnalysisContext),
+) -> anyhow::Result<()> {
+    let (workspace, raw_functions, _parse_failures) = discover_raw_functions(root_path);
 
     // Interprocedural guard analysis (stages 1-3): a crate-wide call graph,
     // built once and reused across every instruction handler below, plus a

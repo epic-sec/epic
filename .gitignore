@@ -12,5 +12,6 @@ artifacts/
 *.bak
 .eslintcache
 coverage/
+!bench/results/coverage/
 audit-output-*.txt
 bench/corpus/

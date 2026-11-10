@@ -14,9 +14,10 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CORPUS_DIR="$REPO_ROOT/bench/corpus"
 RESULTS_DIR="$REPO_ROOT/bench/results"
 RAW_DIR="$RESULTS_DIR/raw"
+COVERAGE_DIR="$RESULTS_DIR/coverage"
 MANIFEST="$REPO_ROOT/bench/corpus.toml"
 
-mkdir -p "$CORPUS_DIR" "$RAW_DIR"
+mkdir -p "$CORPUS_DIR" "$RAW_DIR" "$COVERAGE_DIR"
 
 echo "Building epic (release)..."
 cargo build --release --manifest-path "$REPO_ROOT/Cargo.toml" -p epic >/dev/null
@@ -70,6 +71,9 @@ for i in "${!names[@]}"; do
         TOTAL_ALL=$((TOTAL_ALL + count))
     fi
     echo "$n (${roles[$i]}): $count findings"
+
+    echo "Measuring coverage for $n..."
+    "$EPIC_BIN" coverage "$dest" --format json > "$COVERAGE_DIR/$n.json"
 done
 
 sweep_json=()
@@ -124,6 +128,33 @@ SUMMARY_FILE="$RESULTS_DIR/summary.md"
         echo "|---|---|"
         jq 'group_by(.rule_id) | map("\(.[0].rule_id)\t\(length)") | .[]' -r "$RAW_DIR/$n.json" \
             | sort | awk -F'\t' '{print "| " $1 " | " $2 " |"}'
+    done
+    echo
+    echo "## Coverage"
+    echo
+    echo "A 0-finding protocol with low coverage is not the same as a"
+    echo "0-finding protocol with full coverage — this table is what tells"
+    echo "them apart."
+    echo
+    echo "| Protocol | Handlers | Resolved | Fully analyzed |"
+    echo "|---|---|---|---|"
+    for i in "${!names[@]}"; do
+        n="${names[$i]}"
+        jq -r --arg n "$n" '"| \($n) | \(.total_handlers) | \(.resolved_to_struct) | \(.fully_analyzed) |"' \
+            "$COVERAGE_DIR/$n.json"
+    done
+    echo
+    echo "### Unresolved / partially analyzed handlers, by protocol"
+    for i in "${!names[@]}"; do
+        n="${names[$i]}"
+        skipped=$(jq '[.handlers[] | select(.status.status != "FullyAnalyzed")] | length' "$COVERAGE_DIR/$n.json")
+        [[ "$skipped" == "0" ]] && continue
+        echo
+        echo "**$n** ($skipped not fully analyzed):"
+        echo
+        jq -r '.handlers[] | select(.status.status != "FullyAnalyzed") |
+            "- \(.name) (\(.file)): \(.status.status) — \(.status.reason // .status.boundary_warnings // "CFG build failed")"' \
+            "$COVERAGE_DIR/$n.json"
     done
     echo
     echo "## Timing / peak memory"

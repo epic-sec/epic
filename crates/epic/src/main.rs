@@ -60,6 +60,18 @@ enum Commands {
     },
     /// Diff two versions of a workspace to identify upgrade risks
     Diff { old_path: String, new_path: String },
+    /// Report how much of a program's instruction surface was actually
+    /// analyzed: handlers found, resolved to an Accounts struct, fully
+    /// analyzed, and why any others were skipped or only partially seen
+    Coverage {
+        /// Path to the repository or program
+        #[arg(default_value = ".")]
+        path: String,
+
+        /// Output format
+        #[arg(short, long, default_value = "human")]
+        format: OutputFormat,
+    },
 }
 
 #[derive(Clone, ValueEnum)]
@@ -78,6 +90,7 @@ fn main() -> anyhow::Result<()> {
         Commands::Doctor => run_doctor(),
         Commands::Check { path } => run_check(&path),
         Commands::Diff { old_path, new_path } => run_diff(&old_path, &new_path),
+        Commands::Coverage { path, format } => run_coverage(&path, format),
     }
 }
 
@@ -263,6 +276,69 @@ fn run_check(path: &str) -> anyhow::Result<()> {
     pb.finish_with_message("Parsing workspace... Done.");
     print_success("Syntax OK. Workspace parsed successfully.");
     print_footer();
+    Ok(())
+}
+
+fn run_coverage(path: &str, format: OutputFormat) -> anyhow::Result<()> {
+    let report = epic::coverage::collect_coverage(path);
+
+    match format {
+        OutputFormat::Json => {
+            println!("{}", serde_json::to_string_pretty(&report)?);
+        }
+        OutputFormat::Sarif => {
+            anyhow::bail!("coverage has no SARIF output; use --format human or --format json");
+        }
+        OutputFormat::Human => {
+            print_banner();
+            print_info(&format!("Target: {}", path));
+            print_section_header("Coverage Summary");
+            println!(
+                "  Instruction handlers found:     {}",
+                report.total_handlers
+            );
+            println!(
+                "  Resolved to an Accounts struct: {}",
+                report.resolved_to_struct
+            );
+            println!(
+                "  Fully analyzed (no boundary):   {}",
+                report.fully_analyzed
+            );
+            if !report.files_failed_to_parse.is_empty() {
+                println!(
+                    "  Files that failed to parse:     {}",
+                    report.files_failed_to_parse.len()
+                );
+                for f in &report.files_failed_to_parse {
+                    println!("    - {}", f);
+                }
+            }
+
+            let skipped: Vec<_> = report
+                .handlers
+                .iter()
+                .filter(|h| !matches!(h.status, epic::coverage::CoverageStatus::FullyAnalyzed))
+                .collect();
+            if !skipped.is_empty() {
+                print_section_header("Unresolved / Partially Analyzed Handlers");
+                for h in skipped {
+                    let reason = match &h.status {
+                        epic::coverage::CoverageStatus::Unresolved { reason } => reason.clone(),
+                        epic::coverage::CoverageStatus::CfgBuildFailed => {
+                            "CFG build failed".to_string()
+                        }
+                        epic::coverage::CoverageStatus::PartiallyAnalyzed { boundary_warnings } => {
+                            format!("{:?}", boundary_warnings)
+                        }
+                        epic::coverage::CoverageStatus::FullyAnalyzed => unreachable!(),
+                    };
+                    println!("  {} ({}): {}", h.name, h.file, reason);
+                }
+            }
+            print_footer();
+        }
+    }
     Ok(())
 }
 
