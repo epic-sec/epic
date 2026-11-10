@@ -251,6 +251,10 @@ impl CFGBuilder {
                     }
                 }
                 syn::Stmt::Local(local) => {
+                    if self.try_split_if_value_binding(local, &mut current_node)? {
+                        continue;
+                    }
+
                     let mut tries = Vec::new();
                     if let Some(init) = &local.init {
                         find_tries(&init.expr, &mut tries);
@@ -358,6 +362,103 @@ impl CFGBuilder {
         }
 
         Ok(current_node)
+    }
+
+    /// `let name = if cond { .. } else { .. };` — an `if`/`else` used for
+    /// its *value*, not as a statement. `convert_expr` has no
+    /// representation for an if-expression's value at all (falls through
+    /// to `Unresolved`), which used to make both branches' entire bodies —
+    /// any write inside either one included — invisible to the CFG.
+    /// Measured directly: marinade's `ChangeAuthority::process` writes
+    /// `self.state.admin_authority = admin;` exclusively inside a branch
+    /// shaped exactly like this, and it was completely unseen until this
+    /// fix (see `write_summary.rs`'s stage-2 report).
+    ///
+    /// Splits into the same branch/merge-node shape the top-level `if`
+    /// statement form already uses (the `syn::Expr::If` arm above) —
+    /// reuses the same `new_node_id`/`add_edge`/`compile_statements_inner`
+    /// primitives, no new CFG machinery. The let-bound name is still
+    /// declared (as `Unresolved`) so later statements referencing it keep
+    /// resolving — only visibility into the branches' *bodies* changes;
+    /// which branch actually produced the value is still not tracked,
+    /// same fidelity as before for that part specifically.
+    ///
+    /// Returns `Ok(true)` when this handled the statement (caller should
+    /// move on to the next one), `Ok(false)` when the shape didn't match
+    /// (caller falls back to the flat conversion, unchanged).
+    fn try_split_if_value_binding(
+        &mut self,
+        local: &syn::Local,
+        current_node: &mut usize,
+    ) -> anyhow::Result<bool> {
+        let name = match &local.pat {
+            syn::Pat::Ident(pat_ident) => pat_ident.ident.to_string(),
+            _ => return Ok(false),
+        };
+        let Some(init) = &local.init else {
+            return Ok(false);
+        };
+        let syn::Expr::If(expr_if) = &*init.expr else {
+            return Ok(false);
+        };
+        // Without an `else`, the expression can't type as a non-unit
+        // value in real Rust, so a `let` binding to it with no `else`
+        // cannot occur in valid source — nothing to split.
+        let Some((_, else_expr)) = &expr_if.else_branch else {
+            return Ok(false);
+        };
+        let else_block = match &**else_expr {
+            syn::Expr::Block(b) => &b.block,
+            // `else if ...` chains: not split further here — fall back
+            // to the flat conversion rather than guess at a multi-way
+            // merge. Rare for a *value*-producing if/else, unlike the
+            // control-flow statement form this mirrors.
+            _ => return Ok(false),
+        };
+
+        let let_line = {
+            use syn::spanned::Spanned;
+            local.span().start().line
+        };
+
+        {
+            let node = self.graph.nodes.get_mut(current_node).unwrap();
+            node.statements.push(StatementNode {
+                kind: StatementKind::Let {
+                    name: name.clone(),
+                    initializer: ExpressionNode {
+                        kind: ExpressionKind::Unresolved,
+                    },
+                    type_annotation: None,
+                    is_mutable: true,
+                },
+                line_number: let_line,
+            });
+        }
+
+        let then_node = self.new_node_id();
+        let else_node = self.new_node_id();
+        let merge_node = self.new_node_id();
+        self.add_node(then_node);
+        self.add_node(else_node);
+        self.add_node(merge_node);
+
+        let cond = convert_expr(&expr_if.cond);
+        self.add_edge(*current_node, then_node, Some(cond), false, Some(let_line));
+        self.add_edge(*current_node, else_node, None, false, Some(let_line));
+
+        let then_end = self.compile_statements_inner(&expr_if.then_branch.stmts, then_node)?;
+        let else_end = self.compile_statements_inner(&else_block.stmts, else_node)?;
+
+        if !self.graph.exit_nodes.contains(&then_end) {
+            self.add_edge(then_end, merge_node, None, false, None);
+        }
+        if !self.graph.exit_nodes.contains(&else_end) {
+            self.add_edge(else_end, merge_node, None, false, None);
+        }
+
+        *current_node = merge_node;
+        Ok(true)
     }
 
     fn scan_boundary_warnings(&mut self, stmt: &syn::Stmt) {
