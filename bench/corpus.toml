@@ -1,0 +1,59 @@
+# Pinned commits for the 5-protocol production sweep.
+#
+# Pins recovered from local checkouts dated 2026-07-29 that all prior sweep
+# snapshots (scripts/sweep.sh output alongside them, 2026-07-29 through
+# 2026-08-25: determinism-fix, pda-added, token-verify, dominance-fix, etc.)
+# ran against unchanged — not from a recorded manifest. Every clone's
+# .git/HEAD mtime agrees to the minute, working trees are clean, and no
+# commit was ever fetched after that date. No file in this repo's history
+# records these hashes directly, so this is the strongest recoverable
+# evidence of what the 248 baseline (set in baa6d64, 2026-10-04) was
+# actually measured against — stated as "recovered with high confidence",
+# not "verified by citation".
+#
+# squads-mpl: this entry was previously labeled "squads-v4" in this
+# manifest and throughout the docs. It isn't Squads V4 — the pinned repo
+# is Squads-Protocol/squads-mpl, whose own Cargo.toml names the program
+# `squads_mpl`. Renamed here as a correction; the real Squads V4 program
+# is tracked separately below, role = "supplementary", and is not part of
+# the 5-protocol sweep total.
+
+[[protocol]]
+name = "marginfi"
+repo = "https://github.com/mrgnlabs/marginfi-v2.git"
+commit = "2cc4e069b7092ec74652c2cea580c1b849b06f3c"
+role = "sweep"
+
+[[protocol]]
+name = "mango-v4"
+repo = "https://github.com/blockworks-foundation/mango-v4.git"
+commit = "ee671d24bb4f9386adc2d146f5180d4760838222"
+role = "sweep"
+
+[[protocol]]
+name = "orca-whirlpools"
+repo = "https://github.com/orca-so/whirlpools.git"
+commit = "8c76d3bd55e3074d1cbb039f3e8e5de8f7bd0f7c"
+role = "sweep"
+
+[[protocol]]
+name = "squads-mpl"
+repo = "https://github.com/Squads-Protocol/squads-mpl.git"
+commit = "3440b7435bd3a57b473b69477e42aa51455e48ad"
+role = "sweep"
+
+[[protocol]]
+name = "marinade"
+repo = "https://github.com/marinade-finance/liquid-staking-program.git"
+commit = "b8fe3f8f9a2bb0978fb40ba5bb1c2855dd12940f"
+role = "sweep"
+
+# Not part of the 5-protocol sweep total — tracked separately per-protocol,
+# reported side by side with it, never summed in. Pinned at current head
+# (no prior measurement to recover a historical pin from); re-pin this one
+# periodically rather than treating it as a frozen baseline.
+[[protocol]]
+name = "squads-v4"
+repo = "https://github.com/Squads-Protocol/v4.git"
+commit = "3a39735d0c56249bf2ce4b16b3229d7be87ad55f"
+role = "supplementary"

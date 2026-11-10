@@ -13,3 +13,4 @@ artifacts/
 .eslintcache
 coverage/
 audit-output-*.txt
+bench/corpus/
