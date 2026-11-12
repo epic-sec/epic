@@ -168,6 +168,87 @@ fn test_extract_guards_from_anchor_accounts() {
 }
 
 #[test]
+fn test_extract_address_constraint() {
+    // `address = <expr>` was previously parsed into no GuardFact at all --
+    // KNOWN_LIMITATIONS.md's documented gap. Covers both real-world shapes:
+    // a hardcoded constant (squads-v4's `address = INITIALIZER`) and a
+    // comparison against another account field, with the Anchor `@ Error`
+    // suffix present on one of them (already stripped by the shared
+    // preprocessor before parsing reaches this far).
+    let accounts_struct = StructDef {
+        name: "ProgramConfigInit".to_string(),
+        is_account: false,
+        fields: vec![
+            FieldDef {
+                name: "initializer".to_string(),
+                type_ref: TypeRef::Custom("Signer<'info>".to_string()),
+                attrs: vec![
+                    "#[account(mut, address = INITIALIZER @ MultisigError::Unauthorized)]"
+                        .to_string(),
+                ],
+                line_number: 0,
+                column_number: 0,
+            },
+            FieldDef {
+                name: "vault".to_string(),
+                type_ref: TypeRef::Custom("Account<'info, VaultState>".to_string()),
+                attrs: vec!["#[account(address = expected_vault.key())]".to_string()],
+                line_number: 0,
+                column_number: 0,
+            },
+            FieldDef {
+                name: "expected_vault".to_string(),
+                type_ref: TypeRef::Custom("AccountInfo<'info>".to_string()),
+                attrs: vec![],
+                line_number: 0,
+                column_number: 0,
+            },
+        ],
+        attrs: vec!["#[derive(Accounts)]".to_string()],
+    };
+
+    let mut symbol_table = HashMap::new();
+    let mut next_symbol_id = 1;
+
+    let facts_provenance = extract_guards_from_accounts_struct(
+        &accounts_struct,
+        &mut symbol_table,
+        &mut next_symbol_id,
+    );
+    let facts: Vec<GuardFact> = facts_provenance.into_iter().map(|(f, _)| f).collect();
+
+    let initializer_symbol = *symbol_table.get("initializer").unwrap();
+    let vault_symbol = *symbol_table.get("vault").unwrap();
+
+    // 1. Hardcoded constant: `address = INITIALIZER`, `@ Error` suffix
+    //    already stripped -- target is a literal, not an account.
+    assert!(
+        facts.contains(&GuardFact::KeyRelation {
+            account: GuardTarget::Account(initializer_symbol),
+            field: SolanaProperty::Address,
+            target: GuardTarget::Literal("INITIALIZER".to_string()),
+        }),
+        "facts: {:#?}",
+        facts
+    );
+
+    // 2. Comparison against another account's `.key()` -- target resolves
+    //    through the method call to the underlying account expression.
+    assert!(
+        facts.iter().any(|f| matches!(
+            f,
+            GuardFact::KeyRelation {
+                account,
+                field: SolanaProperty::Address,
+                ..
+            } if *account == GuardTarget::Account(vault_symbol)
+        )),
+        "facts: {:#?}",
+        facts
+    );
+}
+
+#[test]
 fn test_extract_guards_with_anchor_errors() {
     let accounts_struct = StructDef {
         name: "Initialize".to_string(),
@@ -232,4 +313,21 @@ fn test_extract_guards_with_anchor_errors() {
         }
         _ => false,
     }));
+}
+
+#[test]
+fn test_address_constraint_fixture_runs_clean_end_to_end() {
+    // Full-pipeline smoke test: address = <expr> (with an @ CustomError
+    // suffix) must not crash run_audit or produce any finding on an
+    // otherwise clean handler.
+    let path = format!(
+        "{}/tests/fixtures/address-constraint-parsed",
+        env!("CARGO_MANIFEST_DIR")
+    );
+    let diagnostics = epic::run_audit(&path).expect("run_audit should succeed");
+    assert!(
+        diagnostics.is_empty(),
+        "expected no findings, got: {:#?}",
+        diagnostics
+    );
 }

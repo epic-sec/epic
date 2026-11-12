@@ -203,6 +203,7 @@ pub(crate) enum ParsedAttributeMeta {
     Signer,
     Owner(syn::Expr),
     HasOne(syn::Expr),
+    Address(syn::Expr),
     Constraint(syn::Expr),
     Close(syn::Expr),
     Seeds(syn::Expr),
@@ -308,6 +309,7 @@ pub(crate) fn parse_anchor_attribute_string(attr_str: &str) -> Vec<ParsedAttribu
                 match ident.as_deref() {
                     Some("owner") => results.push(ParsedAttributeMeta::Owner(nv.value)),
                     Some("has_one") => results.push(ParsedAttributeMeta::HasOne(nv.value)),
+                    Some("address") => results.push(ParsedAttributeMeta::Address(nv.value)),
                     Some("constraint") => results.push(ParsedAttributeMeta::Constraint(nv.value)),
                     Some("close") => results.push(ParsedAttributeMeta::Close(nv.value)),
                     Some("seeds") => results.push(ParsedAttributeMeta::Seeds(nv.value)),
@@ -519,6 +521,31 @@ pub fn extract_guards_from_accounts_struct(
                         ));
                     }
                     ParsedAttributeMeta::HasOne(expr) => {
+                        let target_expr = convert_syn_expr(expr, symbol_table);
+                        let target_var = match target_expr {
+                            FactExpression::Target(t) => t,
+                            _ => GuardTarget::Literal(
+                                quote::quote!(#expr).to_string().replace(" ", ""),
+                            ),
+                        };
+                        facts.push((
+                            GuardFact::KeyRelation {
+                                account: target_acc.clone(),
+                                field: SolanaProperty::Address,
+                                target: target_var,
+                            },
+                            FactProvenance::default_declared(),
+                        ));
+                    }
+                    ParsedAttributeMeta::Address(expr) => {
+                        // `address = <expr>` constrains this account's own
+                        // key directly — `account.key() == <expr>` — the
+                        // same KeyRelation/Address shape `has_one` already
+                        // produces (there, the comparison is against a
+                        // named field rather than the account's own key,
+                        // but both are "this account's address is pinned
+                        // to something," which is the granularity every
+                        // consumer of this fact already works at).
                         let target_expr = convert_syn_expr(expr, symbol_table);
                         let target_var = match target_expr {
                             FactExpression::Target(t) => t,
