@@ -60,21 +60,6 @@
     "witness": null
   },
   {
-    "rule_id": "EPIC-SEC-003",
-    "severity": "Critical",
-    "message": "State access to 'token_2022_program' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
-    "location": {
-      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/transfer_locked_position.rs",
-      "line": 87,
-      "column": 0,
-      "node_id": 11,
-      "statement_index": 0
-    },
-    "confidence": "Asserted",
-    "target_symbol": 8,
-    "witness": null
-  },
-  {
     "rule_id": "EPIC-SEC-TOKEN",
     "severity": "Medium",
     "message": "Token account 'position_token_account' missing authority constraint",
@@ -255,21 +240,6 @@
     "witness": null
   },
   {
-    "rule_id": "EPIC-SEC-003",
-    "severity": "Critical",
-    "message": "State access to 'token_program' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
-    "location": {
-      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/decrease_liquidity.rs",
-      "line": 100,
-      "column": 0,
-      "node_id": 31,
-      "statement_index": 0
-    },
-    "confidence": "Asserted",
-    "target_symbol": 2,
-    "witness": null
-  },
-  {
     "rule_id": "EPIC-SEC-TOKEN",
     "severity": "Medium",
     "message": "Token account 'position_token_account' missing authority constraint",
@@ -378,21 +348,6 @@
     },
     "confidence": "Asserted",
     "target_symbol": 3,
-    "witness": null
-  },
-  {
-    "rule_id": "EPIC-SEC-003",
-    "severity": "Critical",
-    "message": "State access to 'token_program' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
-    "location": {
-      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/collect_fees.rs",
-      "line": 60,
-      "column": 0,
-      "node_id": 6,
-      "statement_index": 0
-    },
-    "confidence": "Asserted",
-    "target_symbol": 9,
     "witness": null
   },
   {
@@ -508,21 +463,6 @@
       "check": null,
       "path": []
     }
-  },
-  {
-    "rule_id": "EPIC-SEC-003",
-    "severity": "Critical",
-    "message": "State access to 'token_program' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
-    "location": {
-      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/increase_liquidity.rs",
-      "line": 134,
-      "column": 0,
-      "node_id": 30,
-      "statement_index": 0
-    },
-    "confidence": "Asserted",
-    "target_symbol": 2,
-    "witness": null
   },
   {
     "rule_id": "EPIC-SEC-003",
@@ -780,21 +720,6 @@
     },
     "confidence": "Asserted",
     "target_symbol": 2,
-    "witness": null
-  },
-  {
-    "rule_id": "EPIC-SEC-003",
-    "severity": "Critical",
-    "message": "State access to 'token_program' occurs after a CPI mutation without reloading. The account's in-memory data layout may be stale.",
-    "location": {
-      "file": "/Users/aksh/Documents/Solana EPIC/bench/corpus/orca-whirlpools/programs/whirlpool/src/instructions/collect_protocol_fees.rs",
-      "line": 42,
-      "column": 0,
-      "node_id": 4,
-      "statement_index": 0
-    },
-    "confidence": "Asserted",
-    "target_symbol": 8,
     "witness": null
   },
   {
