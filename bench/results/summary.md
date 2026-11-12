@@ -4,18 +4,18 @@
 |---|---|
 | marginfi | 70 |
 | mango-v4 | 57 |
-| orca-whirlpools | 89 |
+| orca-whirlpools | 94 |
 | squads-mpl | 14 |
 | marinade | 18 |
 
-**Total: 248**
+**Total: 253**
 
 ## Per rule
 
 | Rule | Count |
 |---|---|
 | EPIC-SEC-002 | 65 |
-| EPIC-SEC-003 | 41 |
+| EPIC-SEC-003 | 46 |
 | EPIC-SEC-004 | 2 |
 | EPIC-SEC-ARITH | 24 |
 | EPIC-SEC-PDA | 16 |
@@ -25,7 +25,7 @@
 
 | Severity | Count |
 |---|---|
-| Critical | 139 |
+| Critical | 144 |
 | High | 56 |
 | Medium | 46 |
 | Warning | 7 |
@@ -105,9 +105,9 @@ them apart.
 
 | Protocol | Wall time | Peak RSS |
 |---|---|---|
-| marginfi | 1.21s | 108608KB |
-| mango-v4 | 1.16s | 122560KB |
-| orca-whirlpools | 0.84s | 127872KB |
-| squads-mpl | 0.06s | 8976KB |
-| marinade | 0.06s | 10608KB |
-| squads-v4 | 0.11s | 15792KB |
+| marginfi | 1.21s | 108416KB |
+| mango-v4 | 1.14s | 122416KB |
+| orca-whirlpools | 0.83s | 127424KB |
+| squads-mpl | 0.06s | 8896KB |
+| marinade | 0.06s | 10720KB |
+| squads-v4 | 0.10s | 15680KB |
