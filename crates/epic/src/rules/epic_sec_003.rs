@@ -28,6 +28,21 @@ impl Rule for MissingPostCpiReloadRule {
         let mut diagnostics = Vec::new();
         let mut reported_symbols = HashSet::new();
 
+        // Program<'info, T> accounts are never meaningfully "stale" after a
+        // CPI -- their data is the program's own executable bytecode, not
+        // user state a CPI could have mutated. Measured false positive:
+        // orca-whirlpools' token_program/token_2022_program fields
+        // (collect_fees.rs, collect_protocol_fees.rs, increase_liquidity.rs,
+        // transfer_locked_position.rs) are referenced twice across two CPI
+        // calls in the same handler and were flagged for "staleness" purely
+        // because an unrelated address = token::ID constraint made them
+        // visible to is_account_symbol's bookkeeping for the first time --
+        // never a type-based exclusion this rule had, just an accidental
+        // one from a parser gap. Excluded by declared type, not by
+        // attribute, so this holds regardless of which constraint (if any)
+        // happens to be present.
+        let program_typed_symbols = self.program_typed_symbols(context);
+
         // Write-Dependency Graph (maps derived local symbols to their parent resource symbols)
         let mut parent_map: HashMap<SymbolId, SymbolId> = HashMap::new();
 
@@ -138,7 +153,9 @@ impl Rule for MissingPostCpiReloadRule {
                     let expr_reloads =
                         self.find_reload_symbols_ir(instr, &resolver, &current_state, &parent_map);
                     for reloaded_sym in expr_reloads {
-                        if self.is_account_symbol(reloaded_sym, instruction_context) {
+                        if self.is_account_symbol(reloaded_sym, instruction_context)
+                            && !program_typed_symbols.contains(&reloaded_sym)
+                        {
                             reload_locations
                                 .entry(reloaded_sym)
                                 .or_default()
@@ -156,7 +173,9 @@ impl Rule for MissingPostCpiReloadRule {
                         &parent_map,
                     );
                     for accessed_sym in expr_accesses {
-                        if self.is_account_symbol(accessed_sym, instruction_context) {
+                        if self.is_account_symbol(accessed_sym, instruction_context)
+                            && !program_typed_symbols.contains(&accessed_sym)
+                        {
                             access_locations.entry(accessed_sym).or_default().push((
                                 node_id,
                                 stmt_idx,
@@ -274,6 +293,31 @@ impl MissingPostCpiReloadRule {
             | GuardFact::Deallocated { account, .. } => account.symbol_id() == Some(sym),
             _ => false,
         })
+    }
+
+    /// Every account field in this handler's Accounts struct whose declared
+    /// type is `Program<'info, T>` (any wrapping -- `Option<Program<..>>`,
+    /// etc, via the same unwrapping `EPIC-SEC-005` uses) -- excluded from
+    /// post-CPI staleness tracking entirely, since a program account's data
+    /// is its own executable bytecode, never user state a CPI could mutate.
+    fn program_typed_symbols(&self, context: &AnalysisContext) -> HashSet<SymbolId> {
+        let ic = &context.instruction_context;
+        let Some((_, struct_def)) = crate::audit::resolve_accounts_struct(
+            &context.ast_graph.registry,
+            &context.program_metadata.name,
+            &ic.module_path,
+            &ic.file_path,
+            &ic.context_struct_name,
+            ic.impl_type.as_deref(),
+        ) else {
+            return HashSet::new();
+        };
+        struct_def
+            .fields
+            .iter()
+            .filter(|f| crate::audit::field_effective_type(f).starts_with("Program"))
+            .filter_map(|f| ic.symbol_table.get(&f.name).copied())
+            .collect()
     }
 
     fn build_parent_maps_recursive(
