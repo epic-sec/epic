@@ -69,7 +69,7 @@ pub(crate) fn analyze_entrypoint(
     let symbol_table = build_symbol_table(ep);
     let helper_names = helper_index.names();
 
-    let mut builder = SorobanCfgBuilder::new(helper_names);
+    let mut builder = SorobanCfgBuilder::new(helper_names.clone());
     let end = builder.compile(&ep.stmts, 0);
     if !builder.graph.exit_nodes.contains(&end) {
         builder.graph.exit_nodes.push(end);
@@ -93,7 +93,7 @@ pub(crate) fn analyze_entrypoint(
                 );
             }
             Some(stmts) => {
-                let report = analyze_helper(stmts);
+                let report = analyze_helper(stmts, &helper_names);
                 match report.result {
                     HelperAuthResult::AlwaysGuards => {
                         confirmed_auth.insert(*node);
@@ -282,9 +282,18 @@ struct HelperReport {
     exposed_sinks: Vec<SinkKind>,
 }
 
-fn analyze_helper(stmts: &[syn::Stmt]) -> HelperReport {
+fn analyze_helper(stmts: &[syn::Stmt], helper_names: &HashSet<String>) -> HelperReport {
     let symbol_table = build_symbol_table_from_stmts(stmts, &[]);
-    let mut builder = SorobanCfgBuilder::new(HashSet::new());
+    // Passing the real helper-name set here (not an empty one) is what lets
+    // `builder.helper_call_sites` below actually *detect* a further
+    // same-crate call this function makes -- caught by fixture (i): with an
+    // empty set, scan_helper_calls short-circuits immediately (see its own
+    // early return) and `helper_call_sites` is always empty, so a helper
+    // whose only auth lives one hop deeper always read as confidently
+    // NotAGuard instead of Uncertain. The one-hop depth cap is enforced by
+    // *not resolving* these further calls (no recursive analyze_helper
+    // call below), not by hiding that they exist.
+    let mut builder = SorobanCfgBuilder::new(helper_names.clone());
     let end = builder.compile(stmts, 0);
     if !builder.graph.exit_nodes.contains(&end) {
         builder.graph.exit_nodes.push(end);

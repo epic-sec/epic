@@ -69,6 +69,16 @@ fn test_h_err_before_auth_is_clean() {
 }
 
 #[test]
+fn test_i_second_hop_auth_is_inconclusive() {
+    // Round 2 task 4: the only require_auth is two hops deep
+    // (check -> check_inner); v0 follows one hop, so this must land as
+    // INCONCLUSIVE, not a guess either way.
+    let f = findings("soroban-second-hop-inconclusive");
+    assert_eq!(f.len(), 1, "{f:#?}");
+    assert_eq!(f[0].confidence, FactConfidence::Inconclusive);
+}
+
+#[test]
 fn test_helper_delegates_entire_sink_flags() {
     // Found running against real CoinFabrik scout-soroban fixtures: a sink
     // delegated into a one-hop helper reached via a module-qualified path
