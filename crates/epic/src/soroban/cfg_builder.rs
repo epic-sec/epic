@@ -238,7 +238,7 @@ impl SorobanCfgBuilder {
 /// (including a fallible `?` call -- not modeled as early-return here, see
 /// docs/soroban-core-leaks.md).
 fn terminal_kind(stmt: &syn::Stmt) -> Option<bool> {
-    let expr = match stmt {
+    let (expr, semi) = match stmt {
         syn::Stmt::Macro(m) => {
             return if is_abort_macro(&m.mac) {
                 Some(true)
@@ -246,14 +246,41 @@ fn terminal_kind(stmt: &syn::Stmt) -> Option<bool> {
                 None
             };
         }
-        syn::Stmt::Expr(e, _) => e,
+        syn::Stmt::Expr(e, semi) => (e, semi),
         _ => return None,
     };
     match expr {
-        syn::Expr::Return(_) => Some(false),
+        // `return Err(..)` aborts the whole invocation (storage writes made
+        // before it are rolled back -- verified empirically, see
+        // docs/soroban-core-leaks.md #14); `return Ok(x)` / `return x` is an
+        // ordinary normal-return exit.
+        syn::Expr::Return(r) => {
+            if r.expr.as_deref().is_some_and(is_err_call) {
+                Some(true)
+            } else {
+                Some(false)
+            }
+        }
         syn::Expr::Macro(m) if is_abort_macro(&m.mac) => Some(true),
+        // A semicolon-less `Err(..)` is the block's own tail value (Rust's
+        // grammar requires a non-unit expression with no semicolon to be in
+        // tail position), i.e. this function's return value -- same abort
+        // semantics as an explicit `return Err(..)`.
+        e if semi.is_none() && is_err_call(e) => Some(true),
         _ => None,
     }
+}
+
+/// `Err(..)` or `SomePath::Err(..)` -- matched by the call's last path
+/// segment, same bare-name convention used elsewhere in this module.
+fn is_err_call(expr: &syn::Expr) -> bool {
+    let syn::Expr::Call(call) = expr else {
+        return false;
+    };
+    let syn::Expr::Path(p) = &*call.func else {
+        return false;
+    };
+    p.path.segments.last().is_some_and(|s| s.ident == "Err")
 }
 
 fn is_abort_macro(mac: &syn::Macro) -> bool {

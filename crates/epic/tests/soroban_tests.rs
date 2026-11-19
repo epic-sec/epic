@@ -61,6 +61,14 @@ fn test_f_match_panic_arm_is_clean() {
 }
 
 #[test]
+fn test_h_err_before_auth_is_clean() {
+    // Round 2 task 3: verified empirically that returning Err rolls back
+    // earlier storage writes in the same invocation -- `return Err(..)`
+    // and a tail `Err(..)` are abort exits, not normal completions.
+    assert!(findings("soroban-err-before-auth").is_empty());
+}
+
+#[test]
 fn test_helper_delegates_entire_sink_flags() {
     // Found running against real CoinFabrik scout-soroban fixtures: a sink
     // delegated into a one-hop helper reached via a module-qualified path
