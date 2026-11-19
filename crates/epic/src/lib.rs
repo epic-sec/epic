@@ -21,6 +21,7 @@ pub mod layout;
 pub mod report;
 pub mod rules;
 pub mod sarif;
+pub mod soroban;
 pub mod types;
 pub mod ui;
 pub mod workspace;

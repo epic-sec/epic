@@ -72,6 +72,17 @@ enum Commands {
         #[arg(short, long, default_value = "human")]
         format: OutputFormat,
     },
+    /// Audit a Soroban contract for a state-write/token-transfer reachable
+    /// without a dominating require_auth (v0, separate frontend)
+    SorobanAudit {
+        /// Path to the Soroban contract crate
+        #[arg(default_value = ".")]
+        path: String,
+
+        /// Output format
+        #[arg(short, long, default_value = "human")]
+        format: OutputFormat,
+    },
 }
 
 #[derive(Clone, ValueEnum)]
@@ -91,6 +102,7 @@ fn main() -> anyhow::Result<()> {
         Commands::Check { path } => run_check(&path),
         Commands::Diff { old_path, new_path } => run_diff(&old_path, &new_path),
         Commands::Coverage { path, format } => run_coverage(&path, format),
+        Commands::SorobanAudit { path, format } => run_soroban_audit(&path, format),
     }
 }
 
@@ -369,6 +381,27 @@ fn run_coverage(path: &str, format: OutputFormat) -> anyhow::Result<()> {
                     );
                 }
             }
+            print_footer();
+        }
+    }
+    Ok(())
+}
+
+fn run_soroban_audit(path: &str, format: OutputFormat) -> anyhow::Result<()> {
+    let diagnostics = epic::soroban::run_soroban_audit(path);
+
+    match format {
+        OutputFormat::Json => {
+            println!("{}", serde_json::to_string_pretty(&diagnostics)?);
+        }
+        OutputFormat::Sarif => {
+            let sarif_output = epic::sarif::generate_sarif(&diagnostics);
+            println!("{}", sarif_output);
+        }
+        OutputFormat::Human => {
+            print_banner();
+            print_info(&format!("Target: {} (Soroban v0)", path));
+            print_diagnostics_report(path, &diagnostics);
             print_footer();
         }
     }
