@@ -135,24 +135,28 @@ fn param_name(arg: &syn::FnArg) -> Option<String> {
     }
 }
 
-/// Runs the Soroban v0 analysis over every `.rs` file found under
-/// `root_path`. Returns findings in the same `RuleDiagnostic` shape the
-/// Anchor rule engine uses, so output tooling (JSON/SARIF) doesn't need a
-/// separate code path.
-pub fn run_soroban_audit(root_path: &str) -> Vec<RuleDiagnostic> {
+/// Walks every `.rs` file under `root_path`, discovering entrypoints and
+/// building the same-crate helper index -- shared by `run_soroban_audit`
+/// and `count_entrypoints` so the two can never see a different set of
+/// entrypoints from each other. Also returns the path of every `.rs` file
+/// that failed to parse, so a 0-entrypoint result can be told apart from a
+/// parse failure that hid them.
+fn discover(root_path: &str) -> (Vec<SorobanEntrypoint>, HelperIndex, Vec<String>) {
     let root = Path::new(root_path);
     let mut entrypoints = Vec::new();
     let mut helper_index = HelperIndex::default();
+    let mut parse_failures = Vec::new();
 
     for entry in WalkDir::new(root).into_iter().filter_map(|e| e.ok()) {
         if entry.path().extension().is_some_and(|e| e == "rs") {
             let Ok(content) = std::fs::read_to_string(entry.path()) else {
                 continue;
             };
+            let file_path = entry.path().to_string_lossy().into_owned();
             let Ok(file) = syn::parse_file(&content) else {
+                parse_failures.push(file_path);
                 continue;
             };
-            let file_path = entry.path().to_string_lossy().into_owned();
 
             let mut ev = EntrypointVisitor {
                 file_path: file_path.clone(),
@@ -168,10 +172,30 @@ pub fn run_soroban_audit(root_path: &str) -> Vec<RuleDiagnostic> {
             fv.visit_file(&file);
         }
     }
+    (entrypoints, helper_index, parse_failures)
+}
 
+/// Runs the Soroban v0 analysis over every `.rs` file found under
+/// `root_path`. Returns findings in the same `RuleDiagnostic` shape the
+/// Anchor rule engine uses, so output tooling (JSON/SARIF) doesn't need a
+/// separate code path.
+pub fn run_soroban_audit(root_path: &str) -> Vec<RuleDiagnostic> {
+    let (entrypoints, helper_index, _parse_failures) = discover(root_path);
     let mut diagnostics = Vec::new();
     for ep in &entrypoints {
         diagnostics.extend(analysis::analyze_entrypoint(ep, &helper_index));
     }
     diagnostics
+}
+
+/// Reporting-only accessor added for the Round 2 held-out precision run:
+/// how many entrypoints were found, and which files (if any) failed to
+/// parse. Does not run or change any detection logic -- `run_soroban_audit`
+/// is untouched behaviorally, just refactored to share `discover` with
+/// this. A 0 here means a blind spot (nothing to analyze was even found),
+/// not a verified-clean crate; `run_soroban_audit` returning 0 findings on
+/// a crate with >0 entrypoints is the only legitimate "clean."
+pub fn count_entrypoints(root_path: &str) -> (usize, Vec<String>) {
+    let (entrypoints, _helper_index, parse_failures) = discover(root_path);
+    (entrypoints.len(), parse_failures)
 }
