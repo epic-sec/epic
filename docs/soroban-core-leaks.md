@@ -148,3 +148,100 @@ counts, regardless of whose address it authorized -- exactly as scoped
 a require_auth"). `GuardTarget` (Account/Variable, per review point 5) is
 recorded on every auth call found, for a v1 that cross-checks it against
 the sink's own target; v0 does not consume it yet.
+
+## 11. `EntrypointVisitor` has no file-level `#![cfg(test)]` awareness
+
+`FreeFnVisitor` (`crates/epic/src/soroban/mod.rs`) excludes any
+item-level `#[cfg(test)]` `fn`/`mod` from the helper index (leak #5), but
+`EntrypointVisitor` has no equivalent check at all -- and no check for a
+*file-level* `#![cfg(test)]` attribute either, which is a different
+construct (an inner attribute on the whole file, not an outer attribute
+on one item). Found running the held-out `stellar/soroban-examples`
+corpus: `privacy-pools/contract/src/test.rs` is `#![cfg(test)]` at the
+top of the file -- a mock token contract that exists only for that
+crate's own tests -- and its `#[contractimpl]` block is analyzed as if it
+were a real, deployable entrypoint. One false positive on that corpus
+traced directly to this gap.
+
+**Not fixed.** Would need `EntrypointVisitor` to check the containing
+file's inner attributes before recording an entrypoint, which it
+currently never inspects.
+
+## 12. v0 recognizes exactly one authorization mechanism
+
+The entire detector is built around `require_auth()`/
+`require_auth_for_args()` -- it has no concept of authorization that
+isn't a literal call to one of those two methods. Found running the same
+`soroban-examples` corpus: `merkle_distribution`'s claim function moves
+funds to a caller-named `receiver` whenever the caller presents a valid
+Merkle proof for that receiver -- a structurally sound, common pattern in
+airdrop/vesting/claim contracts (cryptographic proof *is* the
+authorization; funds only ever move to the address the proof attests to,
+never to the caller). v0 sees a sink with no `require_auth` call
+dominating it and flags it, with no way to recognize proof-based auth as
+a guard at all.
+
+**Not fixed.** Would need a second `GuardFact`-producing pattern (e.g.
+"argument checked against a stored/computed proof root") entirely absent
+from v0's model, not a tweak to the existing one.
+
+## 13. Duplicate identical diagnostics (bug, not a scope gap)
+
+Found on the same corpus: several locations produced the exact same
+`(rule_id, file, line, message)` diagnostic 2-7 times (worst case:
+`privacy-pools/contract/src/lib.rs:70`, 7x). Root cause not yet
+investigated -- candidates include the one-hop helper's sink-exposure
+path (leak #7) and the entrypoint/helper analysis both independently
+walking into the same CFG node under different callers, but neither has
+been confirmed. Classification in the held-out precision run was done by
+*unique* `(file, line, message)`, not raw count, so this didn't distort
+that run's numbers, but the underlying duplication is still live and
+unfixed.
+
+**Not fixed.** Flagged for a later round; needs root-causing before a fix
+is attempted.
+
+## 14. `Err`-return rollback is a verified fact, not yet exploited everywhere it could be
+
+Verified empirically (real `soroban-sdk = "29"` scratch crate, via
+`testutils`' `client.try_<fn>()` + a follow-up `client.get()`) that a
+contract function returning `Err` rolls back every storage write made
+earlier in the same invocation -- confirming `return Err(..)` and a
+tail `Err(..)` are abort exits, not normal-return exits, for the purposes
+of the auth-bypass check (`crates/epic/src/soroban/cfg_builder.rs`'s
+`terminal_kind`/`is_err_call`, fixed accordingly). This is the one piece
+of Soroban runtime semantics in this whole effort backed by an actual
+test run rather than documentation/inference alone -- noted here as the
+reference point `cfg_builder.rs`'s own comments point back to.
+
+**Not a gap** -- recorded so the one empirically-verified runtime fact in
+this doc is traceable, since every other entry here is either a tool
+limitation or an assumption read from SDK docs.
+
+## 15. `__constructor` is treated as unauthenticated by default, unverified
+
+`__constructor` is a soroban-sdk special form the host is documented to
+invoke automatically, exactly once, atomically with contract deployment
+-- never again afterward as an ordinary callable entrypoint. v0's
+`EntrypointVisitor` has no special-case for it: a constructor that writes
+storage or moves funds with no `require_auth()` call reads as an
+ordinary unauthenticated-write finding. On the held-out
+`soroban-examples` corpus this accounted for **14 of 30** unique
+findings (`account`, `bls_signature`, `deployer/contract`,
+`deployer/deployer`, `increment_with_pause`, `liquidity_pool` x5,
+`merkle_distribution` x2, `mint-lock`, `privacy-pools`, `simple_account`,
+`token`, `upgradeable_contract` x3) -- classified false positive as a
+class, on the documented one-shot-at-deployment semantics above.
+
+**Caveat, stated plainly (unlike leak #14, this is not independently
+re-verified with a test):** if that documented semantics is ever wrong
+for some deployment path, the highest-stakes instance on the corpus is
+`merkle_distribution/src/lib.rs:60`, whose constructor *transfers funds*
+from a caller-supplied `funding_source` address with no auth on that
+address at all -- if `__constructor` were ever re-invocable, or
+invocable by a non-deployer, that specific case would be a real
+fund-drain bug, not a false positive.
+
+**Not fixed.** Would need `EntrypointVisitor` to recognize `__constructor`
+as its own category and suppress or down-rank ordinary unauthenticated-
+write findings on it.
